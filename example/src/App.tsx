@@ -1,10 +1,9 @@
 import React from 'react'
-
-import { ExampleComponent } from 'urbenn-chat'
+import UrbennChat from 'urbenn-chat'
 import 'urbenn-chat/dist/index.css'
 
 const App = () => {
-  return <ExampleComponent text="Create React Library Example 😄" />
+  return <UrbennChat />
 }
 
 export default App

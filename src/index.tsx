@@ -1,10 +1,14 @@
-import * as React from 'react'
-import styles from './styles.module.css'
+import React from 'react'
+import {Provider} from 'react-redux'
+import ChatComponent from './components/ChatComponent'
+import store from './store'
 
-interface Props {
-  text: string
+const Chat = () => {
+  return (
+    <Provider store={store}>
+      <ChatComponent />
+    </Provider>
+  )
 }
 
-export const ExampleComponent = ({ text }: Props) => {
-  return <div className={styles.test}>Example Component: {text}</div>
-}
+export default Chat
