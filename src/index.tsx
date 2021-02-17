@@ -10,7 +10,7 @@ import store from './store'
 import { IChatTranslations } from './types'
 
 export interface IChatProps {
-  baseUrl: string
+  baseUrl?: string
   receiverUserId: number
   senderUserId: number
   translations?: IChatTranslations
@@ -20,7 +20,7 @@ const Chat: React.FC<IChatProps> = (baseProps) => {
   const { baseUrl } = baseProps
 
   useEffect(() => {
-    setBaseUrl(baseUrl)
+    setBaseUrl(baseUrl || '')
   }, [])
 
   return (
