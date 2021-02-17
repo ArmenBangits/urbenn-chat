@@ -40,7 +40,7 @@ const ChatComponent: React.FC<IChatProps> = ({
   if (!reduxSenderUserId || !reduxReceiverUserId) return null
 
   return (
-    <div className='card chat-app-wrapper'>
+    <div className='chat-app-wrapper' id='chat-service'>
       <ErrorShowing name='chat-global-crash'>
         <ChatMessages />
         <ChatInput />
