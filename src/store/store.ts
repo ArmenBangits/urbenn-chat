@@ -3,7 +3,7 @@ import { applyMiddleware, compose, createStore, Store } from 'redux'
 import middlewares from './middlewares'
 import rootReducer from './rootReducer'
 
-type ChatState = ReturnType<typeof rootReducer>
+export type ChatState = ReturnType<typeof rootReducer>
 
 const store: Store<ChatState> = createStore(
   rootReducer,
