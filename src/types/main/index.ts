@@ -26,3 +26,7 @@ export interface IChatTranslations {
     custom: string
   }
 }
+
+export interface IComponentProps {
+  fileExtensionsPath: string
+}

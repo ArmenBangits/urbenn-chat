@@ -2,8 +2,8 @@ import { IChatTranslations } from '../types'
 
 export const MODULE_NAME = '@CHAT_SERVICE'
 export const russianTranslations: IChatTranslations = {
-  textAreaPlaceholder: 'Введите сообщение',
-  dateMessage: 'Отправлен: ',
+  textAreaPlaceholder: 'Написать сообщение',
+  dateMessage: '',
   momentLocalization: 'ru',
   emojis: {
     activity: 'Активность',

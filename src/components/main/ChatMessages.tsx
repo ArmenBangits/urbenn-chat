@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import scrollToBottom from '../../helpers/scrollToBottom'
 import { getMessages, selectAllMessages } from './../../ducks/chat'
 import ChatMessage from './ChatMessage'
 
@@ -8,6 +9,7 @@ const ChatMessages = () => {
   const messages = useSelector(selectAllMessages)
 
   useEffect(() => {
+    scrollToBottom()
     dispatch(getMessages())
   }, [])
 

@@ -4,6 +4,7 @@ import produce from 'immer'
 import { createSelector } from 'reselect'
 import { ChatState, IChatTranslations, InferValueTypes } from '../types'
 import { MODULE_NAME, russianTranslations } from './../config/index'
+import { IComponentProps } from './../types/main/index'
 
 //#region Actions
 
@@ -11,7 +12,8 @@ export const Types = {
   CHANGE_OPACITY_LOADER: `${MODULE_NAME}/CHAT_STATES/CHANGE_OPACITY_LOADER`,
   CHANGE_ERROR_CONTAINER: `${MODULE_NAME}/CHAT_STATES/CHANGE_ERROR_CONTAINER`,
   SET_CHAT_INFORMATION: `${MODULE_NAME}/CHAT_STATES/SET_CHAT_INFORMATION`,
-  SET_CHAT_TRANSLATIONS: `${MODULE_NAME}/CHAT_STATES/SET_CHAT_TRANSLATIONS`
+  SET_CHAT_TRANSLATIONS: `${MODULE_NAME}/CHAT_STATES/SET_CHAT_TRANSLATIONS`,
+  SET_COMPONENT_PROPS: `${MODULE_NAME}/CHAT_STATES/SET_COMPONENT_PROPS`
 } as const
 
 export const actionCreators = {
@@ -33,6 +35,10 @@ export const actionCreators = {
   setChatTranslations: (translations: IChatTranslations) => ({
     type: Types.SET_CHAT_TRANSLATIONS,
     payload: translations
+  }),
+  setComponentProps: (componentProps: IComponentProps) => ({
+    type: Types.SET_COMPONENT_PROPS,
+    payload: componentProps
   })
 }
 
@@ -59,6 +65,11 @@ export const selectTranslations = createSelector(
   (appStates) => appStates.translations
 )
 
+export const selectComponentProps = createSelector(
+  selectAppState,
+  (appStates) => appStates.componentProps
+)
+
 //#endregion
 
 //#region Reducer
@@ -68,7 +79,8 @@ const INITIAL_STATE = {
   errorContainer: null as null | string,
   senderUserId: null as null | number,
   receiverUserId: null as null | number,
-  translations: russianTranslations as IChatTranslations
+  translations: russianTranslations as IChatTranslations,
+  componentProps: null as IComponentProps
 }
 
 type AppStates = typeof INITIAL_STATE
@@ -91,6 +103,9 @@ export default function appStates(
         break
       case Types.SET_CHAT_TRANSLATIONS:
         draft.translations = action.payload
+        break
+      case Types.SET_COMPONENT_PROPS:
+        draft.componentProps = action.payload
         break
       default:
         break

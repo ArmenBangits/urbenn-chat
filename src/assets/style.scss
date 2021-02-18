@@ -1,17 +1,23 @@
-$content-bg: #ededed;
 $border-color: #424351;
 
 $card-bg: #27293d;
 
 $text-muted: #9c9fa6;
 
-$sidebar-dark-menu-active-color: #248afd;
+$sidebar-dark-menu-active-background: #ccc;
+$sidebar-dark-menu-active-color: #000;
 $chat-container-height: 370px;
 
 $accent-color: #fff;
 $form-focus-bg: inherit;
 
-$scrollbar-color: #a9a9a9;
+$scrollbar-color: #252525;
+$content-bg: $scrollbar-color;
+$content-bg-color: $accent-color;
+
+$delete-btn-background: $sidebar-dark-menu-active-background;
+$delete-btn-color: $accent-color;
+$delete-btn-hover-color: #000;
 
 .ellipsis {
   max-width: 200px;
@@ -20,6 +26,7 @@ $scrollbar-color: #a9a9a9;
 }
 
 #chat-service.chat-app-wrapper {
+  background-color: #fff;
   position: fixed !important;
   width: 340px;
   right: 20px;
@@ -27,9 +34,83 @@ $scrollbar-color: #a9a9a9;
   overflow: hidden;
   z-index: 10000;
 
+  .chat-app-wrapper__header {
+    display: flex;
+    align-items: center;
+    background-color: $scrollbar-color;
+
+    & div {
+      color: #fff;
+      font-weight: bold;
+    }
+
+    & img {
+      width: 40px;
+      border-radius: 50%;
+      margin-right: 15px;
+    }
+  }
+
+  .file-shower {
+    float: left;
+    position: relative;
+
+    &__delete-btn {
+      position: absolute;
+      right: 0;
+      top: -10px;
+      font-size: 7px;
+      background: $delete-btn-background;
+      color: $delete-btn-color;
+      width: 17px;
+      padding: 0;
+      border-radius: 10px;
+      padding: 3px 0px;
+      box-sizing: content-box;
+
+      &:hover,
+      &:focus {
+        background: $delete-btn-hover-color;
+      }
+    }
+
+    img {
+      width: 50px;
+      margin: 10px;
+    }
+  }
+
+  .emoji-mart {
+    width: 275px !important;
+    position: absolute;
+    top: -270px;
+    left: 50%;
+    transform: translate(-144px, 0px);
+  }
+
+  .emoji-mart-scroll {
+    height: 100px;
+  }
+
+  .emoji-mart-emoji > span {
+    width: 18px !important;
+    height: 18px !important;
+  }
+
+  .emoji-mart-preview-data {
+    display: none;
+  }
+
   .chat-message-area {
-    width: 250px;
+    width: 210px;
+    padding: 10px;
     resize: none;
+
+    &:focus {
+      border: none;
+      outline: none;
+      box-shadow: none;
+    }
   }
 
   .chat-list-wrapper {
@@ -184,7 +265,6 @@ $scrollbar-color: #a9a9a9;
       .sender-details {
         display: flex;
         align-items: center;
-        padding-top: 10px;
 
         .seen-text {
           margin-bottom: 0;
@@ -193,8 +273,18 @@ $scrollbar-color: #a9a9a9;
       }
 
       &.incoming-chat {
+        .chat-user-information {
+          flex-direction: row-reverse;
+
+          small {
+            text-align: right;
+            margin-right: 10px;
+          }
+        }
+
         .chat-message {
           background: $content-bg;
+          color: $content-bg-color;
           margin-left: 45px;
         }
 
@@ -207,13 +297,13 @@ $scrollbar-color: #a9a9a9;
 
       &.outgoing-chat {
         .chat-message {
-          background: $sidebar-dark-menu-active-color;
+          background: $sidebar-dark-menu-active-background;
           margin-left: auto;
           max-width: 290px;
           margin-right: 45px;
 
           p {
-            color: $accent-color;
+            color: $sidebar-dark-menu-active-color;
           }
         }
 
@@ -238,6 +328,26 @@ $scrollbar-color: #a9a9a9;
   .chat-text-field {
     border-top: 1px solid $border-color;
     padding: 10px 0;
+
+    .input-group {
+      justify-content: space-between;
+      padding: 0 15px;
+    }
+
+    .input-group-text {
+      font-size: 1.5rem;
+      padding: 0 !important;
+    }
+
+    .emoji-btn {
+      font-size: 1rem;
+    }
+
+    &__send {
+      transform: rotate(135deg);
+      color: #3a96dd;
+      margin-right: 20px;
+    }
 
     .input-group {
       .input-group-prepend,

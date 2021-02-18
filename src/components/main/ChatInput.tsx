@@ -1,70 +1,139 @@
+import classNames from 'classnames'
 import { Picker } from 'emoji-mart'
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
+import { AnimatedList } from 'react-animated-list'
 import { useDispatch, useSelector } from 'react-redux'
+import { FileUpload, useFileUpload } from 'use-file-upload'
 import { selectTranslations } from './../../ducks/appStates'
 import { sendMessage } from './../../ducks/chat'
+import FileShower from './../shared/FileShower'
 
 const ChatInput: React.FC = () => {
+  // @ts-ignore
+  const [selectedFiles, selectFiles] = useFileUpload()
+  const [uploadedFiles, setUploadedFiles] = useState<FileUpload[]>([])
+
   const [isShowedEmojiPicker, setShowedEmojiPicker] = useState(false)
   const [messageValue, setMessageValue] = useState('')
   const translations = useSelector(selectTranslations)
   const dispatch = useDispatch()
 
-  const toggleShowedEmojiPicker = () =>
-    setShowedEmojiPicker(!isShowedEmojiPicker)
+  const onFileSelect = useCallback(() => {
+    // @ts-ignore
+    selectFiles(
+      { multiple: true, accept: undefined },
+      // @ts-ignore
+      (files: FileUpload[]) => {
+        console.log(selectedFiles)
+        setUploadedFiles([...uploadedFiles, ...files])
+      }
+    )
+  }, [uploadedFiles])
 
-  const sendMessageEvent = () => {
-    if (!messageValue.trim()) return
+  const toggleShowedEmojiPicker = useCallback(
+    () => setShowedEmojiPicker(!isShowedEmojiPicker),
+    [isShowedEmojiPicker]
+  )
 
-    setMessageValue('')
-    dispatch(sendMessage(messageValue))
-  }
+  const sendMessageEvent = useCallback(() => {
+    if (!messageValue.trim() && !+uploadedFiles.length) return
+
+    dispatch(
+      sendMessage(messageValue, uploadedFiles, () => {
+        setUploadedFiles([])
+        setMessageValue('')
+        setShowedEmojiPicker(false)
+      })
+    )
+  }, [messageValue, uploadedFiles])
+
+  const onFileDelete = useCallback(
+    (fileIndex: number) => () => {
+      const newFiles = uploadedFiles.filter((_, index) => fileIndex !== index)
+
+      setUploadedFiles(newFiles)
+    },
+    [uploadedFiles]
+  )
 
   return (
-    <div className='chat-text-field mt-auto'>
-      <div className='input-group'>
-        <div className='input-group-prepend'>
-          <button
-            type='button'
-            className='input-group-text'
-            onClick={toggleShowedEmojiPicker}
-          >
-            <i className='ti-face-smile icon-sm'></i>
-          </button>
-        </div>
-        <form onSubmit={sendMessageEvent}>
-          <textarea
-            className='form-control chat-message-area'
-            placeholder={translations.textAreaPlaceholder}
-            value={messageValue}
-            onChange={(e) => setMessageValue(e.target.value)}
-            onKeyPress={(e) => {
-              if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault()
-                sendMessageEvent()
-              }
-            }}
-          />
-        </form>
-        {isShowedEmojiPicker && (
-          <Picker
-            onSelect={(emoji) => {
-              // @ts-ignore
-              setMessageValue(messageValue + emoji.native)
-            }}
-            i18n={{
-              notfound: translations.emojis.notfound,
-              search: translations.emojis.search,
-              categories: translations.emojis
-            }}
-          />
-        )}
-        <div className='input-group-append'>
-          <button type='button' className='input-group-text'>
-            <i className='ti-clip icon-sm'></i>
-          </button>
+    <div>
+      <div
+        className={classNames('chat-text-field mt-auto', {
+          'opened-emoji-tab': isShowedEmojiPicker
+        })}
+      >
+        <div className='input-group'>
+          <div className='input-group-prepend'>
+            <button
+              type='button'
+              className='input-group-text emoji-btn'
+              onClick={toggleShowedEmojiPicker}
+            >
+              <i className='ti-face-smile icon-sm'></i>
+            </button>
+          </div>
+          <form onSubmit={sendMessageEvent}>
+            <textarea
+              className='form-control chat-message-area'
+              placeholder={translations.textAreaPlaceholder}
+              value={messageValue}
+              onChange={(e) => setMessageValue(e.target.value)}
+              onKeyPress={(e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                  e.preventDefault()
+                  sendMessageEvent()
+                }
+              }}
+            />
+          </form>
+          <div className='input-group-append'>
+            <button
+              type='button'
+              className='input-group-text'
+              onClick={onFileSelect}
+            >
+              <i className='ti-clip icon-sm'></i>
+            </button>
+          </div>
+          <div className='input-group-append'>
+            <button
+              type='button'
+              className='input-group-text chat-text-field__send'
+              onClick={sendMessageEvent}
+            >
+              <i className='ti-location-arrow icon-sm'></i>
+            </button>
+          </div>
+          {isShowedEmojiPicker && (
+            <Picker
+              onSelect={(emoji) => {
+                // @ts-ignore
+                setMessageValue(messageValue + emoji.native)
+              }}
+              i18n={{
+                notfound: translations.emojis.notfound,
+                search: translations.emojis.search,
+                categories: translations.emojis
+              }}
+            />
+          )}
         </div>
       </div>
+      {uploadedFiles.length ? (
+        <div className='mt-3'>
+          <AnimatedList animation='grow'>
+            {uploadedFiles.map((file, fileIndex) => (
+              <FileShower
+                key={file.name}
+                file={file}
+                showDelete
+                onDelete={onFileDelete(fileIndex)}
+              />
+            ))}
+          </AnimatedList>
+        </div>
+      ) : null}
     </div>
   )
 }

@@ -76,9 +76,13 @@
     "immer": "^8.0.1",
     "moment": "^2.29.1",
     "node-sass": "^4.14.1",
+    "react-animated-list": "^0.1.4",
+    "react-fade-in": "^2.0.1",
     "react-redux": "^7.2.2",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
-    "reselect": "^4.0.0"
+    "reselect": "^4.0.0",
+    "run-s": "0.0.0",
+    "use-file-upload": "^1.0.9"
   }
 }

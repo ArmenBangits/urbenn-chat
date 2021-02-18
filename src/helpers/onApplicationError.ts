@@ -16,5 +16,5 @@ export default function onApplicationError(
 export const showErrorAlert = (msg: string) =>
   cogoToast.error(msg, {
     position: 'top-right',
-    hideAfter: 200
+    hideAfter: 2
   })

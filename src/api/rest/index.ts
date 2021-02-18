@@ -1,4 +1,5 @@
-import axios from 'axios'
+import { FileUpload } from 'use-file-upload'
+import axios from '../axios'
 import { IMessage, ISuccessResponse } from './../../types'
 
 export interface IGetMessagesBody {
@@ -24,6 +25,21 @@ export const sendMessage = async (body: ISendMessageBody) => {
   )
 
   return messages.data
+}
+
+export const uploadFile = async (
+  uploadedFiles: FileUpload[],
+  senderUserId: number,
+  receiverUserId: number
+) => {
+  const formData = new FormData()
+
+  uploadedFiles.forEach((fileData) => formData.append('Files', fileData.file))
+
+  formData.append('SenderUserId', senderUserId.toString())
+  formData.append('ReceiverUserId', receiverUserId.toString())
+
+  await axios.post('/api/message/UploadImage', formData)
 }
 
 export interface ISendMessageBody extends IGetMessagesBody {

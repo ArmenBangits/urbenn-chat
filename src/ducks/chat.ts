@@ -4,6 +4,7 @@ import { produce } from 'immer'
 import { Action } from 'redux'
 import { ThunkAction } from 'redux-thunk'
 import { createSelector } from 'reselect'
+import { FileUpload } from 'use-file-upload'
 import * as chatApi from '../api'
 import { ChatState, IMessage, InferValueTypes } from '../types'
 import { MODULE_NAME } from './../config/index'
@@ -76,7 +77,9 @@ export const getMessages = (): ThunkAction<
 }
 
 export const sendMessage = (
-  message: string
+  message: string,
+  uploadedFiles: FileUpload[],
+  onComplete: () => void
 ): ThunkAction<
   void,
   ChatState,
@@ -88,11 +91,19 @@ export const sendMessage = (
 
     if (!senderUserId || !receiverUserId) return
 
-    await chatApi.sendMessage({
-      message,
-      senderUserId,
-      receiverUserId
-    })
+    if (message) {
+      await chatApi.sendMessage({
+        message,
+        senderUserId,
+        receiverUserId
+      })
+    }
+
+    if (+uploadedFiles.length) {
+      await chatApi.uploadFile(uploadedFiles, senderUserId, receiverUserId)
+    }
+
+    onComplete()
 
     // dispatch(actionCreators.addMessage(sendedMessage))
 

@@ -17,23 +17,34 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
   return (
     <div
       className={classNames('chat-bubble', {
-        'incoming-chat': message.senderUserId !== senderUserId,
-        'outgoing-chat': message.senderUserId === senderUserId
+        'incoming-chat': message.senderUserId === senderUserId,
+        'outgoing-chat': message.senderUserId !== senderUserId
       })}
     >
-      <div className='chat-message'>
-        <p>{message.message}</p>
-      </div>
-      <div className='sender-details'>
+      <div className='d-flex align-items-center mb-2 chat-user-information'>
         <img
-          className='sender-avatar img-xs rounded-circle'
+          className='sender-avatar img-xs rounded-circle mr-2'
           src='https://via.placeholder.com/37x37'
           alt='profile'
         />
-        <p className='seen-text'>
+        <small className='seen-text font-weight-bold w-100'>
+          Контактное лицо: Armen Mesropyan
+        </small>
+      </div>
+
+      <div className='chat-message'>
+        <p>{message.message}</p>
+      </div>
+      <div className='sender-details mt-1'>
+        <small
+          className={classNames('seen-text font-weight-bold w-100', {
+            'text-right': message.senderUserId === senderUserId,
+            'text-left': message.senderUserId !== senderUserId
+          })}
+        >
           {translations.dateMessage}
-          {transformDate(message.creationDate, translations.momentLocalization)}
-        </p>
+          {transformDate(message.creationDate)}
+        </small>
       </div>
     </div>
   )
