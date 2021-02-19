@@ -1,9 +1,10 @@
 export interface IMessage {
-  message: string
+  message?: string
   id?: number
   receiverUserId: number
   senderUserId: number
   creationDate: string
+  file?: URL
 }
 
 export interface IChatTranslations {
@@ -28,5 +29,7 @@ export interface IChatTranslations {
 }
 
 export interface IComponentProps {
-  fileExtensionsPath: string
+  fileExtensionsPath?: string
+  acceptFiles?: string
+  sendingWithRequests?: Object
 }

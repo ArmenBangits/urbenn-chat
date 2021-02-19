@@ -12,7 +12,7 @@ import onApplicationError, {
   showErrorAlert
 } from './../helpers/onApplicationError'
 import scrollToBottom from './../helpers/scrollToBottom'
-import { selectAppState } from './appStates'
+import { selectAppState, selectComponentProps } from './appStates'
 
 //#region - Actions
 
@@ -57,16 +57,20 @@ export const getMessages = (): ThunkAction<
 > => async (dispatch, getState) => {
   try {
     const { senderUserId, receiverUserId } = selectAppState(getState())
+    const { sendingWithRequests } = selectComponentProps(getState())
 
     if (!senderUserId || !receiverUserId)
       throw new Error(
         '@CHAT_SERVICE_ERROR: Sender user id and receiver user id is required'
       )
 
-    const messages: IMessage[] = await chatApi.getMessages({
-      senderUserId,
-      receiverUserId
-    })
+    const messages: IMessage[] = await chatApi.getMessages(
+      {
+        senderUserId,
+        receiverUserId
+      },
+      sendingWithRequests
+    )
 
     dispatch(actionCreators.setChatMessages(messages))
 
@@ -88,15 +92,19 @@ export const sendMessage = (
 > => async (dispatch, getState) => {
   try {
     const { senderUserId, receiverUserId } = selectAppState(getState())
+    const { sendingWithRequests } = selectComponentProps(getState())
 
     if (!senderUserId || !receiverUserId) return
 
     if (message) {
-      await chatApi.sendMessage({
-        message,
-        senderUserId,
-        receiverUserId
-      })
+      await chatApi.sendMessage(
+        {
+          message,
+          senderUserId,
+          receiverUserId
+        },
+        sendingWithRequests
+      )
     }
 
     if (+uploadedFiles.length) {

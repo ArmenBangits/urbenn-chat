@@ -19,6 +19,7 @@ export interface IChatProps {
   opened?: boolean
   chatTitle?: string
   chatTitleImage?: string
+  sendingWithRequests?: Object
 }
 
 const Chat: React.FC<IChatProps> = (baseProps) => {

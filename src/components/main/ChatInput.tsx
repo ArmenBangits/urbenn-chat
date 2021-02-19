@@ -4,7 +4,10 @@ import React, { useCallback, useState } from 'react'
 import { AnimatedList } from 'react-animated-list'
 import { useDispatch, useSelector } from 'react-redux'
 import { FileUpload, useFileUpload } from 'use-file-upload'
-import { selectTranslations } from './../../ducks/appStates'
+import {
+  selectComponentProps,
+  selectTranslations
+} from './../../ducks/appStates'
 import { sendMessage } from './../../ducks/chat'
 import FileShower from './../shared/FileShower'
 
@@ -16,19 +19,22 @@ const ChatInput: React.FC = () => {
   const [isShowedEmojiPicker, setShowedEmojiPicker] = useState(false)
   const [messageValue, setMessageValue] = useState('')
   const translations = useSelector(selectTranslations)
+  const componentProps = useSelector(selectComponentProps)
   const dispatch = useDispatch()
+
+  console.log(componentProps.acceptFiles)
 
   const onFileSelect = useCallback(() => {
     // @ts-ignore
     selectFiles(
-      { multiple: true, accept: undefined },
+      { multiple: true, accept: componentProps.acceptFiles },
       // @ts-ignore
       (files: FileUpload[]) => {
         console.log(selectedFiles)
         setUploadedFiles([...uploadedFiles, ...files])
       }
     )
-  }, [uploadedFiles])
+  }, [uploadedFiles, componentProps.acceptFiles])
 
   const toggleShowedEmojiPicker = useCallback(
     () => setShowedEmojiPicker(!isShowedEmojiPicker),

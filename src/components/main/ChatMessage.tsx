@@ -2,6 +2,7 @@ import classNames from 'classnames'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { selectAppState } from '../../ducks/appStates'
+import { FileShower } from '../shared'
 import { selectTranslations } from './../../ducks/appStates'
 import transformDate from './../../helpers/transformDate'
 import { IMessage } from './../../types/main/index'
@@ -33,7 +34,18 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
       </div>
 
       <div className='chat-message'>
-        <p>{message.message}</p>
+        <p>
+          {message.message ||
+            (message.file && (
+              <FileShower
+                file={{
+                  // @ts-ignore
+                  name: message.file,
+                  source: message.file
+                }}
+              />
+            ))}
+        </p>
       </div>
       <div className='sender-details mt-1'>
         <small

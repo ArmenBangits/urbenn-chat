@@ -7,6 +7,7 @@ import {
   selectAppState
 } from '../../ducks/appStates'
 import { ErrorShowing } from '../shared'
+import { CHAT_INITIAL_PROPS } from './../../config/index'
 import {
   subscribeForMessages,
   unSubscribeFromSocket
@@ -20,7 +21,8 @@ const ChatComponent: React.FC<IChatProps> = ({
   translations,
   componentProps,
   chatTitle,
-  chatTitleImage
+  chatTitleImage,
+  sendingWithRequests
 }) => {
   const dispatch = useDispatch()
   const {
@@ -43,7 +45,13 @@ const ChatComponent: React.FC<IChatProps> = ({
       appStatesActionCreators.setChatInformation(senderUserId, receiverUserId)
     )
 
-    dispatch(appStatesActionCreators.setComponentProps(componentProps))
+    dispatch(
+      appStatesActionCreators.setComponentProps({
+        ...CHAT_INITIAL_PROPS,
+        ...componentProps,
+        sendingWithRequests: sendingWithRequests || {}
+      })
+    )
 
     if (translations)
       dispatch(appStatesActionCreators.setChatTranslations(translations))
@@ -51,24 +59,24 @@ const ChatComponent: React.FC<IChatProps> = ({
     return () => {
       unSubscribeFromSocket()
     }
-  }, [senderUserId, receiverUserId])
+  }, [senderUserId, receiverUserId, translations, componentProps])
 
   if (!reduxSenderUserId || !reduxReceiverUserId) return null
 
   return (
     <div className='chat-app-wrapper card' id='chat-service'>
-      <FadeIn>
-        {chatTitle && (
-          <div className='p-3 chat-app-wrapper__header'>
-            <img src={chatTitleImage} alt={chatTitle} />
-            <div>{chatTitle}</div>
-          </div>
-        )}
-        <ErrorShowing name='chat-global-crash'>
+      <ErrorShowing name='chat-global-crash'>
+        <FadeIn>
+          {chatTitle && (
+            <div className='p-3 chat-app-wrapper__header'>
+              <img src={chatTitleImage} alt={chatTitle} />
+              <div>{chatTitle}</div>
+            </div>
+          )}
           <ChatMessages />
           <ChatInput />
-        </ErrorShowing>
-      </FadeIn>
+        </FadeIn>
+      </ErrorShowing>
     </div>
   )
 }

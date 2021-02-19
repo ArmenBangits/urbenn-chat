@@ -21,3 +21,6 @@ export const russianTranslations: IChatTranslations = {
     symbols: 'Символы'
   }
 }
+export const CHAT_INITIAL_PROPS = {
+  acceptFiles: 'image/*, application/pdf, application/zip, application/msword'
+}

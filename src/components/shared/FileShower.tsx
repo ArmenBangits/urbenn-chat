@@ -1,11 +1,14 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { FileUpload } from 'use-file-upload'
 import { selectComponentProps } from '../../ducks/appStates'
 import isValidImage, { getFileExtension } from './../../helpers/isValidImage'
 
+export type FileShower = {
+  source: URL
+  name: string
+}
 interface FileShowerProps {
-  file: FileUpload
+  file: FileShower
   showDelete?: boolean
   onDelete?: () => void
 }
