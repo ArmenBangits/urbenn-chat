@@ -6,7 +6,7 @@ $text-muted: #9c9fa6;
 
 $sidebar-dark-menu-active-background: #ccc;
 $sidebar-dark-menu-active-color: #000;
-$chat-container-height: 370px;
+$chat-container-height: 220px;
 
 $accent-color: #fff;
 $form-focus-bg: inherit;
@@ -30,11 +30,13 @@ $small-device: 450px;
 #chat-service.chat-app-wrapper {
   background-color: #fff;
   position: fixed !important;
-  width: 340px;
+  border-radius: 20px;
+  width: 300px;
   right: 20px;
   bottom: 20px;
   overflow: hidden;
   z-index: 10000;
+  box-shadow: -0.5em -0.3rem 1rem rgba(0, 0, 0, 0.575) !important;
 
   @media (max-width: $small-device) {
     width: 250px;
@@ -108,7 +110,7 @@ $small-device: 450px;
   }
 
   .chat-message-area {
-    width: 210px;
+    width: 190px;
     padding: 10px;
     resize: none;
 
@@ -350,7 +352,7 @@ $small-device: 450px;
     }
 
     .input-group-text {
-      font-size: 1.5rem;
+      font-size: 1.2rem;
       padding: 0 !important;
     }
 
