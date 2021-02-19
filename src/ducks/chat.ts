@@ -108,7 +108,12 @@ export const sendMessage = (
     }
 
     if (+uploadedFiles.length) {
-      await chatApi.uploadFile(uploadedFiles, senderUserId, receiverUserId)
+      await chatApi.uploadFile(
+        uploadedFiles,
+        senderUserId,
+        receiverUserId,
+        sendingWithRequests
+      )
     }
 
     onComplete()

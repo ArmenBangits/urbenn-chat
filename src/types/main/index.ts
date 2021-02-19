@@ -32,4 +32,7 @@ export interface IComponentProps {
   fileExtensionsPath?: string
   acceptFiles?: string
   sendingWithRequests?: Object
+  baseUrl?: string
+  senderName: string
+  receiverName: string
 }

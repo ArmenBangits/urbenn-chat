@@ -22,7 +22,8 @@ const ChatComponent: React.FC<IChatProps> = ({
   componentProps,
   chatTitle,
   chatTitleImage,
-  sendingWithRequests
+  sendingWithRequests,
+  baseUrl
 }) => {
   const dispatch = useDispatch()
   const {
@@ -39,8 +40,6 @@ const ChatComponent: React.FC<IChatProps> = ({
     if (!componentProps)
       throw new Error('@CHAT_SERVICE_ERROR: Component props is required')
 
-    dispatch(subscribeForMessages())
-
     dispatch(
       appStatesActionCreators.setChatInformation(senderUserId, receiverUserId)
     )
@@ -49,12 +48,15 @@ const ChatComponent: React.FC<IChatProps> = ({
       appStatesActionCreators.setComponentProps({
         ...CHAT_INITIAL_PROPS,
         ...componentProps,
+        baseUrl,
         sendingWithRequests: sendingWithRequests || {}
       })
     )
 
     if (translations)
       dispatch(appStatesActionCreators.setChatTranslations(translations))
+
+    dispatch(subscribeForMessages())
 
     return () => {
       unSubscribeFromSocket()

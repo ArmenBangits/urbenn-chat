@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { selectAppState } from '../../ducks/appStates'
+import { selectAppState, selectComponentProps } from '../../ducks/appStates'
 import { FileShower } from '../shared'
 import { selectTranslations } from './../../ducks/appStates'
 import transformDate from './../../helpers/transformDate'
@@ -14,6 +14,7 @@ interface ChatMessageProps {
 const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
   const { senderUserId } = useSelector(selectAppState)
   const translations = useSelector(selectTranslations)
+  const componentProps = useSelector(selectComponentProps)
 
   return (
     <div
@@ -29,7 +30,9 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
           alt='profile'
         />
         <small className='seen-text font-weight-bold w-100'>
-          Контактное лицо: Armen Mesropyan
+          {message.senderUserId === senderUserId
+            ? componentProps.senderName
+            : componentProps.receiverName}
         </small>
       </div>
 

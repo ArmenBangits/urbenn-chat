@@ -17,7 +17,9 @@ const App = () => {
             senderUserId={5}
             receiverUserId={2}
             componentProps={{
-              fileExtensionsPath: process.env.PUBLIC_URL + '/extenssions/'
+              fileExtensionsPath: process.env.PUBLIC_URL + '/extenssions/',
+              receiverName: 'Контактное лицо',
+              senderName: 'Контактное лицо'
             }}
             opened={isOpened}
             chatTitle='Sas Group - Запрос №19'
@@ -33,7 +35,9 @@ const App = () => {
             senderUserId={2}
             receiverUserId={5}
             componentProps={{
-              fileExtensionsPath: process.env.PUBLIC_URL + '/extenssions/'
+              fileExtensionsPath: process.env.PUBLIC_URL + '/extenssions/',
+              receiverName: 'Контактное лицо',
+              senderName: 'Контактное лицо'
             }}
           />
         </Route>
