@@ -26,7 +26,11 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
       <div className='d-flex align-items-center mb-2 chat-user-information'>
         <img
           className='sender-avatar img-xs rounded-circle mr-2'
-          src='https://via.placeholder.com/37x37'
+          src={
+            message.senderUserId === senderUserId
+              ? componentProps.senderImage
+              : componentProps.receiverImage
+          }
           alt='profile'
         />
         <small className='seen-text font-weight-bold w-100'>

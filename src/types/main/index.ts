@@ -35,4 +35,6 @@ export interface IComponentProps {
   baseUrl?: string
   senderName: string
   receiverName: string
+  senderImage: string
+  receiverImage: string
 }
