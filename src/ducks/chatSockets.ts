@@ -45,6 +45,8 @@ export const subscribeForMessages = (): ThunkAction<
 
     chatHub.onclose = () => unSubscribeFromSocket()
 
+    if (chatHub?.state !== HubConnectionState.Connected) return
+
     const connectionId: string = await chatHub.invoke('GetConnectionId')
 
     dispatch(addOnlineUser(connectionId))
