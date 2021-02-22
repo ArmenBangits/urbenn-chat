@@ -27,9 +27,10 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
         <img
           className='sender-avatar img-xs rounded-circle mr-2'
           src={
-            message.senderUserId === senderUserId
+            (message.senderUserId === senderUserId
               ? componentProps.senderImage
-              : componentProps.receiverImage
+              : componentProps.receiverImage) ||
+            'https://via.placeholder.com/37x37'
           }
           alt='profile'
         />
