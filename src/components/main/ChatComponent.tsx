@@ -23,7 +23,8 @@ const ChatComponent: React.FC<IChatProps> = ({
   chatTitle,
   chatTitleImage,
   sendingWithRequests,
-  baseUrl
+  baseUrl,
+  onClose
 }) => {
   const dispatch = useDispatch()
   const {
@@ -73,6 +74,13 @@ const ChatComponent: React.FC<IChatProps> = ({
             <div className='p-3 chat-app-wrapper__header'>
               <img src={chatTitleImage} alt={chatTitle} />
               <div>{chatTitle}</div>
+              <button
+                type='button'
+                className='chat-app-wrapper__close'
+                onClick={onClose}
+              >
+                <i className='ti-close' />
+              </button>
             </div>
           )}
           <ChatMessages />

@@ -1,8 +1,8 @@
-// import 'bootstrap/scss/bootstrap.scss'
+import 'bootstrap/scss/bootstrap.scss'
 import 'emoji-mart/css/emoji-mart.css'
 import React, { useEffect } from 'react'
 import { Provider } from 'react-redux'
-// import 'ti-icons/css/themify-icons.css'
+import 'ti-icons/css/themify-icons.css'
 import { ChatComponent } from './components/main'
 import { russianTranslations } from './config'
 import setBaseUrl from './helpers/setBaseUrl'
@@ -20,6 +20,7 @@ export interface IChatProps {
   chatTitle?: string
   chatTitleImage?: string
   sendingWithRequests?: Object
+  onClose: () => void
 }
 
 const Chat: React.FC<IChatProps> = (baseProps) => {

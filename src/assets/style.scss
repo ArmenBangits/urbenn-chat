@@ -28,6 +28,7 @@ $small-device: 450px;
 }
 
 #chat-service.chat-app-wrapper {
+  position: relative;
   background-color: #fff;
   position: fixed !important;
   border-radius: 20px;
@@ -56,6 +57,23 @@ $small-device: 450px;
       width: 40px;
       border-radius: 50%;
       margin-right: 15px;
+    }
+  }
+
+  .chat-app-wrapper__close {
+    padding: 0;
+    border: none;
+    background: none;
+    color: #fff;
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    font-size: 0.8rem;
+    transition: 0.5s;
+
+    &:hover {
+      color: #b3afaf;
+      transition: 0.5s;
     }
   }
 

@@ -19,7 +19,9 @@ const App = () => {
             componentProps={{
               fileExtensionsPath: process.env.PUBLIC_URL + '/extenssions/',
               receiverName: 'Контактное лицо',
-              senderName: 'Контактное лицо'
+              senderName: 'Контактное лицо',
+              receiverImage: 'asd',
+              senderImage: 'asd'
             }}
             opened={isOpened}
             chatTitle='Sas Group - Запрос №19'
@@ -27,6 +29,7 @@ const App = () => {
             sendingWithRequests={{
               chatTypeId: 1
             }}
+            onClose={() => setIsOpened(false)}
           />
         </Route>
         <Route path='/test2'>
@@ -37,8 +40,11 @@ const App = () => {
             componentProps={{
               fileExtensionsPath: process.env.PUBLIC_URL + '/extenssions/',
               receiverName: 'Контактное лицо',
-              senderName: 'Контактное лицо'
+              senderName: 'Контактное лицо',
+              receiverImage: 'asd',
+              senderImage: 'asd'
             }}
+            onClose={() => setIsOpened(false)}
           />
         </Route>
       </Switch>
