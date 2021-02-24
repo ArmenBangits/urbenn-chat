@@ -33,7 +33,7 @@ export const subscribeForMessages = (): ThunkAction<
 > => async (dispatch, getState) => {
   try {
     const { baseUrl } = selectComponentProps(getState())
-    const { senderUserId } = selectAppState(getState())
+    const { senderUserId, receiverUserId } = selectAppState(getState())
 
     console.log(senderUserId)
     dispatch(globalStateActionCreators.changeErrorContainer(null))
@@ -58,8 +58,24 @@ export const subscribeForMessages = (): ThunkAction<
     chatHub.on('ReceiveMessage', (message: IMessage | IMessage[]) => {
       console.log(message)
       if (Array.isArray(message))
-        message.forEach((m) => dispatch(chatActions.addMessage(m)))
-      else dispatch(chatActions.addMessage(message))
+        message.forEach((m) => {
+          if (
+            m.receiverUserId !== receiverUserId &&
+            m.senderUserId !== senderUserId
+          )
+            return
+
+          dispatch(chatActions.addMessage(m))
+        })
+      else {
+        if (
+          message.receiverUserId !== receiverUserId &&
+          message.senderUserId !== senderUserId
+        )
+          return
+
+        dispatch(chatActions.addMessage(message))
+      }
 
       scrollToBottom()
 
