@@ -69,7 +69,7 @@ export const subscribeForMessages = (): ThunkAction<
         })
       else {
         if (
-          message.receiverUserId !== receiverUserId &&
+          message.receiverUserId !== receiverUserId ||
           message.senderUserId !== senderUserId
         )
           return
