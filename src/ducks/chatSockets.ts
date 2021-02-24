@@ -7,6 +7,7 @@ import {
 } from '@microsoft/signalr'
 import { Action } from 'redux'
 import { ThunkAction } from 'redux-thunk'
+import { SOUNDS } from '../config'
 import { ChatState } from '../types'
 import onApplicationError from './../helpers/onApplicationError'
 import scrollToBottom from './../helpers/scrollToBottom'
@@ -57,6 +58,9 @@ export const subscribeForMessages = (): ThunkAction<
       else dispatch(chatActions.addMessage(message))
 
       scrollToBottom()
+
+      const notificationSound = new Audio(SOUNDS.notification)
+      notificationSound.play()
     })
   } catch (error) {
     onApplicationError(error, dispatch)
