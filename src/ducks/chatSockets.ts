@@ -14,6 +14,7 @@ import scrollToBottom from './../helpers/scrollToBottom'
 import { IMessage } from './../types/main/index'
 import {
   actionCreators as globalStateActionCreators,
+  selectAppState,
   selectComponentProps
 } from './appStates'
 import { actionCreators as chatActions, addOnlineUser } from './chat'
@@ -32,7 +33,9 @@ export const subscribeForMessages = (): ThunkAction<
 > => async (dispatch, getState) => {
   try {
     const { baseUrl } = selectComponentProps(getState())
+    const { senderUserId } = selectAppState(getState())
 
+    console.log(senderUserId)
     dispatch(globalStateActionCreators.changeErrorContainer(null))
 
     chatHub = new HubConnectionBuilder()
@@ -53,14 +56,17 @@ export const subscribeForMessages = (): ThunkAction<
     dispatch(addOnlineUser(connectionId))
 
     chatHub.on('ReceiveMessage', (message: IMessage | IMessage[]) => {
+      console.log(message)
       if (Array.isArray(message))
         message.forEach((m) => dispatch(chatActions.addMessage(m)))
       else dispatch(chatActions.addMessage(message))
 
       scrollToBottom()
 
-      const notificationSound = new Audio(SOUNDS.notification)
-      notificationSound.play()
+      if (!Array.isArray(message) && message.senderUserId !== senderUserId) {
+        const notificationSound = new Audio(SOUNDS.notification)
+        notificationSound.play()
+      }
     })
   } catch (error) {
     onApplicationError(error, dispatch)

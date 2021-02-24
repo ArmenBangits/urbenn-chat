@@ -27,7 +27,8 @@ const App = () => {
             chatTitle='Sas Group - Запрос №19'
             chatTitleImage='https://hirebee-main-new.s3.amazonaws.com/staff.am/upload/4/3/5/d/435ddb14.png'
             sendingWithRequests={{
-              chatTypeId: 1
+              messageTypeId: 1,
+              messageTypeDataId: 12
             }}
             onClose={() => setIsOpened(false)}
           />
@@ -43,6 +44,10 @@ const App = () => {
               senderName: 'Контактное лицо',
               receiverImage: 'asd',
               senderImage: 'asd'
+            }}
+            sendingWithRequests={{
+              messageTypeId: 1,
+              messageTypeDataId: 12
             }}
             onClose={() => setIsOpened(false)}
           />
