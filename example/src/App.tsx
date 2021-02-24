@@ -36,8 +36,8 @@ const App = () => {
         <Route path='/test2'>
           <UrbennChat
             baseUrl='https://localhost:44320'
-            senderUserId={230}
-            receiverUserId={229}
+            senderUserId={229}
+            receiverUserId={228}
             componentProps={{
               fileExtensionsPath: process.env.PUBLIC_URL + '/extenssions/',
               receiverName: 'Контактное лицо',

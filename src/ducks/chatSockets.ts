@@ -55,38 +55,42 @@ export const subscribeForMessages = (): ThunkAction<
 
     dispatch(addOnlineUser(connectionId))
 
+    // @ts-ignore
     chatHub.on('ReceiveMessage', (message: IMessage | IMessage[]) => {
       console.log(message)
       if (Array.isArray(message))
         message.forEach((m) => {
-          if (
-            (m.receiverUserId !== receiverUserId &&
-              m.senderUserId !== senderUserId) ||
-            (m.senderUserId !== receiverUserId &&
-              m.receiverUserId !== senderUserId)
-          )
-            return
-
           dispatch(chatActions.addMessage(m))
         })
       else {
-        if (
-          (message.receiverUserId !== receiverUserId &&
-            message.senderUserId !== senderUserId) ||
-          (message.senderUserId !== receiverUserId &&
-            message.receiverUserId !== senderUserId)
-        )
-          return
+        // SELLER - 15
+        // TC - 20
+        // BUYER - 25
 
-        dispatch(chatActions.addMessage(message))
+        // BUYER --> SELLER
+        // TC --> BUYER
+
+        // message.senderUserId === BUYER
+        // message.receiverUserId === SELLER
+
+        // x --> y
+        // y --> x
+
+        if (
+          (message.senderUserId === senderUserId &&
+            message.receiverUserId === receiverUserId) ||
+          (message.receiverUserId === senderUserId &&
+            message.senderUserId === receiverUserId)
+        ) {
+          dispatch(chatActions.addMessage(message))
+          if (message.senderUserId !== senderUserId) {
+            const notificationSound = new Audio(SOUNDS.notification)
+            notificationSound.play()
+          }
+        }
       }
 
       scrollToBottom()
-
-      if (!Array.isArray(message) && message.senderUserId !== senderUserId) {
-        const notificationSound = new Audio(SOUNDS.notification)
-        notificationSound.play()
-      }
     })
   } catch (error) {
     onApplicationError(error, dispatch)
