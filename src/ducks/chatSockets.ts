@@ -60,8 +60,10 @@ export const subscribeForMessages = (): ThunkAction<
       if (Array.isArray(message))
         message.forEach((m) => {
           if (
-            m.receiverUserId !== receiverUserId ||
-            m.senderUserId !== senderUserId
+            (m.receiverUserId !== receiverUserId &&
+              m.senderUserId !== senderUserId) ||
+            (m.senderUserId !== receiverUserId &&
+              m.receiverUserId !== senderUserId)
           )
             return
 
@@ -69,8 +71,10 @@ export const subscribeForMessages = (): ThunkAction<
         })
       else {
         if (
-          message.receiverUserId !== receiverUserId ||
-          message.senderUserId !== senderUserId
+          (message.receiverUserId !== receiverUserId &&
+            message.senderUserId !== senderUserId) ||
+          (message.senderUserId !== receiverUserId &&
+            message.receiverUserId !== senderUserId)
         )
           return
 

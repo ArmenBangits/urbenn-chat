@@ -14,8 +14,8 @@ const App = () => {
         <Route path='/test1'>
           <UrbennChat
             baseUrl='https://localhost:44320'
-            senderUserId={5}
-            receiverUserId={2}
+            senderUserId={228}
+            receiverUserId={229}
             componentProps={{
               fileExtensionsPath: process.env.PUBLIC_URL + '/extenssions/',
               receiverName: 'Контактное лицо',
@@ -36,8 +36,8 @@ const App = () => {
         <Route path='/test2'>
           <UrbennChat
             baseUrl='https://localhost:44320'
-            senderUserId={2}
-            receiverUserId={5}
+            senderUserId={230}
+            receiverUserId={229}
             componentProps={{
               fileExtensionsPath: process.env.PUBLIC_URL + '/extenssions/',
               receiverName: 'Контактное лицо',
