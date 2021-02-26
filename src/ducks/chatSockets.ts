@@ -40,6 +40,7 @@ export const subscribeForMessages = (): ThunkAction<
 
     chatHub = new HubConnectionBuilder()
       .withUrl(`${baseUrl || 'https://localhost:44320'}/MessageHub`)
+      .withAutomaticReconnect()
       .build()
 
     // @ts-ignore
@@ -48,6 +49,11 @@ export const subscribeForMessages = (): ThunkAction<
     })
 
     chatHub.onclose = () => unSubscribeFromSocket()
+
+    chatHub.onreconnected = () => {
+      unSubscribeFromSocket()
+      dispatch(subscribeForMessages())
+    }
 
     if (chatHub?.state !== HubConnectionState.Connected) return
 
@@ -63,19 +69,6 @@ export const subscribeForMessages = (): ThunkAction<
           dispatch(chatActions.addMessage(m))
         })
       else {
-        // SELLER - 15
-        // TC - 20
-        // BUYER - 25
-
-        // BUYER --> SELLER
-        // TC --> BUYER
-
-        // message.senderUserId === BUYER
-        // message.receiverUserId === SELLER
-
-        // x --> y
-        // y --> x
-
         if (
           (message.senderUserId === senderUserId &&
             message.receiverUserId === receiverUserId) ||
