@@ -25,7 +25,7 @@ export const actionCreators = {
     type: Types.CHANGE_ERROR_CONTAINER,
     payload: name
   }),
-  setChatInformation: (senderUserId: number, receiverUserId: number) => ({
+  setChatInformation: (senderUserId: number | null, receiverUserId: number | null) => ({
     type: Types.SET_CHAT_INFORMATION,
     payload: {
       senderUserId,

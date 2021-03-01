@@ -60,6 +60,7 @@ const ChatComponent: React.FC<IChatProps> = ({
     dispatch(subscribeForMessages())
 
     return () => {
+      dispatch(appStatesActionCreators.setChatInformation(null, null))
       unSubscribeFromSocket()
     }
   }, [senderUserId, receiverUserId, translations, componentProps])

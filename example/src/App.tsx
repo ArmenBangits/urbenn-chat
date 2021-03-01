@@ -18,13 +18,13 @@ const App = () => {
             receiverUserId={229}
             componentProps={{
               fileExtensionsPath: process.env.PUBLIC_URL + '/extenssions/',
-              receiverName: 'Контактное лицо',
-              senderName: 'Контактное лицо',
+              receiverName: 'Контактное лицо - asd',
+              senderName: 'Контактное лицо - asd',
               receiverImage: 'asd',
               senderImage: 'asd'
             }}
             opened={isOpened}
-            chatTitle='Sas Group - Запрос №19'
+            chatTitle='ООО Sas Group - Запрос №19'
             chatTitleImage='https://hirebee-main-new.s3.amazonaws.com/staff.am/upload/4/3/5/d/435ddb14.png'
             sendingWithRequests={{
               messageTypeId: 1,
