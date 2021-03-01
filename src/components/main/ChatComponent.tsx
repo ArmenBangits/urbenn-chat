@@ -6,6 +6,7 @@ import {
   actionCreators as appStatesActionCreators,
   selectAppState
 } from '../../ducks/appStates'
+import { actionCreators as chatActionCreators } from '../../ducks/chat'
 import { ErrorShowing } from '../shared'
 import { CHAT_INITIAL_PROPS } from './../../config/index'
 import {
@@ -61,6 +62,15 @@ const ChatComponent: React.FC<IChatProps> = ({
 
     return () => {
       dispatch(appStatesActionCreators.setChatInformation(null, null))
+      dispatch(chatActionCreators.setChatMessages([]))
+      dispatch(
+        appStatesActionCreators.setComponentProps({
+          ...CHAT_INITIAL_PROPS,
+          ...componentProps,
+          baseUrl,
+          sendingWithRequests: {}
+        })
+      )
       unSubscribeFromSocket()
     }
   }, [senderUserId, receiverUserId, translations, componentProps])
