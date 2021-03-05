@@ -4,6 +4,7 @@ import React, { useCallback, useState } from 'react'
 import { AnimatedList } from 'react-animated-list'
 import { useDispatch, useSelector } from 'react-redux'
 import { FileUpload, useFileUpload } from 'use-file-upload'
+import { showErrorAlert } from '../../helpers/onApplicationError'
 import {
   selectComponentProps,
   selectTranslations
@@ -30,8 +31,18 @@ const ChatInput: React.FC = () => {
       { multiple: true, accept: componentProps.acceptFiles },
       // @ts-ignore
       (files: FileUpload[]) => {
+        console.log(files)
+        const deletedMaxSizeFiles = files.filter((f) => {
+          const isValidFileLength = f.size < 10485760
+
+          if (!isValidFileLength) {
+            showErrorAlert('Файл слишком большой')
+          }
+
+          return isValidFileLength
+        })
         console.log(selectedFiles)
-        setUploadedFiles([...uploadedFiles, ...files])
+        setUploadedFiles([...uploadedFiles, ...deletedMaxSizeFiles])
       }
     )
   }, [uploadedFiles, componentProps.acceptFiles])

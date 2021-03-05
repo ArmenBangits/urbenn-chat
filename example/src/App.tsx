@@ -13,7 +13,7 @@ const App = () => {
       <Switch>
         <Route path='/test1'>
           <UrbennChat
-            baseUrl='https://localhost:44320'
+            baseUrl='http://206.72.197.105:8095'
             senderUserId={228}
             receiverUserId={229}
             componentProps={{
