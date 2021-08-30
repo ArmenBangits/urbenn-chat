@@ -31,10 +31,10 @@ export interface IChatTranslations {
 export interface IComponentProps {
   fileExtensionsPath?: string
   acceptFiles?: string
-  sendingWithRequests?: Object
   baseUrl?: string
-  senderName: string
-  receiverName: string
-  senderImage: string
-  receiverImage: string
+  baseHubUrl?: string
+  accessToken: string
+  sendingWithRequests?: Object
 }
+
+export interface ChatUsersInfoResponse {}

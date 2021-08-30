@@ -2,54 +2,51 @@ import React, { useEffect } from 'react'
 import FadeIn from 'react-fade-in'
 import { useDispatch, useSelector } from 'react-redux'
 import { ChatMessages } from '.'
+import { CHAT_INITIAL_PROPS } from '../../config'
 import {
   actionCreators as appStatesActionCreators,
   selectAppState
 } from '../../ducks/appStates'
-import { actionCreators as chatActionCreators } from '../../ducks/chat'
-import { ErrorShowing } from '../shared'
-import { CHAT_INITIAL_PROPS } from './../../config/index'
 import {
-  subscribeForMessages,
-  unSubscribeFromSocket
-} from './../../ducks/chatSockets'
+  actionCreators as chatActionCreators,
+  initialize,
+  selectChatUsersInfo
+} from '../../ducks/chat'
+import { ErrorShowing } from '../shared'
+import { unSubscribeFromSocket } from './../../ducks/chatSockets'
+import setBaseUrl from './../../helpers/setBaseUrl'
 import { IChatProps } from './../../index'
 import ChatInput from './ChatInput'
 
 const ChatComponent: React.FC<IChatProps> = ({
-  senderUserId,
-  receiverUserId,
+  chatId,
   translations,
   componentProps,
-  chatTitle,
-  chatTitleImage,
-  sendingWithRequests,
   baseUrl,
-  onClose
+  sendingWithRequests,
+  baseHubUrl,
+  accessToken
+  // baseUrl,
+  // onClose
 }) => {
   const dispatch = useDispatch()
-  const {
-    senderUserId: reduxSenderUserId,
-    receiverUserId: reduxReceiverUserId
-  } = useSelector(selectAppState)
+  const { chatId: reduxChatId } = useSelector(selectAppState)
+
+  const chatUserInfo = useSelector(selectChatUsersInfo)
 
   useEffect(() => {
-    if (!senderUserId || !receiverUserId)
-      throw new Error(
-        '@CHAT_SERVICE_ERROR: Sender user id and receiver user id is required'
-      )
+    if (!chatId) throw new Error('@CHAT_SERVICE_ERROR: Chat id is required')
 
-    if (!componentProps)
-      throw new Error('@CHAT_SERVICE_ERROR: Component props is required')
+    if (baseUrl) setBaseUrl(baseUrl)
 
-    dispatch(
-      appStatesActionCreators.setChatInformation(senderUserId, receiverUserId)
-    )
+    dispatch(appStatesActionCreators.setChatInformation(chatId))
 
     dispatch(
       appStatesActionCreators.setComponentProps({
         ...CHAT_INITIAL_PROPS,
         ...componentProps,
+        accessToken,
+        baseHubUrl,
         baseUrl,
         sendingWithRequests: sendingWithRequests || {}
       })
@@ -58,10 +55,10 @@ const ChatComponent: React.FC<IChatProps> = ({
     if (translations)
       dispatch(appStatesActionCreators.setChatTranslations(translations))
 
-    dispatch(subscribeForMessages())
+    dispatch(initialize())
 
     return () => {
-      dispatch(appStatesActionCreators.setChatInformation(null, null))
+      dispatch(appStatesActionCreators.setChatInformation(null))
       dispatch(chatActionCreators.setChatMessages([]))
       dispatch(
         appStatesActionCreators.setComponentProps({
@@ -73,15 +70,14 @@ const ChatComponent: React.FC<IChatProps> = ({
       )
       unSubscribeFromSocket()
     }
-  }, [senderUserId, receiverUserId, translations, componentProps])
-
-  if (!reduxSenderUserId || !reduxReceiverUserId) return null
+  }, [translations, componentProps])
 
   return (
     <div className='chat-app-wrapper card' id='chat-service'>
       <ErrorShowing name='chat-global-crash'>
-        <FadeIn>
-          {chatTitle && (
+        {reduxChatId && chatUserInfo && (
+          <FadeIn>
+            {/* {chatTitle && (
             <div className='p-3 chat-app-wrapper__header'>
               <img src={chatTitleImage} alt={chatTitle} />
               <div>{chatTitle}</div>
@@ -93,10 +89,11 @@ const ChatComponent: React.FC<IChatProps> = ({
                 <i className='ti-close' />
               </button>
             </div>
-          )}
-          <ChatMessages />
-          <ChatInput />
-        </FadeIn>
+          )} */}
+            <ChatMessages />
+            <ChatInput />
+          </FadeIn>
+        )}
       </ErrorShowing>
     </div>
   )

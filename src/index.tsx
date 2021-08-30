@@ -12,14 +12,17 @@ import { IComponentProps } from './types/main/index'
 
 export interface IChatProps {
   baseUrl?: string
-  receiverUserId: number
-  senderUserId: number
+  baseHubUrl?: string
+  chatId: string
+  accessToken: string
+
   translations?: IChatTranslations
+
   componentProps: IComponentProps
   opened?: boolean
-  chatTitle?: string
-  chatTitleImage?: string
+
   sendingWithRequests?: Object
+
   onClose: () => void
 }
 

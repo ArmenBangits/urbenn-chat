@@ -87,7 +87,7 @@ const ChatInput: React.FC = () => {
               className='input-group-text emoji-btn'
               onClick={toggleShowedEmojiPicker}
             >
-              <i className='ti-face-smile icon-sm'></i>
+              <i className='ti-face-smile icon-sm' />
             </button>
           </div>
           <form onSubmit={sendMessageEvent}>
@@ -110,7 +110,7 @@ const ChatInput: React.FC = () => {
               className='input-group-text'
               onClick={onFileSelect}
             >
-              <i className='ti-clip icon-sm'></i>
+              <i className='ti-clip icon-sm' />
             </button>
           </div>
           <div className='input-group-append'>
@@ -119,7 +119,7 @@ const ChatInput: React.FC = () => {
               className='input-group-text chat-text-field__send'
               onClick={sendMessageEvent}
             >
-              <i className='ti-location-arrow icon-sm'></i>
+              <i className='ti-location-arrow icon-sm' />
             </button>
           </div>
           {isShowedEmojiPicker && (

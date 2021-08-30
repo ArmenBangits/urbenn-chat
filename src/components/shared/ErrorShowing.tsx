@@ -5,7 +5,7 @@ import { selectErrorContainer } from './../../ducks/appStates'
 
 interface OpacityLoadingProps {
   name: string
-  children: React.ReactChild | React.ReactChild[]
+  children: React.ReactChild | React.ReactChild[] | null
 }
 
 interface OpacityLoadingState {

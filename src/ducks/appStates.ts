@@ -6,7 +6,7 @@ import { ChatState, IChatTranslations, InferValueTypes } from '../types'
 import { MODULE_NAME, russianTranslations } from './../config/index'
 import { IComponentProps } from './../types/main/index'
 
-//#region Actions
+// #region Actions
 
 export const Types = {
   CHANGE_OPACITY_LOADER: `${MODULE_NAME}/CHAT_STATES/CHANGE_OPACITY_LOADER`,
@@ -25,12 +25,9 @@ export const actionCreators = {
     type: Types.CHANGE_ERROR_CONTAINER,
     payload: name
   }),
-  setChatInformation: (senderUserId: number | null, receiverUserId: number | null) => ({
+  setChatInformation: (chatId: string | null) => ({
     type: Types.SET_CHAT_INFORMATION,
-    payload: {
-      senderUserId,
-      receiverUserId
-    }
+    payload: chatId
   }),
   setChatTranslations: (translations: IChatTranslations) => ({
     type: Types.SET_CHAT_TRANSLATIONS,
@@ -44,9 +41,9 @@ export const actionCreators = {
 
 export type ActionTypes = ReturnType<InferValueTypes<typeof actionCreators>>
 
-//#endregion
+// #endregion
 
-//#region Selectors
+// #region Selectors
 
 export const selectAppState = (state: ChatState): AppStates => state.appStates
 
@@ -70,9 +67,9 @@ export const selectComponentProps = createSelector(
   (appStates) => appStates.componentProps
 )
 
-//#endregion
+// #endregion
 
-//#region Reducer
+// #region Reducer
 
 const INITIAL_STATE = {
   opacityLoader: null as null | string,
@@ -80,7 +77,8 @@ const INITIAL_STATE = {
   senderUserId: null as null | number,
   receiverUserId: null as null | number,
   translations: russianTranslations as IChatTranslations,
-  componentProps: null as IComponentProps
+  componentProps: null as IComponentProps,
+  chatId: null as null | string
 }
 
 type AppStates = typeof INITIAL_STATE
@@ -98,8 +96,7 @@ export default function appStates(
         draft.errorContainer = action.payload
         break
       case Types.SET_CHAT_INFORMATION:
-        draft.receiverUserId = action.payload.receiverUserId
-        draft.senderUserId = action.payload.senderUserId
+        draft.chatId = action.payload
         break
       case Types.SET_CHAT_TRANSLATIONS:
         draft.translations = action.payload
@@ -113,4 +110,4 @@ export default function appStates(
   })
 }
 
-//#endregion
+// #endregion
