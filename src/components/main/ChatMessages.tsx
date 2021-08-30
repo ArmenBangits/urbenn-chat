@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import scrollToBottom from '../../helpers/scrollToBottom'
-import { getMessages, selectAllMessages } from './../../ducks/chat'
+import { selectAllMessages } from './../../ducks/chat'
 import ChatMessage from './ChatMessage'
+import { getMessages } from './../../ducks/chatSockets';
 
 const ChatMessages = () => {
   const dispatch = useDispatch()

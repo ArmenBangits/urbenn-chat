@@ -1,20 +1,20 @@
 import classNames from 'classnames'
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { selectAppState, selectComponentProps } from '../../ducks/appStates'
+import { selectAppState } from '../../ducks/appStates'
 import { FileShower } from '../shared'
 import { selectTranslations } from './../../ducks/appStates'
 import transformDate from './../../helpers/transformDate'
-import { IMessage } from './../../types/main/index'
+import { Message } from './../../types/main/index'
 
 interface ChatMessageProps {
-  message: IMessage
+  message: Message
 }
 
 const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
   const { senderUserId } = useSelector(selectAppState)
   const translations = useSelector(selectTranslations)
-  const componentProps = useSelector(selectComponentProps)
+  // const componentProps = useSelector(selectComponentProps)
 
   return (
     <div
@@ -23,7 +23,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
         'outgoing-chat': message.senderUserId !== senderUserId
       })}
     >
-      <div className='d-flex align-items-center mb-2 chat-user-information'>
+      {/* <div className='d-flex align-items-center mb-2 chat-user-information'>
         <img
           className='sender-avatar img-xs rounded-circle mr-2'
           src={
@@ -39,7 +39,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
             ? componentProps.senderName
             : componentProps.receiverName}
         </small>
-      </div>
+      </div> */}
 
       <div className='chat-message'>
         <p>

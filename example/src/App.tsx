@@ -13,7 +13,7 @@ const App = () => {
       <Switch>
         <Route path='/test1'>
           <UrbennChat
-            accessToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI0NzUiLCJlbWFpbCI6InZydG9zZWxsZXJAbWFpbGluYXRvci5jb20iLCJVc2VyQ2F0ZWdvcnlJZCI6IjEiLCJJc0Jsb2NrZWQiOiJGYWxzZSIsIm5iZiI6MTYzMDMwODg5NywiZXhwIjoxNjMwMzM3Njk3LCJpYXQiOjE2MzAzMDg4OTcsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjQ0MzExLyIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjQ0MzExLyJ9.mKJPSi3aflK78P1XPxa2P8nVgmhtUal8B5ApInsM2to'
+            userId={497}
             chatId='612bc7d34d6b8b276d159ca4'
             baseUrl='https://localhost:44395/api'
             baseHubUrl='https://localhost:44320'
@@ -30,7 +30,7 @@ const App = () => {
         </Route>
         <Route path='/test2'>
           <UrbennChat
-            accessToken='asd'
+            userId={5}
             chatId='2'
             baseUrl=''
             baseHubUrl='https://localhost:44320'

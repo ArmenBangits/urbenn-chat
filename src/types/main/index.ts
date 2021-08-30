@@ -1,4 +1,4 @@
-export interface IMessage {
+export interface Message {
   message?: string
   id?: number
   receiverUserId: number
@@ -33,8 +33,62 @@ export interface IComponentProps {
   acceptFiles?: string
   baseUrl?: string
   baseHubUrl?: string
-  accessToken: string
+  userId: number | null
   sendingWithRequests?: Object
 }
 
-export interface ChatUsersInfoResponse {}
+export enum ChatTypes {
+  Request = 1,
+  Order,
+  RetailOrder,
+  Admin,
+  TcOrder,
+  Tender,
+  NoType
+}
+
+export enum UserCategories {
+  Seller = 1,
+  Buyer,
+  TransportCompany,
+  Admin
+}
+
+export interface User {
+  userId: number
+  name: string
+  companyName: string
+  icon: string
+  userTypeId: number
+  ownerTypeId: number
+}
+
+export interface ChatUsersInfoResponse {
+  id: string
+  userFirst: User
+  userSecond: User
+  chatTypeId: ChatTypes
+  chatUserTypeId: number
+}
+
+export interface Pagination {
+  pageSize: number
+  page: number
+}
+export interface GetMessagesRequest {
+  userId: number
+  chatId: string
+  pagination: Pagination
+}
+
+export interface WithPagination<T>{
+  results: T[];
+  currentPage: number;
+  pageCount: number;
+  pageSize: number;
+  rowCount: number;
+  firstRowOnPage: number;
+  lastRowOnPage: number;
+}
+
+export interface GetMessagesResponse extends WithPagination<Message[]> {}

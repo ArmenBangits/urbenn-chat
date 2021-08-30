@@ -1,92 +1,71 @@
 // #region - Chat Sockets thunks
 
-import {
-  HubConnection,
-  HubConnectionBuilder,
-  HubConnectionState
-} from '@microsoft/signalr'
 import { Action } from 'redux'
 import { ThunkAction } from 'redux-thunk'
+import { messageHub } from '../services'
 import { ChatState } from '../types'
-import { HUB_METHOD_NAMES } from './../constants/hub'
 import onApplicationError from './../helpers/onApplicationError'
 import {
   actionCreators as globalStateActionCreators,
   selectAppState,
   selectComponentProps
 } from './appStates'
+import { actionCreators } from './chat'
 
-let chatHub: HubConnection | null
-
-export const unSubscribeFromSocket = () => {
-  if (chatHub?.state === HubConnectionState.Connected && chatHub) chatHub.stop()
-}
-
-export const joinToChat = (): ThunkAction<void, ChatState, unknown, Action> => (
+export const joinToChat = (): ThunkAction<Promise<void>, ChatState, unknown, Action> => (
   dispatch,
   getState
 ) =>
   new Promise((resolve, reject) => {
     ;(async () => {
       try {
-        const { baseHubUrl, accessToken } = selectComponentProps(getState())
+        const { baseHubUrl } = selectComponentProps(getState())
         const { chatId } = selectAppState(getState())
+
+        if (!chatId) return
 
         dispatch(globalStateActionCreators.changeErrorContainer(null))
 
-        chatHub = new HubConnectionBuilder()
-          .withUrl(`${baseHubUrl}/MessageHub`, {
-            accessTokenFactory: () => accessToken
-          })
-          .withAutomaticReconnect()
-          .build()
-
-        // @ts-ignore
-        await chatHub.start({
-          withCredentials: true
-        })
-
-        chatHub.onclose = () => unSubscribeFromSocket()
-
-        chatHub.onreconnected = () => {
-          unSubscribeFromSocket()
+        await messageHub.start(baseHubUrl || '', () => {
           dispatch(joinToChat())
-        }
+        });
 
-        if (chatHub?.state !== HubConnectionState.Connected) return
-
-        await chatHub.invoke(HUB_METHOD_NAMES.AddToChat, chatId)
-
-        // chatHub.on('ReceiveMessage', (message: IMessage | IMessage[]) => {
-        //   console.log(message)
-        //   if (Array.isArray(message))
-        //     message.forEach((m) => {
-        //       dispatch(chatActions.addMessage(m))
-        //     })
-        //   else {
-        //     if (
-        //       (message.senderUserId === senderUserId &&
-        //         message.receiverUserId === receiverUserId) ||
-        //       (message.receiverUserId === senderUserId &&
-        //         message.senderUserId === receiverUserId)
-        //     ) {
-        //       dispatch(chatActions.addMessage(message))
-        //       if (message.senderUserId !== senderUserId) {
-        //         const notificationSound = new Audio(SOUNDS.notification)
-        //         notificationSound.play()
-        //       }
-        //     }
-        //   }
-
-        // })
-
-        // scrollToBottom()
-        resolve(chatId)
+        await messageHub.joinToChat(chatId)
+        
+        resolve()
       } catch (error) {
         reject(error)
         onApplicationError(error, dispatch)
       }
     })()
-  })
+  });
+
+export const getMessages = (): ThunkAction<void, ChatState, unknown, Action> => async (
+  dispatch,
+  getState
+) => {
+  try {
+    const { chatId } = selectAppState(getState())
+    
+    const { userId } = selectComponentProps(getState())
+
+    if (!chatId || !userId) return
+
+    const messages = await messageHub.getMessages({
+      chatId,
+      pagination: {
+        page: 1,
+        pageSize: 10
+      },
+      userId
+    })
+
+    dispatch(actionCreators.setChatMessages(messages.results))
+  } catch (error) {
+    onApplicationError(error, dispatch)
+  }
+}
+
+  
 
 // #endregion

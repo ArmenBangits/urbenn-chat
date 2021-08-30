@@ -14,11 +14,11 @@ export interface IChatProps {
   baseUrl?: string
   baseHubUrl?: string
   chatId: string
-  accessToken: string
+  userId: number
 
   translations?: IChatTranslations
 
-  componentProps: IComponentProps
+  componentProps: Partial<IComponentProps>
   opened?: boolean
 
   sendingWithRequests?: Object

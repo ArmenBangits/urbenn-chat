@@ -2,14 +2,14 @@ import classNames from 'classnames'
 import { Picker } from 'emoji-mart'
 import React, { useCallback, useState } from 'react'
 import { AnimatedList } from 'react-animated-list'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { FileUpload, useFileUpload } from 'use-file-upload'
 import { showErrorAlert } from '../../helpers/onApplicationError'
 import {
   selectComponentProps,
   selectTranslations
 } from './../../ducks/appStates'
-import { sendMessage } from './../../ducks/chat'
+// import { sendMessage } from './../../ducks/chat'
 import FileShower from './../shared/FileShower'
 
 const ChatInput: React.FC = () => {
@@ -21,7 +21,7 @@ const ChatInput: React.FC = () => {
   const [messageValue, setMessageValue] = useState('')
   const translations = useSelector(selectTranslations)
   const componentProps = useSelector(selectComponentProps)
-  const dispatch = useDispatch()
+  // const dispatch = useDispatch()
 
   console.log(componentProps.acceptFiles)
 
@@ -55,13 +55,13 @@ const ChatInput: React.FC = () => {
   const sendMessageEvent = useCallback(() => {
     if (!messageValue.trim() && !+uploadedFiles.length) return
 
-    dispatch(
-      sendMessage(messageValue, uploadedFiles, () => {
-        setUploadedFiles([])
-        setMessageValue('')
-        setShowedEmojiPicker(false)
-      })
-    )
+    // dispatch(
+    //   sendMessage(messageValue, uploadedFiles, () => {
+    //     setUploadedFiles([])
+    //     setMessageValue('')
+    //     setShowedEmojiPicker(false)
+    //   })
+    // )
   }, [messageValue, uploadedFiles])
 
   const onFileDelete = useCallback(

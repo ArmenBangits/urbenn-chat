@@ -29,6 +29,11 @@ export const Types = {
   ADD_CHAT_USERS_INFO: `${MODULE_NAME}/CHAT_CONTAINER/ADD_CHAT_USERS_INFO`
 } as const
 
+interface ReduxChatUsersInfo extends ChatUsersInfoResponse {
+  receiverPropertyKey: 'userFirst' | 'userSecond';
+  senderPropertyKey: 'userFirst' | 'userSecond';
+}
+
 export const actionCreators = {
   setChatMessages: (messages: IMessage[]) => ({
     type: Types.SET_MESSAGES,
@@ -38,7 +43,7 @@ export const actionCreators = {
     type: Types.ADD_MESSAGE,
     payload: message
   }),
-  addChatUsersInfo: (usersInfo: ChatUsersInfoResponse) => ({
+  addChatUsersInfo: (usersInfo: ReduxChatUsersInfo) => ({
     type: Types.ADD_CHAT_USERS_INFO,
     payload: usersInfo
   })
@@ -66,101 +71,6 @@ export const selectChatUsersInfo = createSelector(
 
 // #region - Chat thunks
 
-export const getMessages = (): ThunkAction<
-  void,
-  ChatState,
-  unknown,
-  Action<typeof Types.SET_MESSAGES>
-> => async (dispatch, getState) => {
-  try {
-    const { senderUserId, receiverUserId } = selectAppState(getState())
-    const { sendingWithRequests } = selectComponentProps(getState())
-
-    if (!senderUserId || !receiverUserId)
-      throw new Error(
-        '@CHAT_SERVICE_ERROR: Sender user id and receiver user id is required'
-      )
-
-    const messages: IMessage[] = await chatApi.getMessages(
-      {
-        senderUserId,
-        receiverUserId
-      },
-      sendingWithRequests
-    )
-
-    dispatch(actionCreators.setChatMessages(messages))
-
-    scrollToBottom()
-  } catch (error) {
-    onApplicationError(error, dispatch)
-  }
-}
-
-export const sendMessage = (
-  message: string,
-  uploadedFiles: FileUpload[],
-  onComplete: () => void
-): ThunkAction<
-  void,
-  ChatState,
-  unknown,
-  Action<typeof Types.ADD_MESSAGE>
-> => async (dispatch, getState) => {
-  try {
-    const { senderUserId, receiverUserId } = selectAppState(getState())
-    const { sendingWithRequests } = selectComponentProps(getState())
-
-    if (!senderUserId || !receiverUserId) return
-
-    if (message) {
-      await chatApi.sendMessage(
-        {
-          message,
-          senderUserId,
-          receiverUserId
-        },
-        sendingWithRequests
-      )
-    }
-
-    if (+uploadedFiles.length) {
-      await chatApi.uploadFile(
-        uploadedFiles,
-        senderUserId,
-        receiverUserId,
-        sendingWithRequests
-      )
-    }
-
-    onComplete()
-
-    // dispatch(actionCreators.addMessage(sendedMessage))
-
-    scrollToBottom()
-  } catch (error) {
-    console.log(error)
-    showErrorAlert('Что-то пошло не так! Проверьте соединение с интернетом')
-  }
-}
-
-export const addOnlineUser = (
-  connectionId: string
-): ThunkAction<void, ChatState> => async (dispatch, getState) => {
-  try {
-    const { senderUserId } = selectAppState(getState())
-
-    if (!senderUserId) return
-
-    await chatApi.addOnlineUser(connectionId, senderUserId)
-
-    scrollToBottom()
-  } catch (error) {
-    console.log(error)
-    onApplicationError(error, dispatch)
-  }
-}
-
 export const initialize = (): ThunkAction<
   void,
   ChatState,
@@ -170,13 +80,18 @@ export const initialize = (): ThunkAction<
   try {
     const { chatId } = selectAppState(getState())
 
+    const { userId } = selectComponentProps(getState())
+
     if (!chatId) return
 
     const chatUsersInfo = await getChatUsersInfo(chatId)
 
-    dispatch(joinToChat())
+    const receiverPropertyKey = chatUsersInfo.userFirst.userId === userId ? "userSecond" : "userFirst"
+    const senderPropertyKey = chatUsersInfo.userFirst.userId !== userId ? "userSecond" : "userFirst"
 
-    dispatch(actionCreators.addChatUsersInfo(chatUsersInfo))
+    dispatch(joinToChat()).then(() => {
+      dispatch(actionCreators.addChatUsersInfo({...chatUsersInfo, receiverPropertyKey, senderPropertyKey }))
+    })
   } catch (error) {
     onApplicationError(error, dispatch)
   }
@@ -188,7 +103,7 @@ export const initialize = (): ThunkAction<
 
 const INITIAL_STATE = {
   messages: [] as IMessage[],
-  chatInfo: null as ChatUsersInfoResponse | null
+  chatInfo: null as ReduxChatUsersInfo | null
 }
 
 type ChatReduxState = typeof INITIAL_STATE

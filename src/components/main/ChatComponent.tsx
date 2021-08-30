@@ -13,10 +13,10 @@ import {
   selectChatUsersInfo
 } from '../../ducks/chat'
 import { ErrorShowing } from '../shared'
-import { unSubscribeFromSocket } from './../../ducks/chatSockets'
 import setBaseUrl from './../../helpers/setBaseUrl'
 import { IChatProps } from './../../index'
 import ChatInput from './ChatInput'
+import messageHub from './../../services/messageHub';
 
 const ChatComponent: React.FC<IChatProps> = ({
   chatId,
@@ -25,9 +25,8 @@ const ChatComponent: React.FC<IChatProps> = ({
   baseUrl,
   sendingWithRequests,
   baseHubUrl,
-  accessToken
-  // baseUrl,
-  // onClose
+  userId,
+  onClose
 }) => {
   const dispatch = useDispatch()
   const { chatId: reduxChatId } = useSelector(selectAppState)
@@ -35,7 +34,7 @@ const ChatComponent: React.FC<IChatProps> = ({
   const chatUserInfo = useSelector(selectChatUsersInfo)
 
   useEffect(() => {
-    if (!chatId) throw new Error('@CHAT_SERVICE_ERROR: Chat id is required')
+    if (!chatId || !userId) throw new Error('@CHAT_SERVICE_ERROR: Chat id and userId is required')
 
     if (baseUrl) setBaseUrl(baseUrl)
 
@@ -45,7 +44,7 @@ const ChatComponent: React.FC<IChatProps> = ({
       appStatesActionCreators.setComponentProps({
         ...CHAT_INITIAL_PROPS,
         ...componentProps,
-        accessToken,
+        userId,
         baseHubUrl,
         baseUrl,
         sendingWithRequests: sendingWithRequests || {}
@@ -65,22 +64,24 @@ const ChatComponent: React.FC<IChatProps> = ({
           ...CHAT_INITIAL_PROPS,
           ...componentProps,
           baseUrl,
-          sendingWithRequests: {}
+          sendingWithRequests: {},
+          userId: null
         })
       )
-      unSubscribeFromSocket()
+      messageHub.disconnect()
     }
   }, [translations, componentProps])
+
+  const receiverUser = chatUserInfo && chatUserInfo[chatUserInfo.receiverPropertyKey]
 
   return (
     <div className='chat-app-wrapper card' id='chat-service'>
       <ErrorShowing name='chat-global-crash'>
         {reduxChatId && chatUserInfo && (
           <FadeIn>
-            {/* {chatTitle && (
-            <div className='p-3 chat-app-wrapper__header'>
-              <img src={chatTitleImage} alt={chatTitle} />
-              <div>{chatTitle}</div>
+            {receiverUser && <div className='p-3 chat-app-wrapper__header'>
+              <img src={receiverUser.icon} alt={receiverUser.name} />
+              <div>{receiverUser.companyName}</div>
               <button
                 type='button'
                 className='chat-app-wrapper__close'
@@ -88,8 +89,8 @@ const ChatComponent: React.FC<IChatProps> = ({
               >
                 <i className='ti-close' />
               </button>
-            </div>
-          )} */}
+            </div>}
+            
             <ChatMessages />
             <ChatInput />
           </FadeIn>
