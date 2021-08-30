@@ -74,9 +74,9 @@ export const addOnlineUser = async (connectionId: string, userId: number) => {
 }
 
 export const getChatUsersInfo = async (chatId: string) => {
-  const { data: chatUserInfoResponse } = await axios.post<
+  const { data: chatUserInfoResponse } = await axios.get<
     ISuccessResponse<ChatUsersInfoResponse>
-  >(API_CALL_URLS.getChatUsersInfo(chatId), chatId)
+  >(API_CALL_URLS.getChatUsersInfo(chatId))
 
   return chatUserInfoResponse.data
 }

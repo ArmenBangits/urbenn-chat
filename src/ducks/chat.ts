@@ -172,9 +172,9 @@ export const initialize = (): ThunkAction<
 
     if (!chatId) return
 
-    dispatch(joinToChat())
-
     const chatUsersInfo = await getChatUsersInfo(chatId)
+
+    dispatch(joinToChat())
 
     dispatch(actionCreators.addChatUsersInfo(chatUsersInfo))
   } catch (error) {
