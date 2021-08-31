@@ -1,11 +1,7 @@
 import { FileUpload } from 'use-file-upload'
 import { API_CALL_URLS } from '../../constants/api'
 import axios from '../axios'
-import {
-  ChatUsersInfoResponse,
-  IMessage,
-  ISuccessResponse
-} from './../../types'
+import { ChatUsersInfoResponse, ISuccessResponse, Message } from './../../types'
 
 export interface IGetMessagesBody {
   senderUserId: number
@@ -15,7 +11,7 @@ export const getMessages = async (
   body: IGetMessagesBody,
   sendedWithRequest: Object
 ) => {
-  const { data: messages } = await axios.post<ISuccessResponse<IMessage[]>>(
+  const { data: messages } = await axios.post<ISuccessResponse<Message[]>>(
     '/message/GetMessages',
     { ...body, ...sendedWithRequest }
   )
@@ -30,7 +26,7 @@ export const sendMessage = async (
   body: ISendMessageBody,
   sendedWithRequest: Object
 ) => {
-  const { data: messages } = await axios.post<ISuccessResponse<IMessage>>(
+  const { data: messages } = await axios.post<ISuccessResponse<Message>>(
     '/message/SendMessage',
     { ...body, ...sendedWithRequest }
   )
@@ -62,7 +58,7 @@ export interface ISendMessageBody extends IGetMessagesBody {
   message: string
 }
 export const addOnlineUser = async (connectionId: string, userId: number) => {
-  const { data: messages } = await axios.post<ISuccessResponse<IMessage[]>>(
+  const { data: messages } = await axios.post<ISuccessResponse<Message[]>>(
     '/common/AddOnlineUser',
     {
       connectionId,

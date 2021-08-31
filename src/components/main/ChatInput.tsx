@@ -2,14 +2,15 @@ import classNames from 'classnames'
 import { Picker } from 'emoji-mart'
 import React, { useCallback, useState } from 'react'
 import { AnimatedList } from 'react-animated-list'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { FileUpload, useFileUpload } from 'use-file-upload'
+import { MAX_FILE_LENGTH, MAX_FILE_SIZE } from '../../config'
 import { showErrorAlert } from '../../helpers/onApplicationError'
 import {
   selectComponentProps,
   selectTranslations
 } from './../../ducks/appStates'
-// import { sendMessage } from './../../ducks/chat'
+import { sendMessage } from './../../ducks/chatSockets'
 import FileShower from './../shared/FileShower'
 
 const ChatInput: React.FC = () => {
@@ -21,7 +22,7 @@ const ChatInput: React.FC = () => {
   const [messageValue, setMessageValue] = useState('')
   const translations = useSelector(selectTranslations)
   const componentProps = useSelector(selectComponentProps)
-  // const dispatch = useDispatch()
+  const dispatch = useDispatch()
 
   console.log(componentProps.acceptFiles)
 
@@ -32,8 +33,13 @@ const ChatInput: React.FC = () => {
       // @ts-ignore
       (files: FileUpload[]) => {
         console.log(files)
+        if (files.length + uploadedFiles.length > MAX_FILE_LENGTH)
+          return showErrorAlert(
+            `Максимальное количество файлов ${MAX_FILE_LENGTH}`
+          )
+
         const deletedMaxSizeFiles = files.filter((f) => {
-          const isValidFileLength = f.size < 10485760
+          const isValidFileLength = f.size < MAX_FILE_SIZE
 
           if (!isValidFileLength) {
             showErrorAlert('Файл слишком большой')
@@ -53,15 +59,14 @@ const ChatInput: React.FC = () => {
   )
 
   const sendMessageEvent = useCallback(() => {
-    if (!messageValue.trim() && !+uploadedFiles.length) return
-
-    // dispatch(
-    //   sendMessage(messageValue, uploadedFiles, () => {
-    //     setUploadedFiles([])
-    //     setMessageValue('')
-    //     setShowedEmojiPicker(false)
-    //   })
-    // )
+    if (!messageValue.trim() && !+uploadedFiles.length) return // @ts-ignore
+    ;(dispatch(sendMessage(messageValue, uploadedFiles)) as Promise<void>).then(
+      () => {
+        setUploadedFiles([])
+        setMessageValue('')
+        setShowedEmojiPicker(false)
+      }
+    )
   }, [messageValue, uploadedFiles])
 
   const onFileDelete = useCallback(

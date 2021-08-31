@@ -12,11 +12,12 @@ import {
   initialize,
   selectChatUsersInfo
 } from '../../ducks/chat'
+import { ChatTypeNames } from '../../types'
 import { ErrorShowing } from '../shared'
 import setBaseUrl from './../../helpers/setBaseUrl'
 import { IChatProps } from './../../index'
+import messageHub from './../../services/messageHub'
 import ChatInput from './ChatInput'
-import messageHub from './../../services/messageHub';
 
 const ChatComponent: React.FC<IChatProps> = ({
   chatId,
@@ -34,7 +35,8 @@ const ChatComponent: React.FC<IChatProps> = ({
   const chatUserInfo = useSelector(selectChatUsersInfo)
 
   useEffect(() => {
-    if (!chatId || !userId) throw new Error('@CHAT_SERVICE_ERROR: Chat id and userId is required')
+    if (!chatId || !userId)
+      throw new Error('@CHAT_SERVICE_ERROR: Chat id and userId is required')
 
     if (baseUrl) setBaseUrl(baseUrl)
 
@@ -57,6 +59,7 @@ const ChatComponent: React.FC<IChatProps> = ({
     dispatch(initialize())
 
     return () => {
+      dispatch(chatActionCreators.addChatUsersInfo(null))
       dispatch(appStatesActionCreators.setChatInformation(null))
       dispatch(chatActionCreators.setChatMessages([]))
       dispatch(
@@ -72,25 +75,32 @@ const ChatComponent: React.FC<IChatProps> = ({
     }
   }, [translations, componentProps])
 
-  const receiverUser = chatUserInfo && chatUserInfo[chatUserInfo.receiverPropertyKey]
+  const receiverUser =
+    chatUserInfo && chatUserInfo[chatUserInfo.receiverPropertyKey]
 
   return (
     <div className='chat-app-wrapper card' id='chat-service'>
       <ErrorShowing name='chat-global-crash'>
         {reduxChatId && chatUserInfo && (
           <FadeIn>
-            {receiverUser && <div className='p-3 chat-app-wrapper__header'>
-              <img src={receiverUser.icon} alt={receiverUser.name} />
-              <div>{receiverUser.companyName}</div>
-              <button
-                type='button'
-                className='chat-app-wrapper__close'
-                onClick={onClose}
-              >
-                <i className='ti-close' />
-              </button>
-            </div>}
-            
+            {receiverUser && (
+              <div className='p-3 chat-app-wrapper__header'>
+                <img src={receiverUser.icon} alt={receiverUser.name} />
+                <div>
+                  {receiverUser.ownerShipTypeName} {receiverUser.companyName}{' '}
+                  {ChatTypeNames[chatUserInfo.chatTypeId]} №{' '}
+                  {chatUserInfo.chatTypeDataId}
+                </div>
+                <button
+                  type='button'
+                  className='chat-app-wrapper__close'
+                  onClick={onClose}
+                >
+                  <i className='ti-close' />
+                </button>
+              </div>
+            )}
+
             <ChatMessages />
             <ChatInput />
           </FadeIn>

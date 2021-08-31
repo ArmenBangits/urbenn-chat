@@ -28,3 +28,8 @@ export const russianTranslations: IChatTranslations = {
 export const CHAT_INITIAL_PROPS = {
   acceptFiles: 'image/*, application/pdf, application/zip, application/msword'
 }
+
+export const MESSAGES_PAGE_SIZE = 10
+export const PAGINATION_LOADING_PIXELS = 50
+export const MAX_FILE_LENGTH = 5
+export const MAX_FILE_SIZE = 10485760

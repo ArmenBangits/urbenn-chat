@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { selectAppState } from '../../ducks/appStates'
+import { selectComponentProps } from '../../ducks/appStates'
 import { FileShower } from '../shared'
 import { selectTranslations } from './../../ducks/appStates'
 import transformDate from './../../helpers/transformDate'
@@ -12,54 +12,39 @@ interface ChatMessageProps {
 }
 
 const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
-  const { senderUserId } = useSelector(selectAppState)
+  const { userId } = useSelector(selectComponentProps)
   const translations = useSelector(selectTranslations)
-  // const componentProps = useSelector(selectComponentProps)
 
   return (
     <div
       className={classNames('chat-bubble', {
-        'incoming-chat': message.senderUserId === senderUserId,
-        'outgoing-chat': message.senderUserId !== senderUserId
+        'incoming-chat': message.userId === userId,
+        'outgoing-chat': message.userId !== userId
       })}
     >
-      {/* <div className='d-flex align-items-center mb-2 chat-user-information'>
-        <img
-          className='sender-avatar img-xs rounded-circle mr-2'
-          src={
-            (message.senderUserId === senderUserId
-              ? componentProps.senderImage
-              : componentProps.receiverImage) ||
-            'https://via.placeholder.com/37x37'
-          }
-          alt='profile'
-        />
-        <small className='seen-text font-weight-bold w-100'>
-          {message.senderUserId === senderUserId
-            ? componentProps.senderName
-            : componentProps.receiverName}
-        </small>
-      </div> */}
-
       <div className='chat-message'>
         <p>
-          {message.message ||
-            (message.file && (
+          {message.message}
+
+          <div className='d-flex flex-wrap' style={{ marginLeft: -10 }}>
+            {message.files.map((file, idx) => (
               <FileShower
+                key={idx}
                 file={{
                   // @ts-ignore
-                  name: message.file,
-                  source: message.file
+                  name: file,
+                  source: file
                 }}
               />
             ))}
+          </div>
         </p>
       </div>
       <div className='sender-details mt-1'>
         <small
           className={classNames('seen-text font-weight-bold w-100', {
-            'text-right': message.senderUserId === senderUserId,
-            'text-left': message.senderUserId !== senderUserId
+            'text-right': message.userId === userId,
+            'text-left': message.userId !== userId
           })}
         >
           {translations.dateMessage}

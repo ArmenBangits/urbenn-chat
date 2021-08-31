@@ -4,20 +4,15 @@ import { produce } from 'immer'
 import { Action } from 'redux'
 import { ThunkAction } from 'redux-thunk'
 import { createSelector } from 'reselect'
-import { FileUpload } from 'use-file-upload'
-import * as chatApi from '../api'
 import { getChatUsersInfo } from '../api'
 import {
   ChatState,
-  ChatUsersInfoResponse,
-  IMessage,
-  InferValueTypes
+  InferValueTypes,
+  Message,
+  ReduxChatUsersInfo
 } from '../types'
 import { MODULE_NAME } from './../config/index'
-import onApplicationError, {
-  showErrorAlert
-} from './../helpers/onApplicationError'
-import scrollToBottom from './../helpers/scrollToBottom'
+import onApplicationError from './../helpers/onApplicationError'
 import { selectAppState, selectComponentProps } from './appStates'
 import { joinToChat } from './chatSockets'
 
@@ -26,24 +21,24 @@ import { joinToChat } from './chatSockets'
 export const Types = {
   SET_MESSAGES: `${MODULE_NAME}/CHAT_CONTAINER/SET_MESSAGES`,
   ADD_MESSAGE: `${MODULE_NAME}/CHAT_CONTAINER/ADD_MESSAGE`,
-  ADD_CHAT_USERS_INFO: `${MODULE_NAME}/CHAT_CONTAINER/ADD_CHAT_USERS_INFO`
+  ADD_CHAT_USERS_INFO: `${MODULE_NAME}/CHAT_CONTAINER/ADD_CHAT_USERS_INFO`,
+  SET_PAGED_MESSAGES: `${MODULE_NAME}/CHAT_CONTAINER/SET_PAGED_MESSAGES`
 } as const
 
-interface ReduxChatUsersInfo extends ChatUsersInfoResponse {
-  receiverPropertyKey: 'userFirst' | 'userSecond';
-  senderPropertyKey: 'userFirst' | 'userSecond';
-}
-
 export const actionCreators = {
-  setChatMessages: (messages: IMessage[]) => ({
+  setChatMessages: (messages: Message[]) => ({
     type: Types.SET_MESSAGES,
     payload: messages
   }),
-  addMessage: (message: IMessage) => ({
+  setPagedMessages: (messages: Message[]) => ({
+    type: Types.SET_PAGED_MESSAGES,
+    payload: messages
+  }),
+  addMessage: (message: Message) => ({
     type: Types.ADD_MESSAGE,
     payload: message
   }),
-  addChatUsersInfo: (usersInfo: ReduxChatUsersInfo) => ({
+  addChatUsersInfo: (usersInfo: ReduxChatUsersInfo | null) => ({
     type: Types.ADD_CHAT_USERS_INFO,
     payload: usersInfo
   })
@@ -86,11 +81,19 @@ export const initialize = (): ThunkAction<
 
     const chatUsersInfo = await getChatUsersInfo(chatId)
 
-    const receiverPropertyKey = chatUsersInfo.userFirst.userId === userId ? "userSecond" : "userFirst"
-    const senderPropertyKey = chatUsersInfo.userFirst.userId !== userId ? "userSecond" : "userFirst"
+    const receiverPropertyKey =
+      chatUsersInfo.userFirst.userId === userId ? 'userSecond' : 'userFirst'
+    const senderPropertyKey =
+      chatUsersInfo.userFirst.userId !== userId ? 'userSecond' : 'userFirst'
 
     dispatch(joinToChat()).then(() => {
-      dispatch(actionCreators.addChatUsersInfo({...chatUsersInfo, receiverPropertyKey, senderPropertyKey }))
+      dispatch(
+        actionCreators.addChatUsersInfo({
+          ...chatUsersInfo,
+          receiverPropertyKey,
+          senderPropertyKey
+        })
+      )
     })
   } catch (error) {
     onApplicationError(error, dispatch)
@@ -102,7 +105,7 @@ export const initialize = (): ThunkAction<
 // #region - Chat reducer
 
 const INITIAL_STATE = {
-  messages: [] as IMessage[],
+  messages: [] as Message[],
   chatInfo: null as ReduxChatUsersInfo | null
 }
 
@@ -119,6 +122,9 @@ export default function chatReducer(
         break
       case Types.ADD_MESSAGE:
         draft.messages = [...draft.messages, action.payload]
+        break
+      case Types.SET_PAGED_MESSAGES:
+        draft.messages = [...action.payload, ...draft.messages]
         break
       case Types.ADD_CHAT_USERS_INFO:
         draft.chatInfo = action.payload

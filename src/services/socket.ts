@@ -27,12 +27,12 @@ class SocketService implements ISocketService {
 
   async invoke(methodName: string, ...args: unknown[]) {
     if (this.socket?.state === HubConnectionState.Connected)
-      this.socket?.invoke(methodName, ...args)
+      this.socket.invoke(methodName, ...args)
   }
 
   on<T>(methodName: string, fn: (event: T) => void) {
     if (this.socket?.state === HubConnectionState.Connected)
-      this.socket?.on(methodName, fn)
+      this.socket.on(methodName, fn)
   }
 
   reconnect = async () => {

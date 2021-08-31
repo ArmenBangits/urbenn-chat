@@ -1,10 +1,10 @@
 export interface Message {
   message?: string
-  id?: number
-  receiverUserId: number
-  senderUserId: number
+  id: string
+  userId: number
   creationDate: string
-  file?: URL
+  files: URL[]
+  isRead: boolean
 }
 
 export interface IChatTranslations {
@@ -47,6 +47,15 @@ export enum ChatTypes {
   NoType
 }
 
+export const ChatTypeNames = {
+  [ChatTypes.Request]: 'Запрос',
+  [ChatTypes.Order]: 'Заказ',
+  [ChatTypes.RetailOrder]: 'Розничный заказ',
+  [ChatTypes.Admin]: 'Администрация',
+  [ChatTypes.TcOrder]: 'Заказ',
+  [ChatTypes.Tender]: 'Тендер'
+}
+
 export enum UserCategories {
   Seller = 1,
   Buyer,
@@ -61,6 +70,7 @@ export interface User {
   icon: string
   userTypeId: number
   ownerTypeId: number
+  ownerShipTypeName: string | null
 }
 
 export interface ChatUsersInfoResponse {
@@ -69,6 +79,7 @@ export interface ChatUsersInfoResponse {
   userSecond: User
   chatTypeId: ChatTypes
   chatUserTypeId: number
+  chatTypeDataId: number
 }
 
 export interface Pagination {
@@ -81,14 +92,26 @@ export interface GetMessagesRequest {
   pagination: Pagination
 }
 
-export interface WithPagination<T>{
-  results: T[];
-  currentPage: number;
-  pageCount: number;
-  pageSize: number;
-  rowCount: number;
-  firstRowOnPage: number;
-  lastRowOnPage: number;
+export interface SendMessageRequest {
+  userId: number
+  chatId: string
+  message: string
+  files: string[]
 }
 
-export interface GetMessagesResponse extends WithPagination<Message[]> {}
+export interface WithPagination<T> {
+  results: T[]
+  currentPage: number
+  pageCount: number
+  pageSize: number
+  rowCount: number
+  firstRowOnPage: number
+  lastRowOnPage: number
+}
+
+export interface GetMessagesResponse extends WithPagination<Message> {}
+
+export interface ReduxChatUsersInfo extends ChatUsersInfoResponse {
+  receiverPropertyKey: 'userFirst' | 'userSecond'
+  senderPropertyKey: 'userFirst' | 'userSecond'
+}
