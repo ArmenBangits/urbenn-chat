@@ -3,6 +3,105 @@
     position: relative;
     overflow: hidden;
 
+    border: none;
+    border-radius: 0.6rem;
+
+    .MuiFormGroup-root {
+      flex-wrap: nowrap;
+      flex-direction: row;
+      justify-content: space-between;
+      padding: 0 20px;
+    }
+
+    .MuiFormControlLabel-root {
+      margin: 0;
+      flex-direction: column;
+    }
+
+    .filters {
+      .MuiTabs-centered {
+        background: #f5f2f2;
+      }
+
+      .MuiTab-root {
+        min-width: 21% !important;
+        padding: 0;
+        color: #000;
+        font-size: 0.9rem;
+        text-transform: capitalize;
+
+        position: relative;
+        z-index: 2;
+
+        &.Mui-selected {
+          font-weight: 700;
+        }
+      }
+
+      .MuiTabs-indicator {
+        height: 100%;
+        background: #fff;
+        z-index: 1;
+      }
+
+      .MuiTabs-centered {
+        justify-content: space-between;
+      }
+
+      & .filters__search {
+        background: transparent
+          linear-gradient(180deg, #00abcc 0%, #70f1f2 100%) 0% 0% no-repeat
+          padding-box;
+        color: #fff;
+        min-width: 15% !important;
+        cursor: pointer;
+        z-index: 15;
+        transition: all 0.3s;
+
+        path {
+          fill: #fff;
+        }
+      }
+
+      &__search-input {
+        width: 0;
+        transition: all 0.3s;
+
+        padding: 0;
+        border: none;
+        background: transparent
+          linear-gradient(180deg, #00abcc 0%, #70f1f2 100%) 0% 0% no-repeat
+          padding-box;
+        box-shadow: 0px 3px 6px #00000029;
+
+        position: absolute;
+        top: 0;
+        z-index: 10;
+        min-height: 50px;
+        color: #fff;
+        outline: none;
+
+        right: 0;
+
+        &::placeholder {
+          color: #fff;
+        }
+      }
+
+      &--search-opened {
+        .filters {
+          &__search {
+            padding-left: 15px;
+          }
+
+          &__search-input {
+            padding-left: 20px;
+            width: 100%;
+          }
+        }
+      }
+    }
+
     .chat-list-wrapper {
       overflow-y: auto;
       border-right: 1px solid $border-color;
@@ -28,7 +127,6 @@
       }
 
       .chat-list-item-wrapper {
-        padding-top: 20px;
         padding-bottom: 40px;
         @media (max-width: 768px) {
           padding: 0 15px;
@@ -225,4 +323,9 @@
     padding: 20px 0;
     border-bottom: 1px solid $border-color;
   }
+}
+
+#root {
+  background: gray;
+  padding: 20px;
 }

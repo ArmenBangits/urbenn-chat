@@ -35,7 +35,7 @@ const ChatSection: React.FC<ChatSectionProps> = (componentProps) => {
       </button>
       <div className='card chat-app-wrapper'>
         <div className='row mx-0'>
-          <div className='col-xl-3 col-md-4 chat-list-wrapper px-0'>
+          <div className='col-md-4 chat-list-wrapper px-0'>
             <div className='chat-list-item-wrapper'>
               <ChatList />
 

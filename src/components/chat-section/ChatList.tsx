@@ -40,7 +40,6 @@ const ChatList = () => {
 
   return (
     <React.Fragment>
-      ChatList
       {chats.map((chat) => (
         <div key={chat.id} onClick={onChatClick(chat.id)}>
           {chat.id}
