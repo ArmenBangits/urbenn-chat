@@ -13,7 +13,21 @@ import {
 import { sendMessage } from './../../ducks/chatSockets'
 import FileShower from './../shared/FileShower'
 
-const ChatInput: React.FC = () => {
+type ChatInputProps = {
+  onSubmit?: (
+    message: string | null,
+    files: FileUpload[],
+    resetForm: () => void
+  ) => void
+  acceptFiles?: string
+  fileExtensionsPath?: string
+}
+
+const ChatInput: React.FC<ChatInputProps> = ({
+  onSubmit,
+  acceptFiles,
+  fileExtensionsPath
+}) => {
   // @ts-ignore
   const [selectedFiles, selectFiles] = useFileUpload()
   const [uploadedFiles, setUploadedFiles] = useState<FileUpload[]>([])
@@ -24,12 +38,10 @@ const ChatInput: React.FC = () => {
   const componentProps = useSelector(selectComponentProps)
   const dispatch = useDispatch()
 
-  console.log(componentProps.acceptFiles)
-
   const onFileSelect = useCallback(() => {
     // @ts-ignore
     selectFiles(
-      { multiple: true, accept: componentProps.acceptFiles },
+      { multiple: true, accept: acceptFiles || componentProps?.acceptFiles },
       // @ts-ignore
       (files: FileUpload[]) => {
         console.log(files)
@@ -51,22 +63,30 @@ const ChatInput: React.FC = () => {
         setUploadedFiles([...uploadedFiles, ...deletedMaxSizeFiles])
       }
     )
-  }, [uploadedFiles, componentProps.acceptFiles])
+  }, [uploadedFiles, componentProps, acceptFiles])
 
   const toggleShowedEmojiPicker = useCallback(
     () => setShowedEmojiPicker(!isShowedEmojiPicker),
     [isShowedEmojiPicker]
   )
 
+  const resetForm = useCallback(() => {
+    setUploadedFiles([])
+    setMessageValue('')
+    setShowedEmojiPicker(false)
+  }, [])
+
   const sendMessageEvent = useCallback(() => {
-    if (!messageValue.trim() && !+uploadedFiles.length) return // @ts-ignore
-    ;(dispatch(sendMessage(messageValue, uploadedFiles)) as Promise<void>).then(
-      () => {
-        setUploadedFiles([])
-        setMessageValue('')
-        setShowedEmojiPicker(false)
-      }
-    )
+    if (!messageValue.trim() && !+uploadedFiles.length) return
+
+    if (onSubmit) {
+      onSubmit(messageValue.trim(), uploadedFiles, resetForm)
+      return
+    }
+
+    ;((dispatch(
+      sendMessage(messageValue.trim(), uploadedFiles)
+    ) as unknown) as Promise<void>).then(resetForm)
   }, [messageValue, uploadedFiles])
 
   const onFileDelete = useCallback(
@@ -147,6 +167,7 @@ const ChatInput: React.FC = () => {
           <AnimatedList animation='grow'>
             {uploadedFiles.map((file, fileIndex) => (
               <FileShower
+                fileExtensionsPath={fileExtensionsPath}
                 key={file.name}
                 file={file}
                 showDelete

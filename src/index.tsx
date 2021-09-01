@@ -1,11 +1,15 @@
 // import 'bootstrap/scss/bootstrap.scss'
 import 'emoji-mart/css/emoji-mart.css'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Provider } from 'react-redux'
 // import 'ti-icons/css/themify-icons.css'
-import { ChatComponent } from './components/main'
+import {
+  ChatComponent,
+  ChatSection as ChatSectionComp
+} from './components/main'
+import { ChatSectionProps } from './components/main/ChatSection'
 import { russianTranslations } from './config'
-import setBaseUrl from './helpers/setBaseUrl'
+import setBaseUrl, { setToken } from './helpers/setBaseUrl'
 import store from './store'
 import { IChatTranslations } from './types'
 import { IComponentProps } from './types/main/index'
@@ -13,6 +17,7 @@ import { IComponentProps } from './types/main/index'
 export interface IChatProps {
   baseUrl?: string
   baseHubUrl?: string
+  token?: string
   chatId: string
   userId: number
 
@@ -27,10 +32,11 @@ export interface IChatProps {
 }
 
 const Chat: React.FC<IChatProps> = (baseProps) => {
-  const { baseUrl, opened } = baseProps
+  const { baseUrl, opened, token } = baseProps
 
   useEffect(() => {
     setBaseUrl(baseUrl || '')
+    setToken(token || '')
   }, [])
 
   if (!opened) return null
@@ -48,3 +54,28 @@ Chat.defaultProps = {
 }
 
 export default Chat
+
+export const ChatSection: React.FC<
+  ChatSectionProps & { baseUrl?: string; token?: string }
+> = ({ baseUrl, token, ...props }) => {
+  const [initialized, setInitialized] = useState(false)
+
+  useEffect(() => {
+    setBaseUrl(baseUrl || '')
+    setToken(token || '')
+
+    setInitialized(true)
+  }, [])
+
+  if (!initialized) return null
+
+  return (
+    <div id='chat-section'>
+      <Provider store={store}>
+        <ChatSectionComp {...props} />
+      </Provider>
+    </div>
+  )
+}
+
+export { messageHub } from './services'

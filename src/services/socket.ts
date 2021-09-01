@@ -1,3 +1,4 @@
+// eslint-disable-next-line prettier/prettier
 import {
   HubConnection,
   HubConnectionBuilder,
@@ -56,13 +57,14 @@ class SocketService implements ISocketService {
 
     const socket: HubConnection = new HubConnectionBuilder()
       .withUrl(`${baseUrl}/${hubName}`)
+      // .withHubProtocol(new MessagePackHubProtocol())
       .withAutomaticReconnect()
       .configureLogging(LogLevel.Information)
       .build()
 
-    await socket.start()
-
     this.socket = socket
+
+    await socket.start()
 
     this.socket.onclose = this.disconnect
 

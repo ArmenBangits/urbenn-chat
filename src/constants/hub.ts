@@ -3,5 +3,6 @@ export const HUB_METHOD_NAMES = {
   GetMessagesByChatId: 'GetMessagesByChatId',
   SendMessage: 'AddMessage',
   AddMessageSuccess: 'AddMessageSuccess',
+  GetUserUnreadChatsCount: 'GetUserUnreadChatsCount',
   NewMessage: 'NewMessage'
 }

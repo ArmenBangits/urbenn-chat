@@ -1,3 +1,4 @@
+import { HubConnectionState } from '@microsoft/signalr'
 import { HUB_METHOD_NAMES } from '../constants/hub'
 import {
   GetMessagesRequest,
@@ -15,6 +16,12 @@ class MessageHub {
 
   async start(baseUrl: string, onReconnecting: () => void) {
     try {
+      if (
+        this.socketService.socket &&
+        this.socketService.socket?.state !== HubConnectionState.Disconnected
+      )
+        return
+
       await this.socketService.connect(baseUrl, this.hubName)
 
       if (this.socketService.socket)
@@ -64,6 +71,31 @@ class MessageHub {
   subscribeForNewMessage(onNewMsg: (msg: Message) => void) {
     this.socketService.on(HUB_METHOD_NAMES.AddMessageSuccess, onNewMsg)
     this.socketService.on(HUB_METHOD_NAMES.NewMessage, onNewMsg)
+  }
+
+  async subscribeForChatUnReadMessagesCount({
+    baseHubUrl,
+    userId,
+    onCountUpdate
+  }: {
+    baseHubUrl: string
+    userId: number
+    onCountUpdate: (count: number) => void
+  }) {
+    await this.start(baseHubUrl, () =>
+      this.subscribeForChatUnReadMessagesCount({
+        baseHubUrl,
+        userId,
+        onCountUpdate
+      })
+    )
+
+    this.socketService.on(
+      HUB_METHOD_NAMES.GetUserUnreadChatsCount,
+      (updatedCountResponse: { data: number }) =>
+        onCountUpdate(updatedCountResponse.data)
+    )
+    this.socketService.invoke(HUB_METHOD_NAMES.GetUserUnreadChatsCount, userId)
   }
 }
 

@@ -86,6 +86,18 @@ export interface Pagination {
   pageSize: number
   page: number
 }
+
+export interface PagedResults<T> {
+  results: T[]
+}
+
+export interface GetChatsRequest extends Pagination {
+  searchValue?: string
+  chatType: ChatTypes
+}
+
+export type GetChatsResponse = PagedResults<ChatUsersInfoResponse>
+
 export interface GetMessagesRequest {
   userId: number
   chatId: string
@@ -94,6 +106,7 @@ export interface GetMessagesRequest {
 
 export interface SendMessageRequest {
   userId: number
+  receiverUserId: number
   chatId: string
   message: string
   files: string[]

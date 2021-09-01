@@ -1,50 +1,45 @@
-// #region - Chat Sockets thunks
-
 import { Action } from 'redux'
 import { ThunkAction } from 'redux-thunk'
 import { FileUpload } from 'use-file-upload'
+import { sendMessageEvent } from '../api'
 import { MESSAGES_PAGE_SIZE, SOUNDS } from '../config'
 import { convertFilesToBase64 } from '../helpers/convertFileToBase64'
 import scrollToBottom from '../helpers/scrollToBottom'
 import { messageHub } from '../services'
 import { ChatState, Message } from '../types'
 import onApplicationError from './../helpers/onApplicationError'
+import { selectChatSectionComponentProps } from './appStates'
 import {
-  actionCreators as globalStateActionCreators,
-  selectAppState,
-  selectComponentProps
-} from './appStates'
-import { actionCreators, selectChatUsersInfo } from './chat'
+  actionCreators,
+  selectChatSectionInfo,
+  selectCurrentChatId
+} from './chat'
 
-export const joinToChat = (): ThunkAction<
+export const connectToHub = (): ThunkAction<
   Promise<void>,
   ChatState,
   unknown,
   Action
 > => (dispatch, getState) =>
-  new Promise((resolve, reject) => {
-    ;(async () => {
-      try {
-        const { baseHubUrl } = selectComponentProps(getState())
-        const { chatId } = selectAppState(getState())
+  new Promise(async (resolve) => {
+    const { baseHubUrl } = selectChatSectionComponentProps(getState())
 
-        if (!chatId) return
+    await messageHub.start(baseHubUrl || '', () => {
+      dispatch(connectToHub())
+    })
 
-        dispatch(globalStateActionCreators.changeErrorContainer(null))
-
-        await messageHub.start(baseHubUrl || '', () => {
-          dispatch(joinToChat())
-        })
-
-        await messageHub.joinToChat(chatId)
-
-        resolve()
-      } catch (error) {
-        reject(error)
-        onApplicationError(error, dispatch)
-      }
-    })()
+    resolve()
   })
+
+export const joinToChatSection = (
+  chatId: string
+): ThunkAction<void, ChatState, unknown, Action> => async (dispatch) => {
+  await messageHub.joinToChat(chatId)
+
+  dispatch(actionCreators.setChatId(chatId))
+
+  dispatch(getMessages(1))
+}
 
 export const getMessages = (
   page = 1
@@ -54,9 +49,9 @@ export const getMessages = (
 ) =>
   new Promise(async (resolve) => {
     try {
-      const { chatId } = selectAppState(getState())
+      const chatId = selectCurrentChatId(getState())
 
-      const { userId } = selectComponentProps(getState())
+      const { userId } = selectChatSectionComponentProps(getState())
 
       if (!chatId || !userId) return
 
@@ -69,8 +64,10 @@ export const getMessages = (
         userId
       })
 
-      if (page === 1) dispatch(actionCreators.setChatMessages(messages.results))
-      else dispatch(actionCreators.setPagedMessages(messages.results))
+      if (page === 1)
+        dispatch(actionCreators.setChatSectionMessages(messages.results))
+      else
+        dispatch(actionCreators.setChatSectionPagedMessages(messages.results))
 
       resolve(messages.results)
     } catch (error) {
@@ -88,25 +85,30 @@ export const sendMessage = (
   return new Promise((resolve, reject) => {
     ;(async () => {
       try {
-        const { chatId } = selectAppState(getState())
+        const chatId = selectCurrentChatId(getState())
 
-        const { userId } = selectComponentProps(getState())
+        const { userId } = selectChatSectionComponentProps(getState())
 
-        const chatInfo = selectChatUsersInfo(getState())
+        const chatInfo = selectChatSectionInfo(getState())
 
         if (!chatId || !userId || !chatInfo) return
+
+        const receiverPropertyKey =
+          chatInfo.userFirst.userId === userId ? 'userSecond' : 'userFirst'
 
         const sendMessageRequest = {
           message,
           files: await convertFilesToBase64(files),
           chatId,
           userId,
-          receiverUserId: chatInfo[chatInfo.receiverPropertyKey].userId
+          receiverUserId: chatInfo[receiverPropertyKey].userId
         }
 
         await messageHub.sendMessage(sendMessageRequest)
 
         resolve()
+
+        sendMessageEvent(chatId)
       } catch (error) {
         reject(error)
         onApplicationError(error, dispatch)
@@ -121,16 +123,14 @@ export const subscribeForNewMessage = (): ThunkAction<
   unknown,
   Action
 > => (dispatch, getState) => {
-  const { userId } = selectComponentProps(getState())
+  const { userId } = selectChatSectionComponentProps(getState())
 
   messageHub.subscribeForNewMessage((message) => {
-    dispatch(actionCreators.addMessage(message))
-    if (userId === message.userId) scrollToBottom()
+    dispatch(actionCreators.addChatSectionMessage(message))
+    if (userId === message.userId) scrollToBottom('')
     else {
       const notificationSound = new Audio(SOUNDS.notification)
       notificationSound.play()
     }
   })
 }
-
-// #endregion

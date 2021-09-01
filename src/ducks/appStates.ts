@@ -2,6 +2,7 @@
 
 import produce from 'immer'
 import { createSelector } from 'reselect'
+import { ChatSectionProps } from '../components/main/ChatSection'
 import { ChatState, IChatTranslations, InferValueTypes } from '../types'
 import { MODULE_NAME, russianTranslations } from './../config/index'
 import { IComponentProps } from './../types/main/index'
@@ -13,7 +14,8 @@ export const Types = {
   CHANGE_ERROR_CONTAINER: `${MODULE_NAME}/CHAT_STATES/CHANGE_ERROR_CONTAINER`,
   SET_CHAT_INFORMATION: `${MODULE_NAME}/CHAT_STATES/SET_CHAT_INFORMATION`,
   SET_CHAT_TRANSLATIONS: `${MODULE_NAME}/CHAT_STATES/SET_CHAT_TRANSLATIONS`,
-  SET_COMPONENT_PROPS: `${MODULE_NAME}/CHAT_STATES/SET_COMPONENT_PROPS`
+  SET_COMPONENT_PROPS: `${MODULE_NAME}/CHAT_STATES/SET_COMPONENT_PROPS`,
+  SET_CHAT_SECTION_COMPONENT_PROPS: `${MODULE_NAME}/CHAT_STATES/SET_CHAT_SECTION_COMPONENT_PROPS`
 } as const
 
 export const actionCreators = {
@@ -35,6 +37,10 @@ export const actionCreators = {
   }),
   setComponentProps: (componentProps: IComponentProps) => ({
     type: Types.SET_COMPONENT_PROPS,
+    payload: componentProps
+  }),
+  setChatSectionComponentProps: (componentProps: ChatSectionProps) => ({
+    type: Types.SET_CHAT_SECTION_COMPONENT_PROPS,
     payload: componentProps
   })
 }
@@ -67,6 +73,11 @@ export const selectComponentProps = createSelector(
   (appStates) => appStates.componentProps
 )
 
+export const selectChatSectionComponentProps = createSelector(
+  selectAppState,
+  (appStates) => appStates.chatSectionComponentProps
+)
+
 // #endregion
 
 // #region Reducer
@@ -78,6 +89,7 @@ const INITIAL_STATE = {
   receiverUserId: null as null | number,
   translations: russianTranslations as IChatTranslations,
   componentProps: null as IComponentProps,
+  chatSectionComponentProps: {} as ChatSectionProps,
   chatId: null as null | string
 }
 
@@ -103,6 +115,9 @@ export default function appStates(
         break
       case Types.SET_COMPONENT_PROPS:
         draft.componentProps = action.payload
+        break
+      case Types.SET_CHAT_SECTION_COMPONENT_PROPS:
+        draft.chatSectionComponentProps = action.payload
         break
       default:
         break

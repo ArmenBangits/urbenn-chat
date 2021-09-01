@@ -1,7 +1,13 @@
 import { FileUpload } from 'use-file-upload'
 import { API_CALL_URLS } from '../../constants/api'
 import axios from '../axios'
-import { ChatUsersInfoResponse, ISuccessResponse, Message } from './../../types'
+import {
+  ChatUsersInfoResponse,
+  GetChatsRequest,
+  GetChatsResponse,
+  ISuccessResponse,
+  Message
+} from './../../types'
 
 export interface IGetMessagesBody {
   senderUserId: number
@@ -75,4 +81,27 @@ export const getChatUsersInfo = async (chatId: string) => {
   >(API_CALL_URLS.getChatUsersInfo(chatId))
 
   return chatUserInfoResponse.data
+}
+
+export const getChats = async ({
+  searchValue,
+  chatType,
+  page,
+  pageSize
+}: GetChatsRequest) => {
+  const { data: getChatsResponse } = await axios.get<
+    ISuccessResponse<GetChatsResponse>
+  >(
+    `${API_CALL_URLS.getChats}/?${
+      searchValue ? `searchValue=${searchValue}&` : ''
+    }chatType=${chatType}&Pagination.Page=${page}&Pagination.PageSize=${pageSize}`
+  )
+
+  return getChatsResponse.data
+}
+
+export const sendMessageEvent = async (chatId: string) => {
+  return await axios.post<ISuccessResponse<GetChatsResponse>>(
+    API_CALL_URLS.addMessageEvent(chatId)
+  )
 }

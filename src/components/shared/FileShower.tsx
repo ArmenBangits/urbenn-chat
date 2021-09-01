@@ -11,12 +11,14 @@ interface FileShowerProps {
   file: FileShower
   showDelete?: boolean
   onDelete?: () => void
+  fileExtensionsPath?: string
 }
 
 const FileShower: React.FC<FileShowerProps> = ({
   file,
   showDelete,
-  onDelete
+  onDelete,
+  fileExtensionsPath
 }) => {
   const componentProps = useSelector(selectComponentProps)
 
@@ -28,19 +30,19 @@ const FileShower: React.FC<FileShowerProps> = ({
           type='button'
           onClick={onDelete}
         >
-          <i className='ti-close icon-sm'></i>
+          <i className='ti-close icon-sm' />
         </button>
       )}
       {/* @ts-ignore */}
-      <a target='_blank' href={file.source} download>
+      <a target='_blank' href={file.source} download rel='noreferrer'>
         {isValidImage(file.name) ? (
           // @ts-ignore
           <img src={file.source} alt={file.name} />
         ) : (
           <img
-            src={`${componentProps.fileExtensionsPath}${getFileExtension(
-              file.name
-            )}.svg`}
+            src={`${
+              fileExtensionsPath || componentProps.fileExtensionsPath
+            }${getFileExtension(file.name)}.svg`}
           />
         )}
       </a>

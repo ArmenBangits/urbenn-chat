@@ -30,6 +30,7 @@ export const CHAT_INITIAL_PROPS = {
 }
 
 export const MESSAGES_PAGE_SIZE = 10
+export const CHATS_PAGE_SIZE = 10
 export const PAGINATION_LOADING_PIXELS = 50
 export const MAX_FILE_LENGTH = 5
 export const MAX_FILE_SIZE = 10485760
