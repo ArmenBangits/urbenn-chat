@@ -56,6 +56,15 @@ export const ChatTypeNames = {
   [ChatTypes.Tender]: 'Тендер'
 }
 
+export const ChatTypeNamesForNotification = {
+  [ChatTypes.Request]: 'запросу',
+  [ChatTypes.Order]: 'заказу',
+  [ChatTypes.RetailOrder]: 'розничному заказу',
+  // [ChatTypes.Admin]: 'Администрация',
+  [ChatTypes.TcOrder]: 'заказу',
+  [ChatTypes.Tender]: 'тендеру'
+}
+
 export enum UserCategories {
   Seller = 1,
   Buyer,
@@ -80,6 +89,9 @@ export interface ChatUsersInfoResponse {
   chatTypeId: ChatTypes
   chatUserTypeId: number
   chatTypeDataId: number
+  creationDate: string
+  lastMessage: string | null
+  lastMessageDate: string | null
 }
 
 export interface Pagination {

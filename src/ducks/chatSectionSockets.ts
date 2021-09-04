@@ -1,11 +1,11 @@
 import { Action } from 'redux'
 import { ThunkAction } from 'redux-thunk'
 import { FileUpload } from 'use-file-upload'
-import { sendMessageEvent } from '../api'
 import { MESSAGES_PAGE_SIZE, SOUNDS } from '../config'
+import { showNotificationAlert } from '../helpers/alert'
 import { convertFilesToBase64 } from '../helpers/convertFileToBase64'
 import scrollToBottom from '../helpers/scrollToBottom'
-import { messageHub } from '../services'
+import { chatHub, messageHub } from '../services'
 import { ChatState, Message } from '../types'
 import onApplicationError from './../helpers/onApplicationError'
 import { selectChatSectionComponentProps } from './appStates'
@@ -37,12 +37,20 @@ export const joinToChatSection = (
   await messageHub.joinToChat(chatId)
 
   dispatch(actionCreators.setChatId(chatId))
+  dispatch(actionCreators.setChatSectionMessages([]))
+  dispatch(actionCreators.setFirstMessagesLoading(true))
 
-  dispatch(getMessages(1))
+  dispatch(
+    getMessages(1, () => {
+      scrollToBottom('.chat-container-wrapper')
+      dispatch(actionCreators.setFirstMessagesLoading(false))
+    })
+  )
 }
 
 export const getMessages = (
-  page = 1
+  page = 1,
+  onSuccess = () => {}
 ): ThunkAction<Promise<Message[]>, ChatState, unknown, Action> => (
   dispatch,
   getState
@@ -65,11 +73,16 @@ export const getMessages = (
       })
 
       if (page === 1)
-        dispatch(actionCreators.setChatSectionMessages(messages.results))
+        dispatch(
+          actionCreators.setChatSectionMessages(messages.results.reverse())
+        )
       else
-        dispatch(actionCreators.setChatSectionPagedMessages(messages.results))
+        dispatch(
+          actionCreators.setChatSectionPagedMessages(messages.results.reverse())
+        )
 
-      resolve(messages.results)
+      onSuccess()
+      resolve(messages.results.reverse())
     } catch (error) {
       onApplicationError(error, dispatch)
     }
@@ -108,7 +121,7 @@ export const sendMessage = (
 
         resolve()
 
-        sendMessageEvent(chatId)
+        chatHub.addMessageEvent(chatId, message)
       } catch (error) {
         reject(error)
         onApplicationError(error, dispatch)
@@ -127,10 +140,36 @@ export const subscribeForNewMessage = (): ThunkAction<
 
   messageHub.subscribeForNewMessage((message) => {
     dispatch(actionCreators.addChatSectionMessage(message))
-    if (userId === message.userId) scrollToBottom('')
+    if (userId === message.userId) scrollToBottom('.chat-container-wrapper')
     else {
       const notificationSound = new Audio(SOUNDS.notification)
       notificationSound.play()
     }
+  })
+}
+
+export const subscribeForChatUpdate = (): ThunkAction<
+  void,
+  ChatState,
+  unknown,
+  Action
+> => async (dispatch, getState) => {
+  const { baseChatHubUrl, token } = selectChatSectionComponentProps(getState())
+
+  await chatHub.start(baseChatHubUrl || '', token, () => {
+    dispatch(subscribeForChatUpdate())
+  })
+
+  chatHub.subscribeForChatUpdate((chat) => {
+    const currentChatId = selectCurrentChatId(getState())
+
+    dispatch(actionCreators.chatUpdated(chat))
+
+    if (chat.id === currentChatId) return
+
+    showNotificationAlert(chat)
+
+    const notificationSound = new Audio(SOUNDS.notification)
+    notificationSound.play()
   })
 }

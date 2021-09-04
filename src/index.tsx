@@ -2,6 +2,7 @@
 import 'emoji-mart/css/emoji-mart.css'
 import React, { useEffect, useState } from 'react'
 import { Provider } from 'react-redux'
+import 'react-toastify/dist/ReactToastify.css'
 // import 'ti-icons/css/themify-icons.css'
 import {
   ChatComponent,
@@ -13,7 +14,6 @@ import setBaseUrl, { setToken } from './helpers/setBaseUrl'
 import store from './store'
 import { IChatTranslations } from './types'
 import { IComponentProps } from './types/main/index'
-
 export interface IChatProps {
   baseUrl?: string
   baseHubUrl?: string
@@ -34,12 +34,16 @@ export interface IChatProps {
 const Chat: React.FC<IChatProps> = (baseProps) => {
   const { baseUrl, opened, token } = baseProps
 
+  const [initialized, setInitialized] = useState(false)
+
   useEffect(() => {
     setBaseUrl(baseUrl || '')
     setToken(token || '')
+
+    setInitialized(true)
   }, [])
 
-  if (!opened) return null
+  if (!opened || !initialized) return null
 
   return (
     <Provider store={store}>
@@ -57,12 +61,12 @@ export default Chat
 
 export const ChatSection: React.FC<
   ChatSectionProps & { baseUrl?: string; token?: string }
-> = ({ baseUrl, token, ...props }) => {
+> = ({ baseUrl, ...props }) => {
   const [initialized, setInitialized] = useState(false)
 
   useEffect(() => {
     setBaseUrl(baseUrl || '')
-    setToken(token || '')
+    setToken(props.token || '')
 
     setInitialized(true)
   }, [])
@@ -78,4 +82,4 @@ export const ChatSection: React.FC<
   )
 }
 
-export { messageHub } from './services'
+export { messageHubForReminder as messageHub } from './services/messageHub'

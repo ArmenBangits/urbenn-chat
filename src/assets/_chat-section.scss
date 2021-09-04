@@ -1,4 +1,8 @@
 #chat-section {
+  .chat-wrapper {
+    min-height: 600px;
+  }
+
   .chat-app-wrapper {
     position: relative;
     overflow: hidden;
@@ -11,11 +15,26 @@
       flex-direction: row;
       justify-content: space-between;
       padding: 0 20px;
+      margin: 10px 0;
     }
 
     .MuiFormControlLabel-root {
       margin: 0;
       flex-direction: column;
+      height: 60px;
+      justify-content: space-between;
+
+      .MuiButtonBase-root {
+        padding: 0 !important;
+
+        &.Mui-checked + .MuiFormControlLabel-label {
+          font-weight: 700;
+        }
+      }
+
+      .MuiFormControlLabel-label {
+        transition: all 0.3s;
+      }
     }
 
     .filters {
@@ -107,6 +126,19 @@
       border-right: 1px solid $border-color;
       padding-bottom: 30px;
 
+      &::-webkit-scrollbar {
+        width: 0.3em;
+      }
+
+      &::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 6px rgb(204, 204, 204);
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background-color: rgb(169, 169, 169);
+        outline: 1px solid rgb(112, 128, 144);
+      }
+
       @media (max-width: 768px) {
         position: absolute;
         left: -300px;
@@ -132,6 +164,8 @@
           padding: 0 15px;
         }
 
+        max-height: 600px;
+
         .list-item {
           display: grid;
           grid-template-columns: 45px auto auto;
@@ -139,9 +173,16 @@
           padding: 15px 20px;
           transition-duration: 0.5s;
           transition-property: 'background';
+          position: relative;
 
           .profile-image {
             position: relative;
+
+            img {
+              object-fit: cover;
+              width: 50px;
+              height: 50px;
+            }
 
             .dot-indicator {
               position: absolute;
@@ -155,23 +196,37 @@
           }
 
           .user-name {
-            color: $text-muted;
+            color: #000;
+            font-weight: 700;
             padding-left: 20px;
             margin-bottom: 0;
             @extend .ellipsis;
           }
 
-          .chat-time {
-            color: $text-muted;
+          .chat-info {
             text-align: right;
+            font-weight: 700;
+          }
+
+          .chat-message-date {
+            position: absolute;
+            right: 20px;
+            bottom: 14px;
+            color: #9c9fa6;
+            margin-bottom: 0;
+            font-size: 0.85rem;
           }
 
           .chat-text {
+            color: $text-muted;
+
             padding-left: 20px;
             grid-column-start: 2;
             grid-column-end: 4;
             grid-row-start: 2;
             margin-bottom: 0;
+
+            font-size: 0.85rem;
           }
 
           &:hover {
@@ -218,15 +273,33 @@
 
     .chat-container-wrapper {
       height: 100%;
-      min-height: 100vh;
-      max-height: $chat-container-height;
+      height: 600px;
       overflow-y: auto;
       padding-bottom: 20px;
       padding: 0 15px 30px 15px;
 
+      &::-webkit-scrollbar {
+        width: 0.3em;
+      }
+
+      &::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 6px rgb(204, 204, 204);
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background-color: rgb(169, 169, 169);
+        outline: 1px solid rgb(112, 128, 144);
+      }
+
       .chat-bubble {
         margin-top: 30px;
         color: #fff;
+
+        img {
+          width: 40px;
+          height: 40px;
+          object-fit: cover;
+        }
 
         .chat-message {
           border-radius: 4px;
@@ -252,7 +325,8 @@
 
         &.incoming-chat {
           .chat-message {
-            background: $content-bg;
+            background: #cccccc;
+            color: #000;
             margin-left: 45px;
           }
 
@@ -265,10 +339,10 @@
 
         &.outgoing-chat {
           .chat-message {
-            background: blue;
             margin-left: auto;
             max-width: 290px;
-            margin-right: 45px;
+            margin-right: 20px;
+            background: rgba(0, 171, 204, 0.7) 0% 0% no-repeat padding-box;
 
             p {
               color: $accent-color;
@@ -293,9 +367,50 @@
       border-left: 1px solid $border-color;
     }
 
+    .opacity-0 {
+      opacity: 0;
+    }
+
     .chat-text-field {
       border-top: 1px solid $border-color;
       padding: 10px 0;
+
+      .chat-text-field {
+        border-top: none;
+        padding: 0;
+      }
+
+      .input-group {
+        align-items: flex-start;
+        justify-content: center;
+        gap: 10px;
+
+        form {
+          flex-grow: 0.95;
+        }
+
+        &-text {
+          background: none;
+          transform: scale(1.18);
+        }
+
+        &-append,
+        &-prepend {
+          margin-top: 5px;
+        }
+      }
+
+      .emoji-mart {
+        width: 356px;
+        position: absolute;
+        bottom: 60px;
+        left: 0;
+      }
+
+      textarea {
+        min-height: 50px;
+        max-height: 150px;
+      }
 
       .input-group {
         .input-group-prepend,
@@ -322,6 +437,44 @@
     width: 100%;
     padding: 20px 0;
     border-bottom: 1px solid $border-color;
+    transition: all 0.3s;
+
+    &:hover,
+    &--selected {
+      background: transparent
+        linear-gradient(180deg, #00abcc17 0%, #70f1f21a 100%) 0% 0% no-repeat
+        padding-box;
+    }
+  }
+
+  .file-shower {
+    float: left;
+    position: relative;
+
+    &__delete-btn {
+      position: absolute;
+      right: 0;
+      top: -10px;
+      font-size: 7px;
+      background: $delete-btn-background;
+      color: $delete-btn-color;
+      width: 17px;
+      height: 10px;
+      padding: 0;
+      border-radius: 10px;
+      padding: 3px 0px;
+      box-sizing: content-box;
+
+      &:hover,
+      &:focus {
+        background: $delete-btn-hover-color;
+      }
+    }
+
+    img {
+      width: 50px;
+      margin: 10px;
+    }
   }
 }
 

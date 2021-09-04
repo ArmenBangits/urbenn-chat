@@ -25,11 +25,13 @@ const ChatInputContainer = () => {
 
   return (
     <React.Fragment>
-      <ChatInput
-        fileExtensionsPath={componentProps.fileExtensionsPath}
-        acceptFiles={componentProps.acceptFiles}
-        onSubmit={onSubmit}
-      />
+      <div className='chat-text-field mt-auto'>
+        <ChatInput
+          fileExtensionsPath={componentProps.fileExtensionsPath}
+          acceptFiles={componentProps.acceptFiles}
+          onSubmit={onSubmit}
+        />
+      </div>
     </React.Fragment>
   )
 }

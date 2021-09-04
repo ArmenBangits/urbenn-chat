@@ -1,31 +1,42 @@
+import cx from 'classnames'
 import React, { useCallback, useEffect, useState } from 'react'
+import FlipMove from 'react-flip-move'
 import { useDispatch, useSelector } from 'react-redux'
-import { getChats, selectChatSectionChats } from '../../ducks/chat'
+import { selectChatSectionComponentProps } from '../../ducks/appStates'
+import {
+  getChats,
+  selectChatSectionChats,
+  selectCurrentChatId
+} from '../../ducks/chat'
+// eslint-disable-next-line prettier/prettier
 import {
   connectToHub,
   joinToChatSection,
   subscribeForNewMessage
 } from '../../ducks/chatSectionSockets'
-import { ChatTypes } from '../../types'
-import ChatFilters from './ChatFilters'
+import timeDifference from '../../helpers/timeDifference'
+import { ChatTypeNames } from '../../types'
+import ChatFiltersContainer from './ChatFiltersContainer'
 
 const ChatList = () => {
   const dispatch = useDispatch()
 
   const chats = useSelector(selectChatSectionChats)
+  const { userId } = useSelector(selectChatSectionComponentProps)
+
+  const selectedChatId = useSelector(selectCurrentChatId)
 
   const [page] = useState(1)
-  const [chatType] = useState(ChatTypes.Request)
 
   const [isReady, setReady] = useState(false)
 
   const onChatClick = useCallback(
     (chatId: string) => () => {
-      if (!isReady) return
+      if (!isReady || selectedChatId === chatId) return
 
       dispatch(joinToChatSection(chatId))
     },
-    [dispatch, isReady]
+    [dispatch, isReady, selectedChatId]
   )
 
   useEffect(() => {
@@ -35,32 +46,54 @@ const ChatList = () => {
       dispatch(subscribeForNewMessage())
     })
 
-    dispatch(getChats(page, chatType))
+    dispatch(getChats(page, null))
   }, [])
 
   return (
     <React.Fragment>
-      {chats.map((chat) => (
-        <div key={chat.id} onClick={onChatClick(chat.id)}>
-          {chat.id}
-        </div>
-      ))}
-      <ChatFilters />
-      <div className='list-item'>
-        <div className='profile-image'>
-          <div className='dot-indicator sm bg-success' />
-          <img
-            className='img-sm rounded-circle'
-            src='https://via.placeholder.com/43x43'
-            alt='profile'
-          />
-        </div>
-        <p className='user-name'>Peter Moore</p>
-        <p className='chat-time'>30min ago</p>
-        <p className='chat-text'>
-          Hello everyone, Iam happy to share with you our new company goals..
-        </p>
-      </div>
+      <ChatFiltersContainer currentPage={page} />
+
+      <FlipMove duration={750}>
+        {chats.map((chat) => {
+          const user =
+            chat.userFirst.userId === userId ? chat.userSecond : chat.userFirst
+
+          return (
+            <div
+              className={cx('list-item', {
+                'list-item--selected': selectedChatId === chat.id
+              })}
+              key={chat.id}
+              onClick={onChatClick(chat.id)}
+            >
+              <div className='profile-image'>
+                <img
+                  className='img-sm rounded-circle'
+                  src={user.icon}
+                  alt={user.name}
+                />
+              </div>
+              <p className='user-name'>
+                {user.ownerShipTypeName} {user.companyName}
+              </p>
+
+              <p className='chat-info'>
+                {ChatTypeNames[chat.chatTypeId]} № {chat.chatTypeDataId}
+              </p>
+
+              {chat.lastMessage && (
+                <p className='chat-text'>{chat.lastMessage}</p>
+              )}
+
+              {chat.lastMessageDate && (
+                <p className='chat-message-date'>
+                  {timeDifference(new Date(chat.lastMessageDate))}
+                </p>
+              )}
+            </div>
+          )
+        })}
+      </FlipMove>
     </React.Fragment>
   )
 }

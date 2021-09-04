@@ -6,7 +6,7 @@ import {
   Message,
   SendMessageRequest
 } from '../types'
-import socketService, { ISocketService } from './socket'
+import SocketService, { ISocketService } from './socket'
 
 class MessageHub {
   private hubName = 'MessageHub'
@@ -95,10 +95,13 @@ class MessageHub {
       (updatedCountResponse: { data: number }) =>
         onCountUpdate(updatedCountResponse.data)
     )
+    this.socketService.on('GetUserUnreadChatsCountValidation', console.log)
     this.socketService.invoke(HUB_METHOD_NAMES.GetUserUnreadChatsCount, userId)
   }
 }
 
-const messageHub = new MessageHub(socketService)
+const messageHub = new MessageHub(new SocketService())
+
+export const messageHubForReminder = new MessageHub(new SocketService())
 
 export default messageHub

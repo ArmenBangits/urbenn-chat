@@ -4,7 +4,11 @@ import React, { useCallback, useState } from 'react'
 import { AnimatedList } from 'react-animated-list'
 import { useDispatch, useSelector } from 'react-redux'
 import { FileUpload, useFileUpload } from 'use-file-upload'
-import { MAX_FILE_LENGTH, MAX_FILE_SIZE } from '../../config'
+import {
+  INPUT_CHAT_MAX_LENGTH,
+  MAX_FILE_LENGTH,
+  MAX_FILE_SIZE
+} from '../../config'
 import { showErrorAlert } from '../../helpers/onApplicationError'
 import {
   selectComponentProps,
@@ -120,6 +124,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
               className='form-control chat-message-area'
               placeholder={translations.textAreaPlaceholder}
               value={messageValue}
+              maxLength={INPUT_CHAT_MAX_LENGTH}
               onChange={(e) => setMessageValue(e.target.value)}
               onKeyPress={(e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {

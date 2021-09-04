@@ -33,6 +33,8 @@ export const Types = {
   SET_CHAT_SECTION_MESSAGES: `${MODULE_NAME}/CHAT_CONTAINER/SET_CHAT_SECTION_MESSAGES`,
   SET_PAGED_CHAT_SECTION_MESSAGES: `${MODULE_NAME}/CHAT_CONTAINER/SET_PAGED_CHAT_SECTION_MESSAGES`,
   ADD_CHAT_SECTION_MESSAGE: `${MODULE_NAME}/CHAT_CONTAINER/ADD_CHAT_SECTION_MESSAGE`,
+  CHAT_UPDATED: `${MODULE_NAME}/CHAT_CONTAINER/CHAT_UPDATED`,
+  SET_FIRST_MESSAGES_LOADING: `${MODULE_NAME}/CHAT_CONTAINER/SET_FIRST_MESSAGES_LOADING`,
   SET_CHAT_ID: `${MODULE_NAME}/CHAT_CONTAINER/SET_CHAT_ID`
 } as const
 
@@ -40,6 +42,14 @@ export const actionCreators = {
   setChatMessages: (messages: Message[]) => ({
     type: Types.SET_MESSAGES,
     payload: messages
+  }),
+  setFirstMessagesLoading: (isLoading: boolean) => ({
+    type: Types.SET_FIRST_MESSAGES_LOADING,
+    payload: isLoading
+  }),
+  chatUpdated: (chat: ChatUsersInfoResponse) => ({
+    type: Types.CHAT_UPDATED,
+    payload: chat
   }),
   setChatSectionMessages: (messages: Message[]) => ({
     type: Types.SET_CHAT_SECTION_MESSAGES,
@@ -103,6 +113,10 @@ export const selectCurrentChatId = createSelector(
   (appStates) => appStates.chatId
 )
 
+export const selectCurrentChat = createSelector(selectChatState, (appStates) =>
+  appStates.chatSectionChats.find((chat) => chat.id === appStates.chatId)
+)
+
 export const selectChatSectionMessages = createSelector(
   selectChatState,
   (appStates) => appStates.chatSectionMessages
@@ -111,6 +125,11 @@ export const selectChatSectionMessages = createSelector(
 export const selectChatSectionInfo = createSelector(
   selectChatState,
   (appStates) => appStates.sectionChatInfo
+)
+
+export const selectFirstMessagesLoading = createSelector(
+  selectChatState,
+  (appStates) => appStates.firstMessagesLoading
 )
 
 // #endregion
@@ -190,10 +209,29 @@ const INITIAL_STATE = {
   chatInfo: null as ReduxChatUsersInfo | null,
   sectionChatInfo: null as ReduxChatUsersInfo | null,
   chatSectionChats: [] as ChatUsersInfoResponse[],
-  chatId: null as string | null
+  chatId: null as string | null,
+  firstMessagesLoading: false
 }
 
 type ChatReduxState = typeof INITIAL_STATE
+
+const onChatUpdated = (
+  draft: ChatReduxState,
+  action: ReturnType<typeof actionCreators['chatUpdated']>
+) => {
+  const chat = action.payload
+
+  const isChatExist = draft.chatSectionChats.find(
+    (c) => c.id === action.payload.id
+  )
+
+  if (!isChatExist) return
+
+  draft.chatSectionChats = [
+    action.payload,
+    ...draft.chatSectionChats.filter((c) => c.id !== chat.id)
+  ]
+}
 
 export default function chatReducer(
   state: ChatReduxState = INITIAL_STATE,
@@ -228,6 +266,9 @@ export default function chatReducer(
           (chat) => chat.id === action.payload
         )
         break
+      case Types.SET_FIRST_MESSAGES_LOADING:
+        draft.firstMessagesLoading = action.payload
+        break
       case Types.SET_CHAT_SECTION_MESSAGES:
         draft.chatSectionMessages = action.payload
         break
@@ -236,6 +277,9 @@ export default function chatReducer(
           ...action.payload,
           ...draft.chatSectionMessages
         ]
+        break
+      case Types.CHAT_UPDATED:
+        onChatUpdated(draft, action)
         break
       default:
         break

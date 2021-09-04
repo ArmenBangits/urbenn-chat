@@ -93,15 +93,11 @@ export const getChats = async ({
     ISuccessResponse<GetChatsResponse>
   >(
     `${API_CALL_URLS.getChats}/?${
-      searchValue ? `searchValue=${searchValue}&` : ''
-    }chatType=${chatType}&Pagination.Page=${page}&Pagination.PageSize=${pageSize}`
+      Number(searchValue) ? `searchValue=${Number(searchValue)}&` : ''
+    }${
+      chatType ? `chatType=${chatType}&` : ''
+    }&Pagination.Page=${page}&Pagination.PageSize=${pageSize}`
   )
 
   return getChatsResponse.data
-}
-
-export const sendMessageEvent = async (chatId: string) => {
-  return await axios.post<ISuccessResponse<GetChatsResponse>>(
-    API_CALL_URLS.addMessageEvent(chatId)
-  )
 }

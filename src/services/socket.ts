@@ -7,7 +7,7 @@ import {
 } from '@microsoft/signalr'
 
 export interface ISocketService {
-  connect: (baseUrl: string, hubName: string) => Promise<void>
+  connect: (baseUrl: string, hubName: string, token?: string) => Promise<void>
   disconnect: () => Promise<void>
   invoke: (methodName: string, ...args: unknown[]) => Promise<void>
   on: <T>(methodName: string, fn: (event: T) => void) => void
@@ -51,12 +51,17 @@ class SocketService implements ISocketService {
     )
   }
 
-  async connect(baseUrl: string, hubName: string) {
+  async connect(baseUrl: string, hubName: string, token = '') {
     if (this.socket && this.socket?.state !== HubConnectionState.Disconnected)
       return
 
     const socket: HubConnection = new HubConnectionBuilder()
-      .withUrl(`${baseUrl}/${hubName}`)
+      .withUrl(
+        `${baseUrl}/${hubName}${token ? `?authorization=${token}` : ''}`,
+        {
+          accessTokenFactory: () => token
+        }
+      )
       // .withHubProtocol(new MessagePackHubProtocol())
       .withAutomaticReconnect()
       .configureLogging(LogLevel.Information)
@@ -88,6 +93,4 @@ class SocketService implements ISocketService {
   }
 }
 
-const socketService = new SocketService()
-
-export default socketService
+export default SocketService
