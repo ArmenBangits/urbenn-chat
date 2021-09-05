@@ -40,7 +40,7 @@ const ChatMessagesList: React.FC<ChatMessagesListProps> = ({
     let isLoading = false
 
     elementScrollSubscriber.subscribe(() => {
-      if (isAllMessagesLoaded || isLoading) return
+      if (isAllMessagesLoaded || isLoading) return setMessagesLoading(false)
 
       setMessagesLoading(true)
       isLoading = true
