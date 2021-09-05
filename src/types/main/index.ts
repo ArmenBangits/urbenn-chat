@@ -32,8 +32,10 @@ export interface IChatTranslations {
 export interface IComponentProps {
   fileExtensionsPath?: string
   acceptFiles?: string
+  token?: string
   baseUrl?: string
   baseHubUrl?: string
+  baseChatHubUrl?: string
   userId: number | null
   sendingWithRequests?: Object
 }

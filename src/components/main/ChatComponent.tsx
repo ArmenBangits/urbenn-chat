@@ -27,6 +27,8 @@ const ChatComponent: React.FC<IChatProps> = ({
   sendingWithRequests,
   baseHubUrl,
   userId,
+  baseChatHubUrl,
+  token,
   onClose
 }) => {
   const dispatch = useDispatch()
@@ -47,9 +49,11 @@ const ChatComponent: React.FC<IChatProps> = ({
         ...CHAT_INITIAL_PROPS,
         ...componentProps,
         userId,
+        token,
         baseHubUrl,
         baseUrl,
-        sendingWithRequests: sendingWithRequests || {}
+        sendingWithRequests: sendingWithRequests || {},
+        baseChatHubUrl
       })
     )
 

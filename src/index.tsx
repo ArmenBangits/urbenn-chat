@@ -17,6 +17,7 @@ import { IComponentProps } from './types/main/index'
 export interface IChatProps {
   baseUrl?: string
   baseHubUrl?: string
+  baseChatHubUrl?: string
   token?: string
   chatId: string
   userId: number

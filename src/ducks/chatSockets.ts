@@ -6,7 +6,7 @@ import { FileUpload } from 'use-file-upload'
 import { MESSAGES_PAGE_SIZE, SOUNDS } from '../config'
 import { convertFilesToBase64 } from '../helpers/convertFileToBase64'
 import scrollToBottom from '../helpers/scrollToBottom'
-import { messageHub } from '../services'
+import { chatHub, messageHub } from '../services'
 import { ChatState, Message } from '../types'
 import onApplicationError from './../helpers/onApplicationError'
 import {
@@ -90,7 +90,9 @@ export const sendMessage = (
       try {
         const { chatId } = selectAppState(getState())
 
-        const { userId } = selectComponentProps(getState())
+        const { userId, baseChatHubUrl, token } = selectComponentProps(
+          getState()
+        )
 
         const chatInfo = selectChatUsersInfo(getState())
 
@@ -107,6 +109,14 @@ export const sendMessage = (
         await messageHub.sendMessage(sendMessageRequest)
 
         resolve()
+
+        const connectToChatHub = async () => {
+          await chatHub.start(baseChatHubUrl || '', token, connectToChatHub)
+        }
+
+        await connectToChatHub()
+
+        chatHub.addMessageEvent(chatId, message)
       } catch (error) {
         reject(error)
         onApplicationError(error, dispatch)
