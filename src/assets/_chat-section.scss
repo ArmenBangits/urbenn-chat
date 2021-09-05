@@ -1,6 +1,10 @@
 #chat-section {
+  .card {
+    background: #fff;
+  }
+
   .chat-wrapper {
-    min-height: 600px;
+    min-height: 430px;
   }
 
   .chat-app-wrapper {
@@ -164,7 +168,7 @@
           padding: 0 15px;
         }
 
-        max-height: 600px;
+        max-height: 430px;
 
         .list-item {
           display: grid;
@@ -273,7 +277,7 @@
 
     .chat-container-wrapper {
       height: 100%;
-      height: 600px;
+      height: 430px;
       overflow-y: auto;
       padding-bottom: 20px;
       padding: 0 15px 30px 15px;
@@ -392,6 +396,7 @@
         &-text {
           background: none;
           transform: scale(1.18);
+          color: #000;
         }
 
         &-append,
@@ -476,9 +481,4 @@
       margin: 10px;
     }
   }
-}
-
-#root {
-  background: gray;
-  padding: 20px;
 }

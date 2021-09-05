@@ -1,6 +1,6 @@
 import { Tab, Tabs } from '@material-ui/core'
 import cx from 'classnames'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { SEARCH_FILTER_MAX_LENGTH } from '../../config'
 import { selectChatSectionComponentProps } from '../../ducks/appStates'
@@ -15,6 +15,8 @@ type ChatFiltersProps = {
 const ChatFilters: React.FC<ChatFiltersProps> = ({ onChange }) => {
   const { userCategoryId } = useSelector(selectChatSectionComponentProps)
 
+  const searchInputRef = useRef<HTMLInputElement | null>(null)
+
   const [isOpenedSearch, setOpenedSearch] = useState(false)
 
   const [searchValue, setSearchValue] = useState('')
@@ -23,6 +25,9 @@ const ChatFilters: React.FC<ChatFiltersProps> = ({ onChange }) => {
 
   const onSearchButtonToggle = useCallback(() => {
     if (searchValue) onChange(null, '')
+
+    if (!isOpenedSearch && searchInputRef.current)
+      searchInputRef.current.focus()
 
     setOpenedSearch(!isOpenedSearch)
     setSearchValue('')
@@ -97,6 +102,8 @@ const ChatFilters: React.FC<ChatFiltersProps> = ({ onChange }) => {
           value={searchValue}
           onChange={onSearchValueChange}
           maxLength={SEARCH_FILTER_MAX_LENGTH}
+          autoFocus
+          ref={searchInputRef}
         />
       </div>
 

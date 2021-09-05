@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import { Picker } from 'emoji-mart'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { AnimatedList } from 'react-animated-list'
 import { useDispatch, useSelector } from 'react-redux'
 import { FileUpload, useFileUpload } from 'use-file-upload'
@@ -9,6 +9,7 @@ import {
   MAX_FILE_LENGTH,
   MAX_FILE_SIZE
 } from '../../config'
+import createOutsideClickListener from '../../helpers/createOutsideClickListener'
 import { showErrorAlert } from '../../helpers/onApplicationError'
 import {
   selectComponentProps,
@@ -102,10 +103,22 @@ const ChatInput: React.FC<ChatInputProps> = ({
     [uploadedFiles]
   )
 
+  useEffect(() => {
+    const subscriber = createOutsideClickListener(
+      '.chat-text-field.emoji-picker'
+    )
+
+    subscriber.subscribe(() => setShowedEmojiPicker(false))
+
+    return () => {
+      subscriber.unsubscribe()
+    }
+  }, [])
+
   return (
     <div>
       <div
-        className={classNames('chat-text-field mt-auto', {
+        className={classNames('emoji-picker chat-text-field mt-auto', {
           'opened-emoji-tab': isShowedEmojiPicker
         })}
       >
