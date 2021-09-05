@@ -56,6 +56,8 @@ export const getMessages = (
   getState
 ) =>
   new Promise(async (resolve) => {
+    let errorMessages
+
     try {
       const chatId = selectCurrentChatId(getState())
 
@@ -72,6 +74,9 @@ export const getMessages = (
         userId
       })
 
+      errorMessages = messages.results.reverse()
+      resolve(messages.results.reverse())
+
       if (page === 1)
         dispatch(
           actionCreators.setChatSectionMessages(messages.results.reverse())
@@ -82,8 +87,8 @@ export const getMessages = (
         )
 
       onSuccess()
-      resolve(messages.results.reverse())
     } catch (error) {
+      resolve(errorMessages || [])
       onApplicationError(error, dispatch)
     }
   })
