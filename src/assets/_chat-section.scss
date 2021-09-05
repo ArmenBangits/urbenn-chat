@@ -190,6 +190,26 @@
           transition-property: 'background';
           position: relative;
 
+          &::before {
+            content: '';
+            display: none;
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: transparent
+              linear-gradient(218.75deg, #ff4e20 -26.84%, #a22c61 108.75%) 0% 0%
+              no-repeat padding-box;
+            border-radius: 50%;
+            right: 7px;
+            top: 50%;
+          }
+
+          &--unread {
+            &::before {
+              display: block;
+            }
+          }
+
           .profile-image {
             position: relative;
 

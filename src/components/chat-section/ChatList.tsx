@@ -61,7 +61,8 @@ const ChatList = () => {
           return (
             <div
               className={cx('list-item', {
-                'list-item--selected': selectedChatId === chat.id
+                'list-item--selected': selectedChatId === chat.id,
+                'list-item--unread': chat.hasUnreadMessage
               })}
               key={chat.id}
               onClick={onChatClick(chat.id)}

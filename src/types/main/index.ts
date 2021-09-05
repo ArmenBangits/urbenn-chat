@@ -93,6 +93,7 @@ export interface ChatUsersInfoResponse {
   creationDate: string
   lastMessage: string | null
   lastMessageDate: string | null
+  hasUnreadMessage: boolean
 }
 
 export interface Pagination {

@@ -37,7 +37,7 @@ const App = () => {
             baseChatHubUrl='https://localhost:44311'
             baseUrl='https://localhost:44311/api'
             baseHubUrl='https://localhost:44320'
-            token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI0OTciLCJlbWFpbCI6Im1hcnllZ2hpYXphcnlhbjE2QGdtYWlsLmNvbSIsIlVzZXJDYXRlZ29yeUlkIjoiMiIsIklzQmxvY2tlZCI6IkZhbHNlIiwibmJmIjoxNjMwODY5MjQ4LCJleHAiOjE2MzA4OTgwNDgsImlhdCI6MTYzMDg2OTI0OCwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzMTEvIiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzMTEvIn0._utUCJ0uX2lZ7PFrRghq0fmtqh618Jjuy-sHjQfkNb4'
+            token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI3MzYiLCJlbWFpbCI6InVyYmVubmJ1eWVyQG1haWxpbmF0b3IuY29tIiwiVXNlckNhdGVnb3J5SWQiOiIyIiwiSXNCbG9ja2VkIjoiRmFsc2UiLCJuYmYiOjE2MzA4NzQxNzQsImV4cCI6MTYzMDkwMjk3NCwiaWF0IjoxNjMwODc0MTc0LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo0NDMxMS8iLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo0NDMxMS8ifQ.s0AYOooJDD0n_f0ZE_wWI4u5snM_m30a0RoQM1i70CI'
             userId={733}
             fileExtensionsPath={process.env.PUBLIC_URL + '/extenssions/'}
             userCategoryId={1}

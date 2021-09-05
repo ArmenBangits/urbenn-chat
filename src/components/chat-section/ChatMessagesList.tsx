@@ -2,7 +2,10 @@ import { CircularProgress } from '@material-ui/core'
 import cx from 'classnames'
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectFirstMessagesLoading } from '../../ducks/chat'
+import {
+  selectCurrentChatId,
+  selectFirstMessagesLoading
+} from '../../ducks/chat'
 import timeDifference from '../../helpers/timeDifference'
 import { ChatUsersInfoResponse, Message } from '../../types'
 import { FileShower } from '../shared'
@@ -27,6 +30,7 @@ const ChatMessagesList: React.FC<ChatMessagesListProps> = ({
   const [isMessagesLoading, setMessagesLoading] = useState(false)
 
   const isFirstMessagesLoading = useSelector(selectFirstMessagesLoading)
+  const chatId = useSelector(selectCurrentChatId)
 
   useEffect(() => {
     if (!chatContainerElement.current) return
@@ -59,9 +63,12 @@ const ChatMessagesList: React.FC<ChatMessagesListProps> = ({
     })
 
     return () => {
+      page = 1
+      isAllMessagesLoaded = false
+      isLoading = false
       elementScrollSubscriber.unsubscribe()
     }
-  }, [])
+  }, [chatId])
 
   return (
     <div className='chat-container-wrapper' ref={chatContainerElement}>
