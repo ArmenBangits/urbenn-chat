@@ -116,6 +116,10 @@
         .MuiTabs-indicator {
           opacity: 0;
         }
+
+        input {
+          box-shadow: none;
+        }
       }
 
       &--search-opened {

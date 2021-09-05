@@ -30,10 +30,11 @@ export const CHAT_INITIAL_PROPS = {
 }
 
 export const MESSAGES_PAGE_SIZE = 10
-export const CHATS_PAGE_SIZE = 100
+export const CHATS_PAGE_SIZE = 1000
 export const PAGINATION_LOADING_PIXELS = 50
 export const MAX_FILE_LENGTH = 5
 export const MAX_FILE_SIZE = 10485760
 export const FILTER_CALL_WAIT = 1000
 export const INPUT_CHAT_MAX_LENGTH = 450
 export const SEARCH_FILTER_MAX_LENGTH = 15
+export const MESSAGE_NOTIFICATION_LIMIT = 10

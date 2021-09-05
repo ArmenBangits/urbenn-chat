@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
-import { CHAT_INITIAL_PROPS } from '../../config'
+import { CHAT_INITIAL_PROPS, MESSAGE_NOTIFICATION_LIMIT } from '../../config'
 import { actionCreators } from '../../ducks/appStates'
 import { subscribeForChatUpdate } from '../../ducks/chatSectionSockets'
+import { chatHub } from '../../services'
 import { ChatList } from '../chat-section'
 import ChatInputContainer from '../chat-section/ChatInputContainer'
 import ChatMessagesListContainer from '../chat-section/ChatMessagesListContainer'
+import messageHub from './../../services/messageHub'
 
 export type ChatSectionProps = {
   baseHubUrl?: string
@@ -32,6 +34,11 @@ const ChatSection: React.FC<ChatSectionProps> = (componentProps) => {
     setTimeout(() => {
       dispatch(subscribeForChatUpdate())
     }, 1000)
+
+    return () => {
+      chatHub.disconnect()
+      messageHub.disconnect()
+    }
   }, [])
 
   if (!initializedProps) return null
@@ -48,6 +55,7 @@ const ChatSection: React.FC<ChatSectionProps> = (componentProps) => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
+        limit={MESSAGE_NOTIFICATION_LIMIT}
       />
 
       <button

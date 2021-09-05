@@ -139,6 +139,10 @@ export const subscribeForNewMessage = (): ThunkAction<
   const { userId } = selectChatSectionComponentProps(getState())
 
   messageHub.subscribeForNewMessage((message) => {
+    const currentChatId = selectCurrentChatId(getState())
+
+    if (message.chatId !== currentChatId) return
+
     dispatch(actionCreators.addChatSectionMessage(message))
     if (userId === message.userId) scrollToBottom('.chat-container-wrapper')
     else {

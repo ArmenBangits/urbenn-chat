@@ -1,4 +1,6 @@
 import React from 'react'
+import Zoom from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
 import { useSelector } from 'react-redux'
 import { selectComponentProps } from '../../ducks/appStates'
 import isValidImage, { getFileExtension } from './../../helpers/isValidImage'
@@ -36,8 +38,10 @@ const FileShower: React.FC<FileShowerProps> = ({
       {/* @ts-ignore */}
       <a target='_blank' href={file.source} download rel='noreferrer'>
         {isValidImage(file.name) ? (
-          // @ts-ignore
-          <img src={file.source} alt={file.name} />
+          <Zoom>
+            {/* @ts-ignore */}
+            <img src={file.source} alt={file.name} />
+          </Zoom>
         ) : (
           <img
             src={`${

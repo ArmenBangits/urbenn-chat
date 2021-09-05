@@ -37,7 +37,7 @@ const App = () => {
             baseChatHubUrl='https://localhost:44311'
             baseUrl='https://localhost:44311/api'
             baseHubUrl='https://localhost:44320'
-            token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI0NzUiLCJlbWFpbCI6InZydG9zZWxsZXJAbWFpbGluYXRvci5jb20iLCJVc2VyQ2F0ZWdvcnlJZCI6IjEiLCJJc0Jsb2NrZWQiOiJGYWxzZSIsIm5iZiI6MTYzMDc2Njg0OSwiZXhwIjoxNjMwNzk1NjQ5LCJpYXQiOjE2MzA3NjY4NDksImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjQ0MzExLyIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjQ0MzExLyJ9.UozhOgf8nAhXoDxVCre2nqCfdJPYcy9B5U4ihqh5LJw'
+            token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI0OTciLCJlbWFpbCI6Im1hcnllZ2hpYXphcnlhbjE2QGdtYWlsLmNvbSIsIlVzZXJDYXRlZ29yeUlkIjoiMiIsIklzQmxvY2tlZCI6IkZhbHNlIiwibmJmIjoxNjMwODY5MjQ4LCJleHAiOjE2MzA4OTgwNDgsImlhdCI6MTYzMDg2OTI0OCwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzMTEvIiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzMTEvIn0._utUCJ0uX2lZ7PFrRghq0fmtqh618Jjuy-sHjQfkNb4'
             userId={733}
             fileExtensionsPath={process.env.PUBLIC_URL + '/extenssions/'}
             userCategoryId={1}
@@ -48,7 +48,7 @@ const App = () => {
           {isOpened && (
             <UrbennChat
               userId={497}
-              token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI0NzUiLCJlbWFpbCI6InZydG9zZWxsZXJAbWFpbGluYXRvci5jb20iLCJVc2VyQ2F0ZWdvcnlJZCI6IjEiLCJJc0Jsb2NrZWQiOiJGYWxzZSIsIm5iZiI6MTYzMDc2Njg0OSwiZXhwIjoxNjMwNzk1NjQ5LCJpYXQiOjE2MzA3NjY4NDksImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjQ0MzExLyIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjQ0MzExLyJ9.UozhOgf8nAhXoDxVCre2nqCfdJPYcy9B5U4ihqh5LJw'
+              token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI0OTciLCJlbWFpbCI6Im1hcnllZ2hpYXphcnlhbjE2QGdtYWlsLmNvbSIsIlVzZXJDYXRlZ29yeUlkIjoiMiIsIklzQmxvY2tlZCI6IkZhbHNlIiwibmJmIjoxNjMwODY5MjQ4LCJleHAiOjE2MzA4OTgwNDgsImlhdCI6MTYzMDg2OTI0OCwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzMTEvIiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzMTEvIn0._utUCJ0uX2lZ7PFrRghq0fmtqh618Jjuy-sHjQfkNb4'
               chatId='612bc7d34d6b8b276d159ca4'
               baseUrl='https://localhost:44311/api'
               baseHubUrl='https://localhost:44320'
@@ -64,7 +64,7 @@ const App = () => {
           {isOpened && (
             <UrbennChat
               userId={733}
-              token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI0NzUiLCJlbWFpbCI6InZydG9zZWxsZXJAbWFpbGluYXRvci5jb20iLCJVc2VyQ2F0ZWdvcnlJZCI6IjEiLCJJc0Jsb2NrZWQiOiJGYWxzZSIsIm5iZiI6MTYzMDc2Njg0OSwiZXhwIjoxNjMwNzk1NjQ5LCJpYXQiOjE2MzA3NjY4NDksImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjQ0MzExLyIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjQ0MzExLyJ9.UozhOgf8nAhXoDxVCre2nqCfdJPYcy9B5U4ihqh5LJw'
+              token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI0OTciLCJlbWFpbCI6Im1hcnllZ2hpYXphcnlhbjE2QGdtYWlsLmNvbSIsIlVzZXJDYXRlZ29yeUlkIjoiMiIsIklzQmxvY2tlZCI6IkZhbHNlIiwibmJmIjoxNjMwODY5MjQ4LCJleHAiOjE2MzA4OTgwNDgsImlhdCI6MTYzMDg2OTI0OCwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzMTEvIiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzMTEvIn0._utUCJ0uX2lZ7PFrRghq0fmtqh618Jjuy-sHjQfkNb4'
               chatId='612bc7d34d6b8b276d159ca4'
               baseUrl='https://localhost:44311/api'
               baseHubUrl='https://localhost:44320'

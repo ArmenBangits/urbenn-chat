@@ -427,4 +427,18 @@ $small-device: 430px;
   }
 }
 
+[data-rmiz-overlay] {
+  img {
+    width: 100%;
+    position: absolute;
+    top: 6px;
+    max-width: 60px;
+  }
+}
+
+[data-rmiz-modal-content] {
+  display: flex;
+  justify-content: center;
+}
+
 @import './chat-section';

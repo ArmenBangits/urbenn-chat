@@ -1,6 +1,7 @@
 export interface Message {
   message?: string
   id: string
+  chatId: string
   userId: number
   creationDate: string
   files: URL[]
