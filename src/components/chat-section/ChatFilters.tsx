@@ -58,7 +58,11 @@ const ChatFilters: React.FC<ChatFiltersProps> = ({ onChange }) => {
     <React.Fragment>
       <div
         className={cx('filters mb-3', {
-          'filters--search-opened': isOpenedSearch
+          'filters--search-opened':
+            userCategoryId === UserCategories.TransportCompany ||
+            isOpenedSearch,
+          'filters--hide-filters':
+            userCategoryId === UserCategories.TransportCompany
         })}
       >
         <Tabs

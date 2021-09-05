@@ -28,7 +28,7 @@ const App = () => {
             token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI0NzQiLCJlbWFpbCI6InZhcmRhbmJhbmdpdHNAZ21haWwuY29tIiwiVXNlckNhdGVnb3J5SWQiOiIyIiwiSXNCbG9ja2VkIjoiRmFsc2UiLCJuYmYiOjE2MzA4NDU2NjAsImV4cCI6MTYzMDg3NDQ2MCwiaWF0IjoxNjMwODQ1NjYwLCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo0NDMxMS8iLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo0NDMxMS8ifQ.4mE4hlufylWAITHlX9OZidqXBIwcjYyr0X9Fb3wP13o'
             userId={497}
             fileExtensionsPath={process.env.PUBLIC_URL + '/extenssions/'}
-            userCategoryId={2}
+            userCategoryId={3}
           />
         </Route>
 

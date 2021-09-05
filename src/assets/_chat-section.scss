@@ -111,6 +111,13 @@
         }
       }
 
+      &--hide-filters {
+        .MuiButtonBase-root:not(.filters__search),
+        .MuiTabs-indicator {
+          opacity: 0;
+        }
+      }
+
       &--search-opened {
         .filters {
           &__search {
