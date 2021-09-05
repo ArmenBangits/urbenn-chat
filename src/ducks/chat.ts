@@ -265,6 +265,9 @@ export default function chatReducer(
         draft.sectionChatInfo = draft.chatSectionChats.find(
           (chat) => chat.id === action.payload
         )
+        draft.chatSectionChats = draft.chatSectionChats.map((c) =>
+          c.id === action.payload ? { ...c, hasUnreadMessage: false } : c
+        )
         break
       case Types.SET_FIRST_MESSAGES_LOADING:
         draft.firstMessagesLoading = action.payload
