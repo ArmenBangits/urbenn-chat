@@ -56,13 +56,15 @@ const ChatInput: React.FC<ChatInputProps> = ({
           )
 
         const deletedMaxSizeFiles = files.filter((f) => {
-          const isValidFileLength = f.size < MAX_FILE_SIZE
+          const isValidMaxFileLength = f.size < MAX_FILE_SIZE
 
-          if (!isValidFileLength) {
+          if (!isValidMaxFileLength) {
             showErrorAlert('Файл слишком большой')
           }
 
-          return isValidFileLength
+          if (!f.size) showErrorAlert('Невалидный файл')
+
+          return f.size && isValidMaxFileLength
         })
         console.log(selectedFiles)
         setUploadedFiles([...uploadedFiles, ...deletedMaxSizeFiles])

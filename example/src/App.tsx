@@ -25,7 +25,7 @@ const App = () => {
             baseChatHubUrl='https://localhost:44311'
             baseUrl='https://localhost:44311/api'
             baseHubUrl='https://localhost:44320'
-            token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI0NzQiLCJlbWFpbCI6InZhcmRhbmJhbmdpdHNAZ21haWwuY29tIiwiVXNlckNhdGVnb3J5SWQiOiIyIiwiSXNCbG9ja2VkIjoiRmFsc2UiLCJuYmYiOjE2MzA4NDU2NjAsImV4cCI6MTYzMDg3NDQ2MCwiaWF0IjoxNjMwODQ1NjYwLCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo0NDMxMS8iLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo0NDMxMS8ifQ.4mE4hlufylWAITHlX9OZidqXBIwcjYyr0X9Fb3wP13o'
+            token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI4OTciLCJlbWFpbCI6ImJ1eWVyYXJtQG1haWxpbmF0b3IuY29tIiwiVXNlckNhdGVnb3J5SWQiOiIyIiwiSXNCbG9ja2VkIjoiRmFsc2UiLCJuYmYiOjE2MzI0MzYxODcsImV4cCI6MTYzMjQ2NDk4NywiaWF0IjoxNjMyNDM2MTg3LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo0NDMxMS8iLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo0NDMxMS8ifQ.WUX7Bxq2Khm_5IXh6YtXOEkoIB1-tnkwD9jwTe3qBdw'
             userId={497}
             fileExtensionsPath={process.env.PUBLIC_URL + '/extenssions/'}
             userCategoryId={3}
@@ -37,8 +37,8 @@ const App = () => {
             baseChatHubUrl='https://localhost:44311'
             baseUrl='https://localhost:44311/api'
             baseHubUrl='https://localhost:44320'
-            token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI3MzYiLCJlbWFpbCI6InVyYmVubmJ1eWVyQG1haWxpbmF0b3IuY29tIiwiVXNlckNhdGVnb3J5SWQiOiIyIiwiSXNCbG9ja2VkIjoiRmFsc2UiLCJuYmYiOjE2MzA4NzQxNzQsImV4cCI6MTYzMDkwMjk3NCwiaWF0IjoxNjMwODc0MTc0LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo0NDMxMS8iLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo0NDMxMS8ifQ.s0AYOooJDD0n_f0ZE_wWI4u5snM_m30a0RoQM1i70CI'
-            userId={733}
+            token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI5MjciLCJlbWFpbCI6Ijk5OWJ1eUBtYWlsaW5hdG9yLmNvbSIsIlVzZXJDYXRlZ29yeUlkIjoiMiIsIklzQmxvY2tlZCI6IkZhbHNlIiwibmJmIjoxNjMyNDM2Mzc5LCJleHAiOjE2MzI0NjUxNzksImlhdCI6MTYzMjQzNjM3OSwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzMTEvIiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzMTEvIn0._USV4bwKge66p8-CfFuw4YdffQoyaO3Z_Qg-LZ9r6JY'
+            userId={927}
             fileExtensionsPath={process.env.PUBLIC_URL + '/extenssions/'}
             userCategoryId={1}
           />

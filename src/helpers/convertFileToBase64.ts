@@ -4,7 +4,11 @@ const convertFileToBase64 = (file: FileUpload): Promise<string> =>
   new Promise((resolve, reject) => {
     const reader = new FileReader()
     reader.readAsDataURL(file.file)
-    reader.onload = () => resolve(reader.result as string)
+    reader.onload = (e) => {
+      console.log(e.target?.result)
+
+      resolve(reader.result as string)
+    }
     reader.onerror = (error) => reject(error)
   })
 

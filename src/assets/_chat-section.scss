@@ -1,4 +1,24 @@
 #chat-section {
+  .chat-empty-text,
+  .empty-chat-messages {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    svg {
+      transform: scale(0.45);
+    }
+  }
+
+  .chat-empty-text {
+    min-height: 330px;
+  }
+
+  .empty-chat-messages {
+    min-height: 400px;
+    transform: translateY(40px);
+  }
+
   .card {
     background: #fff;
   }
