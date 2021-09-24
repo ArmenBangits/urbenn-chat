@@ -2,6 +2,7 @@ import { CircularProgress } from '@material-ui/core'
 import cx from 'classnames'
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { selectChatSectionComponentProps } from '../../ducks/appStates'
 import {
   selectCurrentChatId,
   selectFirstMessagesLoading
@@ -31,6 +32,8 @@ const ChatMessagesList: React.FC<ChatMessagesListProps> = ({
 
   const isFirstMessagesLoading = useSelector(selectFirstMessagesLoading)
   const chatId = useSelector(selectCurrentChatId)
+
+  const chatSectionComponentProps = useSelector(selectChatSectionComponentProps)
 
   useEffect(() => {
     if (!chatContainerElement.current) return
@@ -100,6 +103,7 @@ const ChatMessagesList: React.FC<ChatMessagesListProps> = ({
               <div className='d-flex flex-wrap' style={{ marginLeft: -10 }}>
                 {m.files.map((file, idx) => (
                   <FileShower
+                    fileExtensionsPath={chatSectionComponentProps.fileExtensionsPath}
                     key={idx}
                     file={{
                       // @ts-ignore
