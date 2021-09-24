@@ -25,6 +25,7 @@ const ChatSection: React.FC<ChatSectionProps> = (componentProps) => {
   const dispatch = useDispatch()
 
   const [initializedProps, setInitializedProps] = useState(false)
+  const [disableAllAnimations, setDisableAllAnimations] = useState(true)
 
   useEffect(() => {
     dispatch(actionCreators.setChatSectionComponentProps(componentProps))
@@ -32,7 +33,15 @@ const ChatSection: React.FC<ChatSectionProps> = (componentProps) => {
     setInitializedProps(true)
 
     setTimeout(() => {
-      dispatch(subscribeForChatUpdate())
+      dispatch(
+        subscribeForChatUpdate(() => {
+          setDisableAllAnimations(false)
+
+          setTimeout(() => {
+            setDisableAllAnimations(true)
+          }, 3000)
+        })
+      )
     }, 1000)
 
     return () => {
@@ -68,7 +77,7 @@ const ChatSection: React.FC<ChatSectionProps> = (componentProps) => {
         <div className='row mx-0'>
           <div className='col-md-4 chat-list-wrapper px-0'>
             <div className='chat-list-item-wrapper'>
-              <ChatList />
+              <ChatList disableAllAnimations={disableAllAnimations} />
             </div>
           </div>
           <div className='col-xl-8 px-0 d-flex flex-column chat-wrapper'>

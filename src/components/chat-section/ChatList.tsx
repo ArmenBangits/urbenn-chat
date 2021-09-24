@@ -1,5 +1,5 @@
 import cx from 'classnames'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { FC, useCallback, useEffect, useState } from 'react'
 import FlipMove from 'react-flip-move'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectChatSectionComponentProps } from '../../ducks/appStates'
@@ -18,7 +18,9 @@ import timeDifference from '../../helpers/timeDifference'
 import { ChatTypeNames } from '../../types'
 import ChatFiltersContainer from './ChatFiltersContainer'
 
-const ChatList = () => {
+const ChatList: FC<{ disableAllAnimations?: boolean }> = ({
+  disableAllAnimations = false
+}) => {
   const dispatch = useDispatch()
 
   const chats = useSelector(selectChatSectionChats)
@@ -53,7 +55,7 @@ const ChatList = () => {
     <React.Fragment>
       <ChatFiltersContainer currentPage={page} />
 
-      <FlipMove duration={750}>
+      <FlipMove disableAllAnimations={disableAllAnimations} duration={750}>
         {chats.length ? (
           chats.map((chat) => {
             const user =

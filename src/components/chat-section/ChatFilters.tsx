@@ -100,7 +100,11 @@ const ChatFilters: React.FC<ChatFiltersProps> = ({ onChange }) => {
         </Tabs>
 
         <input
-          placeholder='Найти сообщение'
+          placeholder={`Поиск по номеру запроса , заказа${
+            userCategoryId !== UserCategories.TransportCompany
+              ? ', тендера'
+              : ''
+          }`}
           type='number'
           className='filters__search-input'
           value={searchValue}

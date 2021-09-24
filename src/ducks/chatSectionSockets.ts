@@ -157,12 +157,12 @@ export const subscribeForNewMessage = (): ThunkAction<
   })
 }
 
-export const subscribeForChatUpdate = (): ThunkAction<
-  void,
-  ChatState,
-  unknown,
-  Action
-> => async (dispatch, getState) => {
+export const subscribeForChatUpdate = (
+  onChatUpdate = () => {}
+): ThunkAction<void, ChatState, unknown, Action> => async (
+  dispatch,
+  getState
+) => {
   const { baseChatHubUrl, token } = selectChatSectionComponentProps(getState())
 
   await chatHub.start(baseChatHubUrl || '', token, () => {
@@ -170,6 +170,8 @@ export const subscribeForChatUpdate = (): ThunkAction<
   })
 
   chatHub.subscribeForChatUpdate((chat) => {
+    if (onChatUpdate) onChatUpdate()
+
     const currentChatId = selectCurrentChatId(getState())
 
     dispatch(actionCreators.chatUpdated(chat))
