@@ -36,6 +36,7 @@ export const Types = {
   CHAT_UPDATED: `${MODULE_NAME}/CHAT_CONTAINER/CHAT_UPDATED`,
   SET_FIRST_MESSAGES_LOADING: `${MODULE_NAME}/CHAT_CONTAINER/SET_FIRST_MESSAGES_LOADING`,
   UPDATE_CHAT_UNREAD_MESSAGE: `${MODULE_NAME}/CHAT_CONTAINER/UPDATE_CHAT_UNREAD_MESSAGE`,
+  SET_CHATS_LOADING: `${MODULE_NAME}/CHAT_CONTAINER/SET_CHATS_LOADING`,
   SET_CHAT_ID: `${MODULE_NAME}/CHAT_CONTAINER/SET_CHAT_ID`
 } as const
 
@@ -47,6 +48,10 @@ export const actionCreators = {
   setChatMessages: (messages: Message[]) => ({
     type: Types.SET_MESSAGES,
     payload: messages
+  }),
+  setChatsLoading: (isLoading: boolean) => ({
+    type: Types.SET_CHATS_LOADING,
+    payload: isLoading
   }),
   setFirstMessagesLoading: (isLoading: boolean) => ({
     type: Types.SET_FIRST_MESSAGES_LOADING,
@@ -137,6 +142,11 @@ export const selectFirstMessagesLoading = createSelector(
   (appStates) => appStates.firstMessagesLoading
 )
 
+export const selectChatsLoading = createSelector(
+  selectChatState,
+  (appStates) => appStates.isChatsLoading
+)
+
 // #endregion
 
 // #region - Chat thunks
@@ -187,6 +197,8 @@ export const getChats = (
     try {
       const { userId } = selectChatSectionComponentProps(getState())
 
+      dispatch(actionCreators.setChatsLoading(true))
+
       const chats = await api.getChats({
         chatType,
         page,
@@ -196,8 +208,14 @@ export const getChats = (
 
       dispatch(actionCreators.addChatSectionChats(chats.results))
 
+      setTimeout(() => {
+        dispatch(actionCreators.setChatsLoading(false))
+      }, 500)
+
       resolve(chats)
     } catch (error) {
+      dispatch(actionCreators.setChatsLoading(false))
+
       reject(error)
       onApplicationError(error, dispatch)
     }
@@ -215,7 +233,8 @@ const INITIAL_STATE = {
   sectionChatInfo: null as ReduxChatUsersInfo | null,
   chatSectionChats: [] as ChatUsersInfoResponse[],
   chatId: null as string | null,
-  firstMessagesLoading: false
+  firstMessagesLoading: false,
+  isChatsLoading: false
 }
 
 type ChatReduxState = typeof INITIAL_STATE
@@ -246,6 +265,9 @@ export default function chatReducer(
 ) {
   return produce(state, (draft: ChatReduxState) => {
     switch (action.type) {
+      case Types.SET_CHATS_LOADING:
+        draft.isChatsLoading = action.payload
+        break
       case Types.SET_MESSAGES:
         draft.messages = action.payload
         break

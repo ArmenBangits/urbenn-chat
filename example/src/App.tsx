@@ -23,34 +23,35 @@ const App = () => {
         <Route path='/chat-section' exact>
           <ChatSection
             baseChatHubUrl='https://localhost:44311'
-            baseUrl='https://localhost:44395/api'
+            baseUrl='https://localhost:44311/api'
             baseHubUrl='https://localhost:44320'
-            token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI5NzEiLCJlbWFpbCI6InRlc3QtZHJlc3Npb0BtYWlsaW5hdG9yLmNvbSIsIlVzZXJDYXRlZ29yeUlkIjoiMSIsIklzQmxvY2tlZCI6IkZhbHNlIiwibmJmIjoxNjMyNTg1NzM0LCJleHAiOjE2MzI2MTQ1MzQsImlhdCI6MTYzMjU4NTczNCwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzOTUvIiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzOTUvIn0.tKjkZQWUD_K4XKPwbkZN1gEVgpsMC_6qa3jKrcAz0Vo'
-            userId={971}
+            userId={968}
+            token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI5NjgiLCJlbWFpbCI6ImJ1eWVyYnV5ZXI1OTNAZ21haWwuY29tIiwiVXNlckNhdGVnb3J5SWQiOiIyIiwiSXNCbG9ja2VkIjoiRmFsc2UiLCJuYmYiOjE2MzI2NzMwNjcsImV4cCI6MTYzMjcwMTg2NywiaWF0IjoxNjMyNjczMDY3LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo0NDMxMS8iLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo0NDMxMS8ifQ.USmh6GqsNFwfPRC7dunZTf1dMVC2QladmiW8Nvh_Uks'
             fileExtensionsPath={process.env.PUBLIC_URL + '/extenssions/'}
-            userCategoryId={1}
+            userCategoryId={2}
+            // userTypeId={7}
           />
         </Route>
 
         <Route path='/chat-section/2' exact>
           <ChatSection
             baseChatHubUrl='https://localhost:44311'
-            baseUrl='https://localhost:44311/api'
+            baseUrl='https://localhost:44395/api'
             baseHubUrl='https://localhost:44320'
-            token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI5NjgiLCJlbWFpbCI6ImJ1eWVyYnV5ZXI1OTNAZ21haWwuY29tIiwiVXNlckNhdGVnb3J5SWQiOiIyIiwiSXNCbG9ja2VkIjoiRmFsc2UiLCJuYmYiOjE2MzI1ODU2OTksImV4cCI6MTYzMjYxNDQ5OSwiaWF0IjoxNjMyNTg1Njk5LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo0NDMxMS8iLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo0NDMxMS8ifQ.OJ_Ox54KIeBnb6KHMfThowK_agZsvgr8h2rLtALEgy4'
-            userId={968}
+            userId={971}
+            token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI5NzEiLCJlbWFpbCI6InRlc3QtZHJlc3Npb0BtYWlsaW5hdG9yLmNvbSIsIlVzZXJDYXRlZ29yeUlkIjoiMSIsIklzQmxvY2tlZCI6IkZhbHNlIiwibmJmIjoxNjMyNjcyODk0LCJleHAiOjE2MzI3MDE2OTQsImlhdCI6MTYzMjY3Mjg5NCwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzOTUvIiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzOTUvIn0.DiI6iWJzJXf6Khm23RNjr4ugTANaJHxPMQ8cn5dWnHk'
             fileExtensionsPath={process.env.PUBLIC_URL + '/extenssions/'}
-            userCategoryId={2}
+            userCategoryId={1}
           />
         </Route>
 
         <Route path='/test1'>
           {isOpened && (
             <UrbennChat
-              userId={927}
+              userId={968}
               baseChatHubUrl='https://localhost:44311'
-              token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI5MjciLCJlbWFpbCI6Ijk5OWJ1eUBtYWlsaW5hdG9yLmNvbSIsIlVzZXJDYXRlZ29yeUlkIjoiMiIsIklzQmxvY2tlZCI6IkZhbHNlIiwibmJmIjoxNjMyNDM2Mzc5LCJleHAiOjE2MzI0NjUxNzksImlhdCI6MTYzMjQzNjM3OSwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzMTEvIiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzMTEvIn0._USV4bwKge66p8-CfFuw4YdffQoyaO3Z_Qg-LZ9r6JY'
-              chatId='614c463537046013d8fe42a3'
+              token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI5NjgiLCJlbWFpbCI6ImJ1eWVyYnV5ZXI1OTNAZ21haWwuY29tIiwiVXNlckNhdGVnb3J5SWQiOiIyIiwiSXNCbG9ja2VkIjoiRmFsc2UiLCJuYmYiOjE2MzI2NzMwNjcsImV4cCI6MTYzMjcwMTg2NywiaWF0IjoxNjMyNjczMDY3LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo0NDMxMS8iLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo0NDMxMS8ifQ.USmh6GqsNFwfPRC7dunZTf1dMVC2QladmiW8Nvh_Uks'
+              chatId='614de305241135464d25ee9f'
               baseUrl='https://localhost:44311/api'
               baseHubUrl='https://localhost:44320'
               componentProps={{
@@ -64,11 +65,11 @@ const App = () => {
         <Route path='/test2'>
           {isOpened && (
             <UrbennChat
-              userId={733}
+              userId={971}
               baseChatHubUrl='https://localhost:44311'
-              token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI0OTciLCJlbWFpbCI6Im1hcnllZ2hpYXphcnlhbjE2QGdtYWlsLmNvbSIsIlVzZXJDYXRlZ29yeUlkIjoiMiIsIklzQmxvY2tlZCI6IkZhbHNlIiwibmJmIjoxNjMwODY5MjQ4LCJleHAiOjE2MzA4OTgwNDgsImlhdCI6MTYzMDg2OTI0OCwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzMTEvIiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzMTEvIn0._utUCJ0uX2lZ7PFrRghq0fmtqh618Jjuy-sHjQfkNb4'
-              chatId='612bc7d34d6b8b276d159ca4'
-              baseUrl='https://localhost:44311/api'
+              token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI5NzEiLCJlbWFpbCI6InRlc3QtZHJlc3Npb0BtYWlsaW5hdG9yLmNvbSIsIlVzZXJDYXRlZ29yeUlkIjoiMSIsIklzQmxvY2tlZCI6IkZhbHNlIiwibmJmIjoxNjMyNjcyODk0LCJleHAiOjE2MzI3MDE2OTQsImlhdCI6MTYzMjY3Mjg5NCwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzOTUvIiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzOTUvIn0.DiI6iWJzJXf6Khm23RNjr4ugTANaJHxPMQ8cn5dWnHk'
+              chatId='614de305241135464d25ee9f'
+              baseUrl='https://localhost:44395/api'
               baseHubUrl='https://localhost:44320'
               componentProps={{
                 fileExtensionsPath: process.env.PUBLIC_URL + '/extenssions/'

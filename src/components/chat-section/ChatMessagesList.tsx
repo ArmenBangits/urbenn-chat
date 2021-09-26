@@ -9,6 +9,7 @@ import {
 } from '../../ducks/chat'
 import timeDifference from '../../helpers/timeDifference'
 import { ChatUsersInfoResponse, Message } from '../../types'
+import NoAvatar from '../main/NoAvatar'
 import { FileShower } from '../shared'
 import { getMessages } from './../../ducks/chatSectionSockets'
 import createScrollToTopListener from './../../helpers/createScrollToTopListener'
@@ -117,11 +118,16 @@ const ChatMessagesList: React.FC<ChatMessagesListProps> = ({
               </div>
             </div>
             <div className='sender-details'>
-              <img
-                className='sender-avatar img-xs rounded-circle'
-                src={user.icon}
-                alt='profile'
-              />
+              {user.icon ? (
+                <img
+                  className='sender-avatar img-xs rounded-circle'
+                  src={user.icon}
+                  alt='profile'
+                />
+              ) : (
+                <NoAvatar sm />
+              )}
+
               <p className='seen-text'>
                 {timeDifference(new Date(m.creationDate))}
               </p>

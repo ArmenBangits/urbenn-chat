@@ -1,3 +1,5 @@
+@import './no-avatar';
+
 $border-color: #6c757d63;
 
 $card-bg: #27293d;
@@ -38,6 +40,10 @@ $small-device: 430px;
   overflow: hidden;
   z-index: 1000;
   box-shadow: 0em 0rem 1rem 0px rgba(68, 65, 65, 0.13) !important;
+
+  .no-avatar {
+    @extend .no-avatar;
+  }
 
   @media (max-width: $small-device) {
     width: 250px;

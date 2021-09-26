@@ -5,6 +5,7 @@ import { CHAT_INITIAL_PROPS, MESSAGE_NOTIFICATION_LIMIT } from '../../config'
 import { actionCreators } from '../../ducks/appStates'
 import { subscribeForChatUpdate } from '../../ducks/chatSectionSockets'
 import { chatHub } from '../../services'
+import { UserCategories, UserTypes } from '../../types'
 import { ChatList } from '../chat-section'
 import ChatInputContainer from '../chat-section/ChatInputContainer'
 import ChatMessagesListContainer from '../chat-section/ChatMessagesListContainer'
@@ -16,9 +17,10 @@ export type ChatSectionProps = {
   baseUrl?: string
   token?: string
   userId: number
-  userCategoryId: number | null
+  userCategoryId: UserCategories | null
   acceptFiles?: string
   fileExtensionsPath: string
+  userTypeId?: UserTypes
 }
 
 const ChatSection: React.FC<ChatSectionProps> = (componentProps) => {

@@ -18,6 +18,7 @@ import setBaseUrl from './../../helpers/setBaseUrl'
 import { IChatProps } from './../../index'
 import messageHub from './../../services/messageHub'
 import ChatInput from './ChatInput'
+import NoAvatar from './NoAvatar'
 
 const ChatComponent: React.FC<IChatProps> = ({
   chatId,
@@ -89,7 +90,12 @@ const ChatComponent: React.FC<IChatProps> = ({
           <FadeIn>
             {receiverUser && (
               <div className='p-3 chat-app-wrapper__header'>
-                <img src={receiverUser.icon} alt={receiverUser.name} />
+                {receiverUser.icon ? (
+                  <img src={receiverUser.icon} alt={receiverUser.name} />
+                ) : (
+                  <NoAvatar />
+                )}
+
                 <div>
                   {receiverUser.ownerShipTypeName} {receiverUser.companyName}{' '}
                   {ChatTypeNames[chatUserInfo.chatTypeId]} №{' '}

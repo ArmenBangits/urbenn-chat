@@ -186,9 +186,11 @@ export const subscribeForChatUpdate = (
 
     if (chat.id === currentChatId) return
 
-    showNotificationAlert(chat)
+    if (chat.hasUnreadMessage) {
+      showNotificationAlert(chat)
 
-    const notificationSound = new Audio(SOUNDS.notification)
-    notificationSound.play()
+      const notificationSound = new Audio(SOUNDS.notification)
+      notificationSound.play()
+    }
   })
 }

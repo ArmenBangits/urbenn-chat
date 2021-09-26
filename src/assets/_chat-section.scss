@@ -1,16 +1,31 @@
+@import './no-avatar';
+
 #chat-section {
-  .chat-empty-text,
+  .chat-empty-container,
   .empty-chat-messages {
     display: flex;
     justify-content: center;
     align-items: center;
+  }
 
+  .empty-chat-messages {
     svg {
       transform: scale(0.45);
     }
   }
 
-  .chat-empty-text {
+  .no-avatar {
+    @extend .no-avatar;
+
+    fill: #000;
+    width: 37px;
+
+    &--small {
+      width: 25px;
+    }
+  }
+
+  .chat-empty-container {
     min-height: 330px;
   }
 

@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 import { SEARCH_FILTER_MAX_LENGTH } from '../../config'
 import { selectChatSectionComponentProps } from '../../ducks/appStates'
 import { SearchIcon } from '../../icons'
-import { ChatTypes, UserCategories } from '../../types'
+import { ChatTypes, UserCategories, UserTypes } from '../../types'
 
 type ChatFiltersProps = {
   isAdmin: boolean
@@ -13,7 +13,7 @@ type ChatFiltersProps = {
 }
 
 const ChatFilters: React.FC<ChatFiltersProps> = ({ onChange }) => {
-  const { userCategoryId } = useSelector(selectChatSectionComponentProps)
+  const { userCategoryId, userTypeId } = useSelector(selectChatSectionComponentProps)
 
   const searchInputRef = useRef<HTMLInputElement | null>(null)
 
@@ -59,7 +59,7 @@ const ChatFilters: React.FC<ChatFiltersProps> = ({ onChange }) => {
       <div
         className={cx('filters mb-3', {
           'filters--search-opened':
-            userCategoryId === UserCategories.TransportCompany ||
+            userCategoryId === UserCategories.TransportCompany || userTypeId === UserTypes.INDIVIDUAL ||
             isOpenedSearch,
           'filters--hide-filters':
             userCategoryId === UserCategories.TransportCompany

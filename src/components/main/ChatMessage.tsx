@@ -27,7 +27,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
           {message.message}
 
           <div className='d-flex flex-wrap' style={{ marginLeft: -10 }}>
-            {message.files.map((file, idx) => (
+            {message.files?.map((file, idx) => (
               <FileShower
                 key={idx}
                 file={{

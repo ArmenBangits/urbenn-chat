@@ -75,6 +75,10 @@ export enum UserCategories {
   Admin
 }
 
+export enum UserTypes {
+  INDIVIDUAL = 7,
+}
+
 export interface User {
   userId: number
   name: string
