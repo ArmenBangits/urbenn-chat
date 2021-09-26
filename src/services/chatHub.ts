@@ -47,6 +47,10 @@ class ChatHub {
     })
   }
 
+  async getChatByIdEvent(chatId: string) {
+    await this.socketService.invoke(HUB_METHOD_NAMES.GetChatByIdEvent, chatId)
+  }
+
   subscribeForChatUpdate(onChatUpdate: (chat: ChatUsersInfoResponse) => void) {
     this.socketService.on(
       HUB_METHOD_NAMES.OnChatUpdate,

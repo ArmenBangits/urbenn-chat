@@ -36,6 +36,8 @@ export const joinToChatSection = (
 ): ThunkAction<void, ChatState, unknown, Action> => async (dispatch) => {
   await messageHub.joinToChat(chatId)
 
+  chatHub.getChatByIdEvent(chatId)
+
   dispatch(actionCreators.setChatId(chatId))
   dispatch(actionCreators.setChatSectionMessages([]))
   dispatch(actionCreators.setFirstMessagesLoading(true))
@@ -148,7 +150,13 @@ export const subscribeForNewMessage = (): ThunkAction<
 
     if (message.chatId !== currentChatId) return
 
+    if (userId !== message.userId) {
+      messageHub.getChatByIdEvent(currentChatId, userId)
+      chatHub.getChatByIdEvent(currentChatId)
+    }
+
     dispatch(actionCreators.addChatSectionMessage(message))
+
     if (userId === message.userId) scrollToBottom('.chat-container-wrapper')
     else {
       const notificationSound = new Audio(SOUNDS.notification)

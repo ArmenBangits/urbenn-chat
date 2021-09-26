@@ -7,9 +7,11 @@ export const HUB_METHOD_NAMES = {
   AddMessageSuccess: 'AddMessageSuccess',
   GetUserUnreadChatsCount: 'GetUserUnreadChatsCount',
   NewMessage: 'NewMessage',
-
+  GetChatByIdEventMessaging: 'GetChatByIdEvent',
+  
   // Chat
   AddMessageEvent: 'AddMessageEvent',
   SubscribeToHub: 'SubscribeToHub',
-  OnChatUpdate: 'OnChatUpdate'
+  OnChatUpdate: 'OnChatUpdate',
+  GetChatByIdEvent: 'GetChatByIdEvent'
 }

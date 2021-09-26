@@ -101,9 +101,11 @@ const ChatMessagesList: React.FC<ChatMessagesListProps> = ({
               <p>{m.message}</p>
 
               <div className='d-flex flex-wrap' style={{ marginLeft: -10 }}>
-                {m.files.map((file, idx) => (
+                {m.files?.map((file, idx) => (
                   <FileShower
-                    fileExtensionsPath={chatSectionComponentProps.fileExtensionsPath}
+                    fileExtensionsPath={
+                      chatSectionComponentProps.fileExtensionsPath
+                    }
                     key={idx}
                     file={{
                       // @ts-ignore

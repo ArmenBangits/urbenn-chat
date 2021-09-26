@@ -68,6 +68,14 @@ class MessageHub {
     )
   }
 
+  async getChatByIdEvent(chatId: string, userId: number) {
+    await this.socketService.invoke(
+      HUB_METHOD_NAMES.GetChatByIdEventMessaging,
+      chatId,
+      userId
+    )
+  }
+
   subscribeForNewMessage(onNewMsg: (msg: Message) => void) {
     this.socketService.on(HUB_METHOD_NAMES.AddMessageSuccess, onNewMsg)
     this.socketService.on(HUB_METHOD_NAMES.NewMessage, onNewMsg)

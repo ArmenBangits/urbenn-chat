@@ -35,10 +35,15 @@ export const Types = {
   ADD_CHAT_SECTION_MESSAGE: `${MODULE_NAME}/CHAT_CONTAINER/ADD_CHAT_SECTION_MESSAGE`,
   CHAT_UPDATED: `${MODULE_NAME}/CHAT_CONTAINER/CHAT_UPDATED`,
   SET_FIRST_MESSAGES_LOADING: `${MODULE_NAME}/CHAT_CONTAINER/SET_FIRST_MESSAGES_LOADING`,
+  UPDATE_CHAT_UNREAD_MESSAGE: `${MODULE_NAME}/CHAT_CONTAINER/UPDATE_CHAT_UNREAD_MESSAGE`,
   SET_CHAT_ID: `${MODULE_NAME}/CHAT_CONTAINER/SET_CHAT_ID`
 } as const
 
 export const actionCreators = {
+  updateChatUnreadMessage: (chatId: string, isUnread: boolean) => ({
+    type: Types.UPDATE_CHAT_UNREAD_MESSAGE,
+    payload: { chatId, isUnread }
+  }),
   setChatMessages: (messages: Message[]) => ({
     type: Types.SET_MESSAGES,
     payload: messages
@@ -221,6 +226,8 @@ const onChatUpdated = (
 ) => {
   const chat = action.payload
 
+  if (draft.chatId === chat.id) chat.hasUnreadMessage = false
+
   const isChatExist = draft.chatSectionChats.find(
     (c) => c.id === action.payload.id
   )
@@ -284,10 +291,13 @@ export default function chatReducer(
       case Types.CHAT_UPDATED:
         onChatUpdated(draft, action)
         break
-      default:
+      case Types.UPDATE_CHAT_UNREAD_MESSAGE:
+        draft.chatSectionChats = draft.chatSectionChats.map((c) =>
+          c.id === action.payload.chatId
+            ? { ...c, hasUnreadMessage: action.payload.isUnread }
+            : c
+        )
         break
     }
   })
 }
-
-// #endregion

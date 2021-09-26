@@ -10,7 +10,7 @@ const App = () => {
   useEffect(() => {
     messageHub.subscribeForChatUnReadMessagesCount({
       baseHubUrl: 'https://localhost:44320',
-      userId: 733,
+      userId: 971,
       onCountUpdate: console.log
     })
   }, [])
@@ -25,8 +25,8 @@ const App = () => {
             baseChatHubUrl='https://localhost:44311'
             baseUrl='https://localhost:44395/api'
             baseHubUrl='https://localhost:44320'
-            token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI4MzYiLCJlbWFpbCI6ImJvcjgwMEBtYWlsaW5hdG9yLmNvbSIsIlVzZXJDYXRlZ29yeUlkIjoiMSIsIklzQmxvY2tlZCI6IkZhbHNlIiwibmJmIjoxNjMyNDcyMjc1LCJleHAiOjE2MzI1MDEwNzUsImlhdCI6MTYzMjQ3MjI3NSwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzOTUvIiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzOTUvIn0.6xpcR84LLeSB9rHi_NXGvVHlq4l8A2EoF13ZpyqZjdE'
-            userId={836}
+            token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI5NzEiLCJlbWFpbCI6InRlc3QtZHJlc3Npb0BtYWlsaW5hdG9yLmNvbSIsIlVzZXJDYXRlZ29yeUlkIjoiMSIsIklzQmxvY2tlZCI6IkZhbHNlIiwibmJmIjoxNjMyNTg1NzM0LCJleHAiOjE2MzI2MTQ1MzQsImlhdCI6MTYzMjU4NTczNCwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzOTUvIiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzOTUvIn0.tKjkZQWUD_K4XKPwbkZN1gEVgpsMC_6qa3jKrcAz0Vo'
+            userId={971}
             fileExtensionsPath={process.env.PUBLIC_URL + '/extenssions/'}
             userCategoryId={1}
           />
@@ -37,8 +37,8 @@ const App = () => {
             baseChatHubUrl='https://localhost:44311'
             baseUrl='https://localhost:44311/api'
             baseHubUrl='https://localhost:44320'
-            token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI4MzciLCJlbWFpbCI6InVyYmVubjJAbWFpbGluYXRvci5jb20iLCJVc2VyQ2F0ZWdvcnlJZCI6IjIiLCJJc0Jsb2NrZWQiOiJGYWxzZSIsIm5iZiI6MTYzMjQ3MTI4OSwiZXhwIjoxNjMyNTAwMDg5LCJpYXQiOjE2MzI0NzEyODksImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjQ0MzExLyIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjQ0MzExLyJ9.BGe7a8skfa0UJ6dP78Z6vfzLZyNUXwCKdtx3RZurxvo'
-            userId={837}
+            token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI5NjgiLCJlbWFpbCI6ImJ1eWVyYnV5ZXI1OTNAZ21haWwuY29tIiwiVXNlckNhdGVnb3J5SWQiOiIyIiwiSXNCbG9ja2VkIjoiRmFsc2UiLCJuYmYiOjE2MzI1ODU2OTksImV4cCI6MTYzMjYxNDQ5OSwiaWF0IjoxNjMyNTg1Njk5LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo0NDMxMS8iLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo0NDMxMS8ifQ.OJ_Ox54KIeBnb6KHMfThowK_agZsvgr8h2rLtALEgy4'
+            userId={968}
             fileExtensionsPath={process.env.PUBLIC_URL + '/extenssions/'}
             userCategoryId={2}
           />

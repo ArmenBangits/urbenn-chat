@@ -84,7 +84,7 @@ const ChatList: FC<{ disableAllAnimations?: boolean }> = ({
                 </p>
 
                 <p className='chat-info'>
-                  {ChatTypeNames[chat.chatTypeId]} № {chat.chatTypeDataId}
+                  <span>{ChatTypeNames[chat.chatTypeId]}</span> <span>№ {chat.chatTypeDataId}</span>
                 </p>
 
                 {chat.lastMessage && (

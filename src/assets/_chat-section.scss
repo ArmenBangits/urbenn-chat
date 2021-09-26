@@ -261,6 +261,9 @@
           .chat-info {
             text-align: right;
             font-weight: 700;
+
+            max-width: 150px;
+            margin-left: auto;
           }
 
           .chat-message-date {
