@@ -93,7 +93,7 @@ $small-device: 430px;
       position: absolute;
       right: 0;
       top: -10px;
-      font-size: 7px;
+      font-size: 7px !important;
       background: $delete-btn-background;
       color: $delete-btn-color;
       width: 17px;

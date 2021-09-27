@@ -69,8 +69,9 @@ export const getMessages = (
         userId
       })
 
-      if (page === 1) dispatch(actionCreators.setChatMessages(messages.results))
-      else dispatch(actionCreators.setPagedMessages(messages.results))
+      if (page === 1)
+        dispatch(actionCreators.setChatMessages(messages.results.reverse()))
+      else dispatch(actionCreators.setPagedMessages(messages.results.reverse()))
 
       resolve(messages.results)
     } catch (error) {

@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
 import { CHAT_INITIAL_PROPS, MESSAGE_NOTIFICATION_LIMIT } from '../../config'
 import { actionCreators } from '../../ducks/appStates'
+import { actionCreators as chatActionCreators } from '../../ducks/chat'
 import { subscribeForChatUpdate } from '../../ducks/chatSectionSockets'
 import { chatHub } from '../../services'
 import { UserCategories, UserTypes } from '../../types'
@@ -47,6 +48,7 @@ const ChatSection: React.FC<ChatSectionProps> = (componentProps) => {
     }, 1000)
 
     return () => {
+      dispatch(chatActionCreators.reset())
       chatHub.disconnect()
       messageHub.disconnect()
     }

@@ -277,7 +277,7 @@
             text-align: right;
             font-weight: 700;
 
-            max-width: 150px;
+            max-width: 140px;
             margin-left: auto;
           }
 
@@ -292,6 +292,16 @@
 
           .chat-text {
             color: $text-muted;
+
+            word-break: break-word;
+
+            max-width: 70%;
+
+            display: -webkit-box;
+            -webkit-line-clamp: 9;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
 
             padding-left: 20px;
             grid-column-start: 2;
@@ -498,6 +508,9 @@
         .form-control {
           height: 45px;
           border: none;
+
+          resize: vertical;
+
           &:focus {
             background: $form-focus-bg;
           }

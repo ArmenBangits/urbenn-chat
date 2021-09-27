@@ -37,10 +37,14 @@ export const Types = {
   SET_FIRST_MESSAGES_LOADING: `${MODULE_NAME}/CHAT_CONTAINER/SET_FIRST_MESSAGES_LOADING`,
   UPDATE_CHAT_UNREAD_MESSAGE: `${MODULE_NAME}/CHAT_CONTAINER/UPDATE_CHAT_UNREAD_MESSAGE`,
   SET_CHATS_LOADING: `${MODULE_NAME}/CHAT_CONTAINER/SET_CHATS_LOADING`,
-  SET_CHAT_ID: `${MODULE_NAME}/CHAT_CONTAINER/SET_CHAT_ID`
+  SET_CHAT_ID: `${MODULE_NAME}/CHAT_CONTAINER/SET_CHAT_ID`,
+  RESET: `${MODULE_NAME}/CHAT_CONTAINER/RESET`
 } as const
 
 export const actionCreators = {
+  reset: () => ({
+    type: Types.RESET
+  }),
   updateChatUnreadMessage: (chatId: string, isUnread: boolean) => ({
     type: Types.UPDATE_CHAT_UNREAD_MESSAGE,
     payload: { chatId, isUnread }
@@ -320,6 +324,8 @@ export default function chatReducer(
             : c
         )
         break
+      case Types.RESET:
+        return INITIAL_STATE
     }
   })
 }
