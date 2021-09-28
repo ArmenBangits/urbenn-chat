@@ -47,7 +47,8 @@ export enum ChatTypes {
   Admin,
   TcOrder,
   Tender,
-  NoType
+  NoType,
+  Individual
 }
 
 export const ChatTypeNames = {
@@ -76,7 +77,7 @@ export enum UserCategories {
 }
 
 export enum UserTypes {
-  INDIVIDUAL = 7,
+  INDIVIDUAL = 7
 }
 
 export interface User {
@@ -95,7 +96,7 @@ export interface ChatUsersInfoResponse {
   userSecond: User
   chatTypeId: ChatTypes
   chatUserTypeId: number
-  chatTypeDataId: number
+  chatTypeDataId?: number
   creationDate: string
   lastMessage: string | null
   lastMessageDate: string | null

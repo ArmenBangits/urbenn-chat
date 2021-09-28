@@ -17,7 +17,7 @@ import {
   subscribeForNewMessage
 } from '../../ducks/chatSectionSockets'
 import timeDifference from '../../helpers/timeDifference'
-import { ChatTypeNames } from '../../types'
+import { ChatTypeNames, ChatTypes } from '../../types'
 import NoAvatar from '../main/NoAvatar'
 import ChatFiltersContainer from './ChatFiltersContainer'
 
@@ -94,8 +94,12 @@ const ChatList: FC<{ disableAllAnimations?: boolean }> = ({
                   </p>
 
                   <p className='chat-info'>
-                    <span>{ChatTypeNames[chat.chatTypeId]}</span>{' '}
-                    <span>№ {chat.chatTypeDataId}</span>
+                    {chat.chatTypeId !== ChatTypes.Individual && (
+                      <React.Fragment>
+                        <span>{ChatTypeNames[chat.chatTypeId]}</span>{' '}
+                        <span>№ {chat.chatTypeDataId}</span>
+                      </React.Fragment>
+                    )}
                   </p>
 
                   {chat.lastMessage && (

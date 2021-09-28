@@ -5,6 +5,7 @@ import { AnimatedList } from 'react-animated-list'
 import { useDispatch, useSelector } from 'react-redux'
 import { FileUpload, useFileUpload } from 'use-file-upload'
 import {
+  DEFAULT_MIMETYPES,
   INPUT_CHAT_MAX_LENGTH,
   MAX_FILE_LENGTH,
   MAX_FILE_SIZE
@@ -30,7 +31,7 @@ type ChatInputProps = {
 
 const ChatInput: React.FC<ChatInputProps> = ({
   onSubmit,
-  acceptFiles,
+  acceptFiles = DEFAULT_MIMETYPES,
   fileExtensionsPath
 }) => {
   // @ts-ignore
@@ -58,7 +59,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
         const deletedMaxSizeFiles = files.filter((f) => {
           const isValidMaxFileLength = f.size < MAX_FILE_SIZE
 
-          if (!isValidMaxFileLength) {
+          if (f.size && !isValidMaxFileLength) {
             showErrorAlert('Файл слишком большой')
           }
 
@@ -66,8 +67,26 @@ const ChatInput: React.FC<ChatInputProps> = ({
 
           return f.size && isValidMaxFileLength
         })
-        console.log(selectedFiles)
-        setUploadedFiles([...uploadedFiles, ...deletedMaxSizeFiles])
+
+        let validExtensionsFiles = deletedMaxSizeFiles
+
+        if (acceptFiles) {
+          const allowed = acceptFiles.split(',').map((x) => x.trim())
+
+          validExtensionsFiles = validExtensionsFiles.filter((file) => {
+            const isValid =
+              file?.file?.type === undefined
+                ? true
+                : allowed.includes(file?.file?.type) ||
+                  allowed.includes(file?.file?.type.split('/')[0] + '/*')
+
+            if (!isValid) showErrorAlert('Невалидный формат файла')
+
+            return isValid
+          })
+        }
+
+        setUploadedFiles([...uploadedFiles, ...validExtensionsFiles])
       }
     )
   }, [uploadedFiles, componentProps, acceptFiles])

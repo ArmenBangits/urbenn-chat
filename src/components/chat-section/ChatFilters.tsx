@@ -13,7 +13,9 @@ type ChatFiltersProps = {
 }
 
 const ChatFilters: React.FC<ChatFiltersProps> = ({ onChange }) => {
-  const { userCategoryId, userTypeId } = useSelector(selectChatSectionComponentProps)
+  const { userCategoryId, userTypeId } = useSelector(
+    selectChatSectionComponentProps
+  )
 
   const searchInputRef = useRef<HTMLInputElement | null>(null)
 
@@ -54,12 +56,19 @@ const ChatFilters: React.FC<ChatFiltersProps> = ({ onChange }) => {
     [onChange]
   )
 
+  const onSearchInput = useCallback((e: React.FormEvent<HTMLInputElement>) => {
+    const target = e.target as HTMLInputElement
+
+    target.value = target.value.slice(0, SEARCH_FILTER_MAX_LENGTH)
+  }, [])
+
   return (
     <React.Fragment>
       <div
         className={cx('filters mb-3', {
           'filters--search-opened':
-            userCategoryId === UserCategories.TransportCompany || userTypeId === UserTypes.INDIVIDUAL ||
+            userCategoryId === UserCategories.TransportCompany ||
+            userTypeId === UserTypes.INDIVIDUAL ||
             isOpenedSearch,
           'filters--hide-filters':
             userCategoryId === UserCategories.TransportCompany
@@ -112,19 +121,9 @@ const ChatFilters: React.FC<ChatFiltersProps> = ({ onChange }) => {
           maxLength={SEARCH_FILTER_MAX_LENGTH}
           autoFocus
           ref={searchInputRef}
+          onInput={onSearchInput}
         />
       </div>
-
-      {/* <RadioGroup
-        aria-label='gender'
-        name='gender1'
-        value={radioValue}
-        onChange={(e) => setRadioValue(e.target.value)}
-      >
-        <FormControlLabel value='female' control={<Radio checkedIcon={<div>Checked</div>} />} label='Female' />
-        <FormControlLabel value='male' control={<Radio checkedIcon={<div>Checked</div>} />} label='Male' />
-        <FormControlLabel value='other' control={<Radio checkedIcon={<div>Checked</div>} />} label='Other' />
-      </RadioGroup> */}
     </React.Fragment>
   )
 }

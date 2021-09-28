@@ -345,6 +345,11 @@ $small-device: 430px;
             padding-left: 10px;
           }
         }
+
+        img {
+          background: #fff;
+          border-radius: 10px;
+        }
       }
 
       &.outgoing-chat {

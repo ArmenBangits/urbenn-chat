@@ -12,7 +12,7 @@ import {
   initialize,
   selectChatUsersInfo
 } from '../../ducks/chat'
-import { ChatTypeNames } from '../../types'
+import { ChatTypeNames, ChatTypes } from '../../types'
 import { ErrorShowing } from '../shared'
 import setBaseUrl from './../../helpers/setBaseUrl'
 import { IChatProps } from './../../index'
@@ -98,8 +98,12 @@ const ChatComponent: React.FC<IChatProps> = ({
 
                 <div>
                   {receiverUser.ownerShipTypeName} {receiverUser.companyName}{' '}
-                  {ChatTypeNames[chatUserInfo.chatTypeId]} №{' '}
-                  {chatUserInfo.chatTypeDataId}
+                  {chatUserInfo.chatTypeId !== ChatTypes.Individual && (
+                    <React.Fragment>
+                      {ChatTypeNames[chatUserInfo.chatTypeId]} №{' '}
+                      {chatUserInfo.chatTypeDataId}
+                    </React.Fragment>
+                  )}
                 </div>
                 <button
                   type='button'
@@ -112,7 +116,7 @@ const ChatComponent: React.FC<IChatProps> = ({
             )}
 
             <ChatMessages />
-            <ChatInput />
+            <ChatInput acceptFiles={componentProps.acceptFiles} />
           </FadeIn>
         )}
       </ErrorShowing>
