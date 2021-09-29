@@ -1,5 +1,5 @@
-import moment from 'moment'
+import moment from 'moment-timezone'
 
 export default function transformDate(date: string): string {
-  return moment(new Date(date)).format('DD.MM.YYYY, HH:mm')
+  return moment(date).utc().format('DD.MM.YYYY, HH:mm')
 }
