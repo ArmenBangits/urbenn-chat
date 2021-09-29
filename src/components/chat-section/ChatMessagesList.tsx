@@ -128,9 +128,7 @@ const ChatMessagesList: React.FC<ChatMessagesListProps> = ({
                 <NoAvatar sm />
               )}
 
-              <p className='seen-text'>
-                {timeDifference(new Date(m.creationDate))}
-              </p>
+              <p className='seen-text'>{timeDifference(m.creationDate)}</p>
             </div>
           </div>
         )

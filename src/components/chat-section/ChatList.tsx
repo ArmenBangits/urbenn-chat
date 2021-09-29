@@ -108,7 +108,7 @@ const ChatList: FC<{ disableAllAnimations?: boolean }> = ({
 
                   {chat.lastMessageDate && (
                     <p className='chat-message-date'>
-                      {timeDifference(new Date(chat.lastMessageDate))}
+                      {timeDifference(chat.lastMessageDate)}
                     </p>
                   )}
                 </div>
