@@ -26,7 +26,7 @@ class ChatHub {
           onReconnecting()
         }
 
-      await this.socketService.invoke(HUB_METHOD_NAMES.SubscribeToHub)
+      // await this.socketService.invoke(HUB_METHOD_NAMES.SubscribeToHub)
 
       return Promise.resolve()
     } catch (error) {
