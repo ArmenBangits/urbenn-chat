@@ -171,11 +171,17 @@ export const subscribeForChatUpdate = (
   dispatch,
   getState
 ) => {
-  const { baseChatHubUrl, token } = selectChatSectionComponentProps(getState())
+  const {
+    baseChatHubUrl,
+    token,
+    defaultChatId
+  } = selectChatSectionComponentProps(getState())
 
   await chatHub.start(baseChatHubUrl || '', token, () => {
     dispatch(subscribeForChatUpdate())
   })
+
+  if (defaultChatId) dispatch(joinToChatSection(defaultChatId))
 
   chatHub.subscribeForChatUpdate((chat) => {
     if (onChatUpdate) onChatUpdate()

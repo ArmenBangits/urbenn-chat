@@ -60,7 +60,9 @@ const ChatInput: React.FC<ChatInputProps> = ({
           const isValidMaxFileLength = f.size < MAX_FILE_SIZE
 
           if (f.size && !isValidMaxFileLength) {
-            showErrorAlert('Файл слишком большой')
+            showErrorAlert(
+              `Файл слишком большой ${MAX_FILE_SIZE / 1024 / 1024}`
+            )
           }
 
           if (!f.size) showErrorAlert('Невалидный файл')

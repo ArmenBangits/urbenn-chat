@@ -25,13 +25,14 @@ const App = () => {
 
           {isOpened && (
             <ChatSection
-              baseChatHubUrl='https://localhost:44311'
-              baseUrl='https://localhost:44311/api'
+              baseChatHubUrl='https://localhost:5001'
+              baseUrl='https://localhost:5001/api'
               baseHubUrl='https://localhost:44320'
               userId={968}
-              token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI5NjgiLCJlbWFpbCI6ImJ1eWVyYnV5ZXI1OTNAZ21haWwuY29tIiwiVXNlckNhdGVnb3J5SWQiOiIyIiwiSXNCbG9ja2VkIjoiRmFsc2UiLCJuYmYiOjE2MzI5MDQ2MjUsImV4cCI6MTYzMjkzMzQyNSwiaWF0IjoxNjMyOTA0NjI1LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo0NDMxMS8iLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo0NDMxMS8ifQ.HyZTnP4sLNo919Edk4U34FWgnZ4YrEuI70Wq1ydNODs'
+              token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIyMzQ5IiwiZW1haWwiOiJhN0BtYWlsaW5hdG9yLmNvbSIsIlVzZXJDYXRlZ29yeUlkIjoiMiIsIklzQmxvY2tlZCI6IkZhbHNlIiwibmJmIjoxNjQ5MjM3MzAxLCJleHAiOjE2NDkyNjYxMDEsImlhdCI6MTY0OTIzNzMwMSwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzMTEvIiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzMTEvIn0.EJHIpjBt7_sVcwFBVEn_UVkJhlGcunIPFaWfGnJrPV0'
               fileExtensionsPath={process.env.PUBLIC_URL + '/extenssions/'}
               userCategoryId={2}
+              defaultChatId='62456a6be463f7f37df5f3aa'
               // userTypeId={7}
             />
           )}
@@ -42,11 +43,11 @@ const App = () => {
 
           {isOpened && (
             <ChatSection
-              baseChatHubUrl='https://localhost:44311'
-              baseUrl='https://localhost:44395/api'
+              baseChatHubUrl='https://localhost:5001'
+              baseUrl='https://localhost:5005/api'
               baseHubUrl='https://localhost:44320'
-              userId={971}
-              token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI5NjgiLCJlbWFpbCI6ImJ1eWVyYnV5ZXI1OTNAZ21haWwuY29tIiwiVXNlckNhdGVnb3J5SWQiOiIyIiwiSXNCbG9ja2VkIjoiRmFsc2UiLCJuYmYiOjE2MzI3MjkyOTAsImV4cCI6MTYzMjc1ODA5MCwiaWF0IjoxNjMyNzI5MjkwLCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo0NDMxMS8iLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo0NDMxMS8ifQ.lLv6kuDC3vfj8OE0AcYv3LPma5ObfHRIqtVXPpZbqKM'
+              userId={2345}
+              token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIyMzQ1IiwiZW1haWwiOiJhM0BtYWlsaW5hdG9yLmNvbSIsIlVzZXJDYXRlZ29yeUlkIjoiMSIsIklzQmxvY2tlZCI6IkZhbHNlIiwibmJmIjoxNjQ5MjQ2OTIzLCJleHAiOjE2NDkyNzU3MjMsImlhdCI6MTY0OTI0NjkyMywiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzOTUvIiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzOTUvIn0.BZPnkWMLHhT2GWN5TVybXI46umfJHAEXzRdZhDWI7_o'
               fileExtensionsPath={process.env.PUBLIC_URL + '/extenssions/'}
               userCategoryId={1}
             />
@@ -57,10 +58,10 @@ const App = () => {
           {isOpened && (
             <UrbennChat
               userId={968}
-              baseChatHubUrl='https://localhost:44311'
-              token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI5NjgiLCJlbWFpbCI6ImJ1eWVyYnV5ZXI1OTNAZ21haWwuY29tIiwiVXNlckNhdGVnb3J5SWQiOiIyIiwiSXNCbG9ja2VkIjoiRmFsc2UiLCJuYmYiOjE2MzI5MDQ2MjUsImV4cCI6MTYzMjkzMzQyNSwiaWF0IjoxNjMyOTA0NjI1LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo0NDMxMS8iLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo0NDMxMS8ifQ.HyZTnP4sLNo919Edk4U34FWgnZ4YrEuI70Wq1ydNODs'
+              baseChatHubUrl='https://localhost:5001'
+              token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIyMzQ5IiwiZW1haWwiOiJhN0BtYWlsaW5hdG9yLmNvbSIsIlVzZXJDYXRlZ29yeUlkIjoiMiIsIklzQmxvY2tlZCI6IkZhbHNlIiwibmJmIjoxNjQ5MjM3MzAxLCJleHAiOjE2NDkyNjYxMDEsImlhdCI6MTY0OTIzNzMwMSwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzMTEvIiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzMTEvIn0.EJHIpjBt7_sVcwFBVEn_UVkJhlGcunIPFaWfGnJrPV0'
               chatId='6151cd810806f55daee6d7e8'
-              baseUrl='https://localhost:44311/api'
+              baseUrl='https://localhost:5001/api'
               baseHubUrl='https://localhost:44320'
               componentProps={{
                 fileExtensionsPath: process.env.PUBLIC_URL + '/extenssions/'
@@ -73,11 +74,11 @@ const App = () => {
         <Route path='/test2'>
           {isOpened && (
             <UrbennChat
-              userId={971}
-              baseChatHubUrl='https://localhost:44311'
-              token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI5NjgiLCJlbWFpbCI6ImJ1eWVyYnV5ZXI1OTNAZ21haWwuY29tIiwiVXNlckNhdGVnb3J5SWQiOiIyIiwiSXNCbG9ja2VkIjoiRmFsc2UiLCJuYmYiOjE2MzI3MjkyOTAsImV4cCI6MTYzMjc1ODA5MCwiaWF0IjoxNjMyNzI5MjkwLCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo0NDMxMS8iLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo0NDMxMS8ifQ.lLv6kuDC3vfj8OE0AcYv3LPma5ObfHRIqtVXPpZbqKM'
+              userId={2345}
+              baseChatHubUrl='https://localhost:5001'
+              token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIyMzQ1IiwiZW1haWwiOiJhM0BtYWlsaW5hdG9yLmNvbSIsIlVzZXJDYXRlZ29yeUlkIjoiMSIsIklzQmxvY2tlZCI6IkZhbHNlIiwibmJmIjoxNjQ5MjQ2OTIzLCJleHAiOjE2NDkyNzU3MjMsImlhdCI6MTY0OTI0NjkyMywiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzOTUvIiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzOTUvIn0.BZPnkWMLHhT2GWN5TVybXI46umfJHAEXzRdZhDWI7_o'
               chatId='6151cd810806f55daee6d7e8'
-              baseUrl='https://localhost:44395/api'
+              baseUrl='https://localhost:5005/api'
               baseHubUrl='https://localhost:44320'
               componentProps={{
                 fileExtensionsPath: process.env.PUBLIC_URL + '/extenssions/'

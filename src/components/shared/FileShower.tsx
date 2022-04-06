@@ -1,8 +1,9 @@
-import React from 'react'
-import Zoom from 'react-medium-image-zoom'
-import 'react-medium-image-zoom/dist/styles.css'
+import React, { useState } from 'react'
+import Lightbox from 'react-image-lightbox'
+import 'react-image-lightbox/style.css'
 import { useSelector } from 'react-redux'
 import { selectComponentProps } from '../../ducks/appStates'
+import downloadURL from '../../helpers/downloadURI'
 import isValidImage, { getFileExtension } from './../../helpers/isValidImage'
 
 export type FileShower = {
@@ -22,6 +23,8 @@ const FileShower: React.FC<FileShowerProps> = ({
   onDelete,
   fileExtensionsPath
 }) => {
+  const [isOpenedImgLightbox, setOpenedImgLightbox] = useState(false)
+
   const componentProps = useSelector(selectComponentProps)
 
   return (
@@ -36,20 +39,38 @@ const FileShower: React.FC<FileShowerProps> = ({
         </button>
       )}
       {/* @ts-ignore */}
-      <a target='_blank' href={file.source} download rel='noreferrer'>
-        {isValidImage(file.name) ? (
-          <Zoom>
-            {/* @ts-ignore */}
-            <img src={file.source} alt={file.name} />
-          </Zoom>
-        ) : (
+      {isValidImage(file.name) ? (
+        <React.Fragment>
+          {isOpenedImgLightbox && (
+            <Lightbox
+              mainSrc={file.source.toString()}
+              onCloseRequest={() => setOpenedImgLightbox(false)}
+              toolbarButtons={[
+                <button
+                  key={0}
+                  type='button'
+                  className='file-shower__download ti-download'
+                  onClick={() => downloadURL(file.source.toString())}
+                />
+              ]}
+            >
+              <img src={file.source.toString()} alt={file.name} />
+            </Lightbox>
+          )}
+
           <img
-            src={`${
-              fileExtensionsPath || componentProps.fileExtensionsPath
-            }${getFileExtension(file.name)}.svg`}
+            src={file.source.toString()}
+            alt={file.name}
+            onClick={() => setOpenedImgLightbox(true)}
           />
-        )}
-      </a>
+        </React.Fragment>
+      ) : (
+        <img
+          src={`${
+            fileExtensionsPath || componentProps.fileExtensionsPath
+          }${getFileExtension(file.name)}.svg`}
+        />
+      )}
     </div>
   )
 }

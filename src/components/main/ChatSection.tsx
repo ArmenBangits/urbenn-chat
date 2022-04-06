@@ -22,6 +22,7 @@ export type ChatSectionProps = {
   acceptFiles?: string
   fileExtensionsPath: string
   userTypeId?: UserTypes
+  defaultChatId?: string
 }
 
 const ChatSection: React.FC<ChatSectionProps> = (componentProps) => {

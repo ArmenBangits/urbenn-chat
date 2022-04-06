@@ -1,6 +1,6 @@
 {
   "name": "@armenbangits/urbenn-chat",
-  "version": "4.2.1",
+  "version": "4.2.2",
   "description": "Urbenn messaging functionality UI components",
   "author": "ArmenBangits",
   "license": "MIT",
@@ -81,6 +81,7 @@
     "react-animated-list": "^0.1.4",
     "react-fade-in": "^2.0.1",
     "react-flip-move": "^3.0.4",
+    "react-image-lightbox": "^5.1.4",
     "react-medium-image-zoom": "^4.3.5",
     "react-redux": "^7.2.2",
     "react-toastify": "^8.0.2",
