@@ -65,11 +65,18 @@ const FileShower: React.FC<FileShowerProps> = ({
           />
         </React.Fragment>
       ) : (
-        <img
-          src={`${
-            fileExtensionsPath || componentProps.fileExtensionsPath
-          }${getFileExtension(file.name)}.svg`}
-        />
+        <a
+          target='_blank'
+          href={file.source.toString()}
+          download
+          rel='noreferrer'
+        >
+          <img
+            src={`${
+              fileExtensionsPath || componentProps.fileExtensionsPath
+            }${getFileExtension(file.name)}.svg`}
+          />
+        </a>
       )}
     </div>
   )

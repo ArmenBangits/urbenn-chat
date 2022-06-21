@@ -11,6 +11,7 @@ import { ChatList } from '../chat-section'
 import ChatInputContainer from '../chat-section/ChatInputContainer'
 import ChatMessagesListContainer from '../chat-section/ChatMessagesListContainer'
 import messageHub from './../../services/messageHub'
+import cx from 'classnames'
 
 export type ChatSectionProps = {
   baseHubUrl?: string
@@ -30,7 +31,8 @@ const ChatSection: React.FC<ChatSectionProps> = (componentProps) => {
 
   const [initializedProps, setInitializedProps] = useState(false)
   const [disableAllAnimations, setDisableAllAnimations] = useState(true)
-
+  const [isChatListWrapperOpened, setChatListWrapperOpened] = useState(false)
+  
   useEffect(() => {
     dispatch(actionCreators.setChatSectionComponentProps(componentProps))
 
@@ -74,13 +76,16 @@ const ChatSection: React.FC<ChatSectionProps> = (componentProps) => {
 
       <button
         type='button'
+        onClick={() => setChatListWrapperOpened(!isChatListWrapperOpened)}
         className='btn btn-secondary py-3 mb-4 text-center d-md-none'
       >
         <i className='ti-menu mr-0 icon-md' />
       </button>
       <div className='card chat-app-wrapper'>
         <div className='row mx-0'>
-          <div className='col-md-4 chat-list-wrapper px-0'>
+          <div className={cx('col-md-4 chat-list-wrapper px-0', {
+            'menu-open': isChatListWrapperOpened
+          })}>
             <div className='chat-list-item-wrapper'>
               <ChatList disableAllAnimations={disableAllAnimations} />
             </div>
