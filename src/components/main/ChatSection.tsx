@@ -77,7 +77,7 @@ const ChatSection: React.FC<ChatSectionProps> = (componentProps) => {
       <button
         type='button'
         onClick={() => setChatListWrapperOpened(!isChatListWrapperOpened)}
-        className='btn btn-secondary py-3 mb-4 text-center d-md-none'
+        className='btn btn-secondary mb-4 text-center d-md-none'
       >
         <i className='ti-menu mr-0 icon-md' />
       </button>

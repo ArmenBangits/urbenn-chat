@@ -8,7 +8,7 @@ import {
   selectCurrentChatId,
   selectFirstMessagesLoading
 } from '../../ducks/chat'
-import { ReactComponent as EmptyMessages } from '../../icons/empty-messages.svg'
+import { EmptyMessages } from '../../icons'
 import { ChatUsersInfoResponse } from '../../types'
 import { selectChatSectionComponentProps } from './../../ducks/appStates'
 import ChatMessagesList from './ChatMessagesList'
@@ -42,7 +42,7 @@ const ChatMessagesListContainer = () => {
       <React.Fragment>
         {!isFirstMessagesLoading && (
           <div className='empty-chat-messages'>
-            <EmptyMessages />
+            <EmptyMessages style={{ minWidth: 400 }} />
           </div>
         )}
 
